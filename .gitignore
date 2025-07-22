@@ -1,3 +1,6 @@
+## ignore SVG by fonts2svg
+font2svg/
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage[scale=10pt]{num2path}
+\usetikzlibrary{fadings}
+\usepackage{listings}
+\lstset{basicstyle=\small\ttfamily, numbers=left, language=C}
+
+
+\begin{document}
+\section{Test num2path}
+A simple test:\\
+xxx, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9\\
+{\ttfamily xxx, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}\\
+\texttt{xxx}, \foreach \i in {0, ..., 9}
+  {
+    % \expandafter\numtopath\expandafter{\i}, 
+    \numtopath{\i},
+  }
+
+\numtopath[draw=none, fill=blue]{8},
+\numtopath[draw=blue, fill=red]{01},
+\numtopath[draw=red, scale=2]{18},
+\numtopath[draw=none, scale=2, path fading=south, fill=teal]{18},  % NOTE: fading will cost too much time !!!
+
+
+\section{test lstlisting}
+\let\orithelstnumber\thelstnumber
+\def\thelstnumber{\numtopath[path fading=east, fill=blue]{\orithelstnumber}}
+
+\begin{lstlisting}
+#include <stdio.h>
+
+int main() {
+  printf("Hello, World!\n");
+  return 0;
+}
+\end{lstlisting}
+
+% \newbox\ttt
+% \sbox{\ttt}{\hbox{abc def}}
+% \showbox\ttt
+
+
+\section{test line break}
+\hskip10cm 012357325946349865819346587293648759463
+
+\noindent\hskip10cm\numtopath[fill=teal]{012357325946349865819346587293648759463}
+
+\section{Test font size cmd}
+\texttt{108, \small 108, \Large 108, 108}
+
+\noindent\numtopath[fill=blue]{108},
+\small\numtopath[fill=purple]{108},
+\Large\numtopath[fill=purple]{108},
+\numtopath[draw=red, scale=2]{108}.
+
+
+\makeatletter
+ORI:\f@size,
+\small\f@size,
+\large\f@size,
+\Large\f@size,
+\huge\f@size,
+\Huge\f@size.
+\end{document}
