@@ -1,11 +1,23 @@
-\documentclass{article}
+\documentclass{l3doc}
 \usepackage[scale=10pt]{num2path}
-\usetikzlibrary{fadings}
-\usepackage{listings}
+
+\usepackage{listings, hyperref}
 \lstset{basicstyle=\small\ttfamily, numbers=left, language=C}
 
+\title{The \pkg{char2path} Bundle}
+\author{^^A
+  Eureka\thanks{^^A
+    \href{mailto:<email>@<domain>}{\texttt{<email>@<domain>}}},
+  Mingyu Xia\thanks{^^A
+    \href{mailto:xiamingyu@westlake.edu.cn}{\texttt{xiamingyu@westlake.edu.cn}}^^A
+  }^^A
+}
+\date{Released 2025-08-dd\quad \texttt{v1.0.0}}
 
 \begin{document}
+
+\maketitle
+
 \section{Test num2path}
 A simple test:\\
 xxx, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9\\
@@ -41,9 +53,10 @@ int main() {
 
 
 \section{test line break}
-\hskip10cm 012357325946349865819346587293648759463
+\hskip1em 012357325946349865819346587293648759463
 
-\noindent\hskip10cm\numtopath[fill=teal]{012357325946349865819346587293648759463}
+\noindent\hskip2em
+\numtopath[fill=teal]{012357325946349865819346587293648759463}
 
 \section{Test font size cmd}
 \texttt{108, \small 108, \Large 108, 108}
@@ -61,4 +74,34 @@ ORI:\f@size,
 \Large\f@size,
 \huge\f@size,
 \Huge\f@size.
+
+\normalfont \normalsize
+
+\vskip 1ex \hrule \vskip 1ex \noindent
+By \href{github.com/myhsia}{Mingyu Xia}:
+
+\section{Fading string}
+
+\subsection{Discretely fading string}
+
+\numtopath[path fading = east, fill = red]{1234567890}
+
+\subsection{Continously fading string}
+
+\indent
+
+\numfading[colorset = {red, green}, direction = horizontal]{1234567890}
+
+\numfading[colorset = {violet, blue}, direction = horizontal]{1234567890}
+
+\numfading[colorset = {green, red}, direction = horizontal]{1234567890}
+
+\numfading[colorset = {blue, violet}, direction = horizontal]{1234567890}
+
+% \numfading[colorset = teal, direction = south]{20250721}
+
+% \numfading[colorset = violet, direction = north]{20250721}
+
+\vskip 1ex \hrule \vskip 1ex \noindent
+
 \end{document}

@@ -15,6 +15,16 @@ font2svg/
 *.cb2
 .*.lb
 
+## `l3build` auxiliary files:
+/build/
+*.pdf
+*.tar.gz
+*.zip
+*.curlopt
+
+## macOS Desktop Services Cache:
+.DS_Store
+
 ## Intermediate documents:
 *.dvi
 *.xdv
