@@ -89,9 +89,9 @@
 \cs_new_protected:Npn \__num_to_path_draw:nn #1#2
   {
     \tikz
-      \node [ inner~sep = 0pt, minimum~width = 1.5ex,
+      \node [ inner~sep = 0pt, minimum~width = \f@size/2,
               scale = \prop_item:Ne \c_numtopath_scale_prop 
-                        { \g__numtopath_scale_tl }
+                        { \g__numtopath_scale_tl } * \f@size / 10
             ] {\tikz \path[#1] #2;};
   }
 

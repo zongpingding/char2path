@@ -16,7 +16,7 @@
 \def \HoLogo@ApLaTeX #1{%
   \HOLOGO@mbox {A\kern -.05em p\kern -.05em \hologo{LaTeX}}}
 \newcounter{example}[subsection]
-\renewcommand\theexample{\thesection.\arabic{example}}
+\renewcommand\theexample{\thesubsection.\arabic{example}}
 \newwrite\example@out
 \def\example@name{\jobname.example.aux}
 \long\def\example@start{\begingroup\@bsphack
@@ -165,50 +165,68 @@ This package can be used in the \pkg{listings} package, so that users could
 directly copy and paste the source code from |.pdf| file without worry about
 including unwanted line numbers.
 
+\let\orithelstnumber\thelstnumber
+  \def\thelstnumber{%
+    \numtopath[path fading = east, fill = blue]
+      {\orithelstnumber}
+  }
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
-  \def\thelstnumber{\numtopath[path fading = east, fill=blue]{\orithelstnumber}}
+  \def\thelstnumber{%
+    \numtopath[path fading = east, fill = blue]
+      {\orithelstnumber}
+  }
 \end{verbatim}
-\let\orithelstnumber\thelstnumber
-\def\thelstnumber{\numtopath[path fading = east, fill=blue]{\orithelstnumber}}
 
 \begin{example}
- \begin{lstlisting}[language = C, gobble = 4]
-    #include <stdio.h>
-    
-    int main() {
-      printf("Hello, World!\n");
-      return 0;
-    }
- \end{lstlisting}
+\begin{lstlisting}[language = {[LaTeX]TeX}]
+\documentclass{article}
+\begin{document}
+  Hello, \LaTeX!
+\end{document}
+\end{lstlisting}
 \end{example}
+
+% Test Indent???
 
 % \newbox\ttt
 % \sbox{\ttt}{\hbox{abc def}}
 % \showbox\ttt
 
-\hskip1em 0123456789
+% \hskip1em 0123456789
 
-\noindent\hskip2em
-\numtopath[fill=teal]{0123456789}
+% \noindent\hskip2em
+% \numtopath[fill=teal]{0123456789}
 
-\subsection{Use in text}
+\subsection{Use in text\texorpdfstring{\color{red}[NEEDS TO BE FIXED!]}{}}
 
-\texttt{0123456789, \small 0123456789, \Large 0123456789}
+Commands for changing font's size like \cs[no-index]{small},
+\cs[no-index]{Large} can be directly applied to \cs{numtopath}.
+A comparison of the text and the path under 4 different font size commands
+is shown in the following figure.
 
-\noindent
-
-\numtopath[fill=blue]{0123456789},
-\small \numtopath[fill=purple]{0123456789},
-\Large \numtopath[fill=purple]{0123456789}.
-
-\makeatletter
-ORI:\f@size,
-\small\f@size,
-\large\f@size,
-\Large\f@size,
-\huge\f@size,
-\Huge\f@size.
+\begin{center}
+  \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
+    \draw [ -stealth, gray!25, line width = 1em ] (0,0) --++ (.96\linewidth,0);
+    \node [ above = 1ex ] at (.06\linewidth,0) {\small 0123456789};
+    \node [ above = 1ex ] at (.30\linewidth,0) {\normalsize 0123456789};
+    \node [ above = 1ex ] at (.54\linewidth,0) {\large 0123456789};
+    \node [ above = 1ex ] at (.78\linewidth,0) {\huge 0123456789};
+    \node [ below = 1ex ] at (.06\linewidth,0)
+      {\small     \numtopath[fill = orange]{0123456789}};
+    \node [ below  = 1ex] at (.30\linewidth,0)
+      {\normalsize\numtopath[fill = green]{0123456789}};
+    \node [ below = 1ex ] at (.54\linewidth,0)
+      {\large     \numtopath[fill = blue]{0123456789}};
+    \node [ below = 1ex ] at (.78\linewidth,0)
+      {\huge      \numtopath[fill = purple]{0123456789}};
+    \makeatletter
+    \node at (.06\linewidth,0) {\small\f@size pt};
+    \node at (.30\linewidth,0) {\normalsize\f@size pt};
+    \node at (.54\linewidth,0) {\large\f@size pt};
+    \node at (.78\linewidth,0) {\huge\f@size pt};
+  \end{tikzpicture}
+\end{center}
 
 \normalfont \normalsize
 
