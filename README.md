@@ -7,19 +7,19 @@
 The `char2path` Package
 =======================
 
-The `num2path` package (conducted with LaTeX3) provides
+The `char2path` package (conducted with LaTeX3) provides
 a LaTeX package that converts characters into TikZ paths.
 
 Overview
 --------
 
-The package provides the `\numtopath` macro
+The package provides the `\chartopath` macro
 
-    \numtopath [<keys>] {<string>}
+    \chartopath [<keys>] {<string>}
 
 to print TikZ paths for characters in a string.
 
-See `num2path.pdf` for more. Happy TeXing!
+See `char2path.pdf` for more. Happy TeXing!
 
 Usage
 -----
