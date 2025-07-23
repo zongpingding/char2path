@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+
+%%%%%%%%%%          NOTE        %%%%%%%%%%
+% 1. The coordinates in 'ctp-arabic.def.tex' should be updated 
+%    with the newly generated ones from TikZ/opentypesvg/nums;
+% 2. as well as 'ctp-alpha-caps.def.tex';
+% 3. as well as 'ctp-alpha-small.def.tex'.
+%%%%%%%%%%          NOTE       %%%%%%%%%%
+
+
+\begin{document}
+\noindent default:\texttt{XXX 3 XXX}
+%%%%%%%%%%       NOTE: overide the default scale factor       %%%%%%%%%%
+% \def \globalscale {1} 
+\def \globalscale {0.01350000}%
+%%%%%%%%%%                        NOTE                        %%%%%%%%%%
+
+
+% --> letter 'A'
+\noindent caps:XXX%
+\begin{tikzpicture}[y=1cm, x=1cm, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+\path[draw=none, fill=blue] (13.0969, 0.5556).. controls (13.0969, 0.7938) and (13.0175, 0.979) .. (12.7529, 1.0848).. controls (12.5942, 1.1113) and (12.065, 1.1113) .. (11.5094, 1.1113) -- (8.1492, 15.6369).. controls (7.9375, 16.4835) and (7.62, 16.4835) .. (6.9321, 16.4835).. controls (6.2971, 16.4835) and (5.9267, 16.4835) .. (5.715, 15.6633) -- (2.3548, 1.1113).. controls (1.7992, 1.1113) and (1.2435, 1.1113) .. (1.0848, 1.0848).. controls (0.8731, 0.979) and (0.7673, 0.7938) .. (0.7673, 0.5556).. controls (0.7673, 0.0) and (1.3494, 0.0) .. (1.6669, 0.0) -- (4.4715, 0.0).. controls (4.8419, 0.0) and (5.3446, 0.0) .. (5.3446, 0.5556).. controls (5.3446, 1.1113) and (4.8683, 1.1113) .. (3.7571, 1.1113) -- (4.4979, 4.5244) -- (9.3663, 4.5244) -- (10.1071, 1.1113).. controls (8.9958, 1.1113) and (8.5196, 1.1113) .. (8.5196, 0.5556).. controls (8.5196, 0.0) and (9.0223, 0.0) .. (9.3927, 0.0) -- (12.1708, 0.0).. controls (12.5148, 0.0) and (13.0969, 0.0) .. (13.0969, 0.5556) -- cycle(9.0752, 5.6356) -- (4.789, 5.6356) -- (6.8527, 15.3723) -- (7.0379, 15.3723) -- cycle;
+\end{tikzpicture}XXX
+
+
+% --> letter 'a'
+\noindent small:XXX%
+\begin{tikzpicture}[y=1cm, x=1cm, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+\path[draw=none, fill=red] (13.5731, 0.5821).. controls (13.5731, 1.1113) and (13.044, 1.1113) .. (12.7265, 1.1113).. controls (11.6417, 1.1113) and (11.2448, 1.27) .. (10.8215, 1.4288) -- (10.8215, 7.5142).. controls (10.8215, 9.3663) and (9.3927, 11.4829) .. (5.6885, 11.4829).. controls (4.6038, 11.4829) and (1.9844, 11.4829) .. (1.9844, 9.7631).. controls (1.9844, 9.1281) and (2.4342, 8.7842) .. (2.9369, 8.7842).. controls (3.2544, 8.7842) and (3.8629, 8.9694) .. (3.8894, 9.7631).. controls (3.8894, 10.2658) and (4.8948, 10.3717) .. (5.715, 10.3717).. controls (7.964, 10.3717) and (9.4721, 9.4192) .. (9.4721, 7.0379).. controls (4.5773, 6.9585) and (1.27, 5.7415) .. (1.27, 3.2279).. controls (1.27, 1.4552) and (2.9104, -0.1588) .. (5.5298, -0.1588).. controls (6.4823, -0.1588) and (8.1227, 0.0265) .. (9.5779, 0.979).. controls (10.2658, 0.0) and (11.5094, 0.0) .. (12.4619, 0.0).. controls (13.044, 0.0) and (13.5731, 0.0) .. (13.5731, 0.5821) -- cycle(9.4721, 3.3867).. controls (9.4721, 2.6723) and (9.4721, 2.0108) .. (8.255, 1.4552).. controls (7.2231, 0.9525) and (5.9267, 0.9525) .. (5.715, 0.9525).. controls (3.8365, 0.9525) and (2.6194, 2.0373) .. (2.6194, 3.2279).. controls (2.6194, 4.6302) and (5.0271, 5.8473) .. (9.4721, 5.9796) -- cycle;
+\end{tikzpicture}XXX
+
+
+% --> number '3'
+\noindent nums:XXX%
+\begin{tikzpicture}[y=1cm, x=1cm, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+\path[draw=none, fill=teal] (12.6206, 4.4979).. controls (12.6206, 6.3235) and (11.4035, 7.8317) .. (9.234, 8.8106).. controls (11.1125, 10.0277) and (11.8269, 11.4829) .. (11.8269, 12.8852).. controls (11.8269, 14.7902) and (9.9219, 16.4571) .. (6.9585, 16.4571).. controls (3.8894, 16.4571) and (2.0373, 15.3194) .. (2.0373, 13.5467).. controls (2.0373, 12.8323) and (2.5665, 12.5148) .. (2.9898, 12.5148).. controls (3.4396, 12.5148) and (3.9158, 12.8852) .. (3.9158, 13.4938).. controls (3.9158, 13.7583) and (3.81, 13.97) .. (3.5719, 14.2346).. controls (4.6567, 15.3194) and (6.7204, 15.3458) .. (6.985, 15.3458).. controls (9.0223, 15.3458) and (10.4775, 14.2081) .. (10.4775, 12.8588).. controls (10.4775, 11.9592) and (10.0542, 10.9273) .. (9.234, 10.2658).. controls (8.3079, 9.4985) and (7.5935, 9.4456) .. (6.5352, 9.3927).. controls (5.2388, 9.2869) and (4.8154, 9.2604) .. (4.8154, 8.7577).. controls (4.8154, 8.1756) and (5.3181, 8.1756) .. (5.6356, 8.1756) -- (6.9056, 8.1756).. controls (9.816, 8.1756) and (11.2713, 6.1913) .. (11.2713, 4.4979).. controls (11.2713, 2.6988) and (9.6573, 0.8202) .. (6.985, 0.8202).. controls (5.8208, 0.8202) and (3.5983, 1.1906) .. (2.7252, 2.7252).. controls (2.9898, 2.9898) and (3.1221, 3.1221) .. (3.1221, 3.519).. controls (3.1221, 4.0481) and (2.7252, 4.4715) .. (2.196, 4.4715).. controls (1.7198, 4.4715) and (1.2435, 4.1275) .. (1.2435, 3.4396).. controls (1.2435, 1.1377) and (3.81, -0.291) .. (6.985, -0.291).. controls (10.3981, -0.291) and (12.6206, 2.0638) .. (12.6206, 4.4979) -- cycle;
+\end{tikzpicture}XXX
+\end{document}
