@@ -1,43 +1,43 @@
 % <*sty>
-% <*@@=ntp>
+% <*@@=ctp>
 
 \NeedsTeXFormat{LaTeX2e}
 
-\def \ntp@date    {2025-07-22}
-\def \ntp@version {1.0.0}
+\def \ctp@date    {2025-07-22}
+\def \ctp@version {1.0.0}
 
-\ProvidesExplPackage {num2path} {\ntp@date} {\ntp@version}
+\ProvidesExplPackage {char2path} {\ctp@date} {\ctp@version}
   {Convert numbers to tikz path}
 
 \cs_new_protected_nopar:Npn \@@_load_font_data:n #1 
   {
     \clist_map_inline:nn {#1}
       {
-        \file_get:nnNTF {ntp-##1.def.tex} {} \l_@@_token_list
+        \file_get:nnNTF {ctp-##1.def.tex} {} \l_@@_token_list
           {
             \exp_args:NNV
-            \prop_const_from_keyval:Nn \c_numtopath_tikz_data_prop
+            \prop_const_from_keyval:Nn \c_@@_tikz_data_prop
               { \l_@@_token_list }
           }
           {
             \__kernel_msg_error:nnn { kernel } { file-not-found }
-              {ntp-##1.def.tex}
+              {ctp-##1.def.tex}
           }
       }
   }
 
 \cs_new_protected_nopar:Npn \@@_provide_data:n #1
   {
-    \ProvidesExplFile{ntp-##1.def.tex}{\ntp@date}{\ntp@version}
-      {num2path ~ \text_titlecase:n {#1} ~ Data}
+    \ProvidesExplFile{ctp-##1.def.tex}{\ctp@date}{\ctp@version}
+      {char2path ~ \text_titlecase:n {#1} ~ Data}
   }
 
-\keys_define:nn { num2path }
+\keys_define:nn { char2path }
   {
-    scale .tl_gset:N = \g__numtopath_scale_tl,
+    scale .tl_gset:N = \g_@@_scale_tl,
     scale .initial:n = { 10pt },
   }
-\ProcessKeyOptions [ num2path ]
+\ProcessKeyOptions [ char2path ]
 
 % env setup
 
@@ -55,9 +55,9 @@
     \@popfilename
   }{}{}
 
-\tl_const:Nn \c_numtopath_tikz_folder_tl { lmm_nums_tikz }
+\tl_const:Nn \c_@@_tikz_folder_tl { lmm_nums_tikz }
 
-\prop_const_from_keyval:Nn \c_numtopath_scale_prop
+\prop_const_from_keyval:Nn \c_@@_scale_prop
   {
     10pt = 0.820, % basic scale factor
     11pt = 0.902,
@@ -74,7 +74,7 @@
 
 % user interface (basic)
 
-\NewDocumentCommand \numtopath
+\NewDocumentCommand \chartopath
   { O {
       draw = black,
       line~width = .003cm
@@ -82,37 +82,31 @@
   }{
     \tl_map_inline:nn {#2}
       {
-        \exp_args:Nee \__num_to_path_draw:nn 
-          {#1} { \__num_to_path_data:e {##1} }
+        \exp_args:Nee \@@_draw:nn 
+          {#1} { \@@_data:e {##1} }
       }
   }
-\cs_new_protected:Npn \__num_to_path_draw:nn #1#2
+\cs_new_protected:Npn \@@_draw:nn #1#2
   {
     \tikz
-      \node [ inner~sep = 0pt, minimum~width = \f@size/2,
-              scale = \prop_item:Ne \c_numtopath_scale_prop 
-                        { \g__numtopath_scale_tl } * \f@size / 10
+      \node [ inner~sep = .53pt,%minimum~width = .7*\f@size (or 1ex?),
+              scale = \prop_item:Ne \c_@@_scale_prop 
+                        { \g_@@_scale_tl } * \f@size/9.8
             ] {\tikz \path[#1] #2;};
   }
 
-\cs_new:Npn \__num_to_path_data:n #1
-
+\cs_new:Npn \@@_data:n #1
   {
-
-    \prop_item:Nn \c_numtopath_tikz_data_prop { #1 }
-
+    \prop_item:Nn \c_@@_tikz_data_prop { #1 }
     % \file_if_exist_input:n
-
-    %   { \c_numtopath_tikz_folder_tl/lmm_#2.tikz }
-
+    %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
 
-\cs_generate_variant:Nn \__num_to_path_data:n { e }
-
+\cs_generate_variant:Nn \@@_data:n { e }
 
 % user interface (fading)
 
-\keys_define:nn { num2path / numfading }
+\keys_define:nn { char2path / numfading }
   {
     colorset    .clist_set:N  = \l_@@_numfading_color_clist,
       colorset  .initial:n    = {black, white},
@@ -129,7 +123,7 @@
 \NewDocumentCommand \numfading { O{} m }
   {
     \group_begin:
-    \keys_set:nn { num2path / numfading } {#1}
+    \keys_set:nn { char2path / numfading } {#1}
     \@@_continous_colorset_aux:NNN \l_@@_numfading_color_clist
       \l_@@_numfading_color_i_tl \l_@@_numfading_color_ii_tl
     \@@_continous_color_aux:nNN {#2}
@@ -147,7 +141,7 @@
         \str_case_e:nnT { \l_@@_numfading_direction_tl }
           { { north } {} { south } {} }
           {
-            \numtopath
+            \chartopath
               [
                 fill = \l_@@_numfading_color_tl,
                 path ~ fading = \l_@@_numfading_direction_tl
@@ -155,7 +149,7 @@
           }
         \str_if_eq:eeT { \l_@@_numfading_direction_tl } { horizontal }
           {
-            \numtopath
+            \chartopath
               [
                 left  ~ color =
                   \fp_compare:nNnTF

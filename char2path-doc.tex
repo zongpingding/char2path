@@ -1,5 +1,5 @@
-\documentclass{l3doc}
-\usepackage[scale=10pt]{num2path}
+\documentclass[lm-default]{l3doc}
+\usepackage[scale=10pt]{char2path}
 \usepackage{listings, hyperref}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 
@@ -47,7 +47,7 @@
 \makeindex
 
 \title{^^A
-  The \pkg{char2path} Bundle\thanks{%
+  The \pkg{char2path} Package\thanks{%
     \url{https://github.com/zongpingding/char2path},
     \texttt{https://ctan.org/pkg/char2path}^^A
   }^^A
@@ -69,7 +69,7 @@
 
 \section{Introduction}
 
-The \pkg{num2path} package (conducted with \LaTeX3) provides
+The \pkg{char2path} package (conducted with \LaTeX3) provides
 a \LaTeX\ package that converts characters into Ti\textit k\/Z paths.
 It supports various compilation methods, such as \hologo{pdfLaTeX},
 \hologo{XeLaTeX}, \hologo{ApLaTeX} (pending for check), \hologo{LuaLaTeX}, etc.
@@ -78,7 +78,7 @@ It supports various compilation methods, such as \hologo{pdfLaTeX},
 
 To load this package, write the line
 \begin{quote}
-  |\usepackage[scale = |\meta{int}|pt]{num2path}|
+  |\usepackage[scale = |\meta{int}|pt]{char2path}|
 \end{quote}
 
 Here, the integral number \meta{int} supports the following choices,
@@ -96,9 +96,9 @@ and the converted paths will be scaled to the corresponding factors.
   \end{tabular}
 \end{center}
 
-\begin{function}{\numtopath}
+\begin{function}{\chartopath}
   \begin{syntax}
-    \cs{numtopath} \oarg{key-vals} \marg{string}
+    \cs{chartopath} \oarg{key-vals} \marg{string}
   \end{syntax}
   The mandatory argument accepts the required input string, and the optional
   argument accepts the following keys to set the style how the string converts
@@ -115,7 +115,7 @@ and the converted paths will be scaled to the corresponding factors.
 
 \begin{function}{\numfading}
   \begin{syntax}
-    \cs{numtopath} \oarg{key-vals} \marg{string}
+    \cs{chartopath} \oarg{key-vals} \marg{string}
   \end{syntax}
   The mandatory argument accepts the required input string, and the optional
   argument accepts the following keys to set the style how the string converts
@@ -126,33 +126,35 @@ and the converted paths will be scaled to the corresponding factors.
   \end{keyval}
 \end{function}
 
+\section{Examples}
+
 \subsection{Basic usage}
 
 \noindent
 The basic usage only print the outline of the inputted string.
 \begin{example}
- \numtopath{0123456789}
+ \chartopath{0123456789}
 \end{example}
 \noindent
 Users can pecific the color of outline and fill,
 or specific the scale of inputted characters.
 Just like the keys in \pkg{Ti\textit k\/Z}
 \begin{example}
- \numtopath[draw = none, fill = blue]{0123456789}
+ \chartopath[draw = none, fill = blue]{0123456789}
 \end{example}
 
 \begin{example}
- \numtopath[draw = blue, fill = red]{0123456789}
+ \chartopath[draw = blue, fill = red]{0123456789}
 \end{example}
 
 \begin{example}
- \numtopath[draw = red, scale = 2]{0123456789}
+ \chartopath[draw = red, scale = 2]{0123456789}
 \end{example}
 
 Fading is also supported
 
 \begin{example}
- \numtopath[ draw = none, path fading = south,
+ \chartopath[ draw = none, path fading = south,
              scale = 2, fill = teal ] {0123456789}
 \end{example}
 \begin{texnote}
@@ -167,13 +169,13 @@ including unwanted line numbers.
 
 \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
-    \numtopath[path fading = east, fill = blue]
+    \chartopath[path fading = east, fill = blue]
       {\orithelstnumber}
   }
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
-    \numtopath[path fading = east, fill = blue]
+    \chartopath[path fading = east, fill = blue]
       {\orithelstnumber}
   }
 \end{verbatim}
@@ -196,35 +198,41 @@ including unwanted line numbers.
 % \hskip1em 0123456789
 
 % \noindent\hskip2em
-% \numtopath[fill=teal]{0123456789}
+% \chartopath[fill=teal]{0123456789}
 
-\subsection{Use in text\texorpdfstring{\color{red}[NEEDS TO BE FIXED!]}{}}
+\subsection{Use in text\texorpdfstring{\color{red}[Needs to Optimize]}{}}
 
-Commands for changing font's size like \cs[no-index]{small},
-\cs[no-index]{Large} can be directly applied to \cs{numtopath}.
+Commands for changing font's size like |\small|,
+|\Large| can be directly applied to \cs{chartopath}.
 A comparison of the text and the path under 4 different font size commands
 is shown in the following figure.
 
 \begin{center}
   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
-    \draw [ -stealth, gray!25, line width = 1em ] (0,0) --++ (.96\linewidth,0);
-    \node [ above = 1ex ] at (.06\linewidth,0) {\small 0123456789};
-    \node [ above = 1ex ] at (.30\linewidth,0) {\normalsize 0123456789};
-    \node [ above = 1ex ] at (.54\linewidth,0) {\large 0123456789};
-    \node [ above = 1ex ] at (.78\linewidth,0) {\huge 0123456789};
+    \draw [ -stealth, gray!25, line width = 1em ] (0,0) --++ (.93\linewidth,0)
+     node [ black ] {|\f@size|};
+    \node [ above = 1ex ] at (.06\linewidth,0) {\small      0123456789};
+    \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize 0123456789};
+    \node [ above = 1ex ] at (.45\linewidth,0) {\large      0123456789};
+    \node [ above = 1ex ] at (.72\linewidth,0) {\huge       0123456789};
     \node [ below = 1ex ] at (.06\linewidth,0)
-      {\small     \numtopath[fill = orange]{0123456789}};
-    \node [ below  = 1ex] at (.30\linewidth,0)
-      {\normalsize\numtopath[fill = green]{0123456789}};
-    \node [ below = 1ex ] at (.54\linewidth,0)
-      {\large     \numtopath[fill = blue]{0123456789}};
-    \node [ below = 1ex ] at (.78\linewidth,0)
-      {\huge      \numtopath[fill = purple]{0123456789}};
+      {\small     \chartopath[fill = orange]{0123456789}};
+    \node [ below  = 1ex] at (.24\linewidth,0)
+      {\normalsize\chartopath[fill = green]{0123456789}};
+    \node [ below = 1ex ] at (.45\linewidth,0)
+      {\large     \chartopath[fill = blue]{0123456789}};
+    \node [ below = 1ex ] at (.72\linewidth,0)
+      {\huge      \chartopath[fill = purple]{0123456789}};
     \makeatletter
-    \node at (.06\linewidth,0) {\small\f@size pt};
-    \node at (.30\linewidth,0) {\normalsize\f@size pt};
-    \node at (.54\linewidth,0) {\large\f@size pt};
-    \node at (.78\linewidth,0) {\huge\f@size pt};
+    \node at (.06\linewidth,0)
+      {\small     \scalebox{\fpeval{10/\f@size}}{\small     \f@size pt}};
+    \node at (.24\linewidth,0)
+      {\normalsize\scalebox{\fpeval{10/\f@size}}{\normalsize\f@size pt}};
+    \node at (.45\linewidth,0)
+      {\large     \scalebox{\fpeval{10/\f@size}}{\large     \f@size pt}};
+    \node at (.72\linewidth,0)
+      {\huge      \scalebox{\fpeval{10/\f@size}}{\huge      \f@size pt}};
+    \makeatother
   \end{tikzpicture}
 \end{center}
 
@@ -233,12 +241,17 @@ is shown in the following figure.
 \subsection{Fading string}
 
 If the users want to fading the whole strings, not fading one by one,
-then they should use this module%
-\footnote{Developed by \href{github.com/myhsia}{Mingyu Xia}}.
+then use this module
 
 \subsubsection{Discretely fading string}
 
-\numtopath[path fading = east, fill = red]{1234567890}
+\begin{example}
+  \chartopath[path fading = east, fill = red]{1234567890}
+\end{example}
+
+\begin{example}
+  \chartopath[path fading = west, fill = red]{1234567890}
+\end{example}
 
 \subsubsection{Continously fading string}
 
@@ -275,8 +288,19 @@ then they should use this module%
 \section{Todo list}
 
 \begin{itemize}
-  \item Merge the |Fading string| module (commmand) into \cs{numtopath}
-  \item ...
+  \item Merge the |Fading string| module (commmand) into \cs{chartopath}
+  \item Function: |Use in text| needs to optimize: reduce the deviation.
+  Is |.53pt|, |\f@size/9.8| ... the best practice? Or should we use |minimum width|?
+  \begin{verbatim}
+    \cs_new_protected:Npn \__num_to_path_draw:nn #1#2
+      {
+        \tikz
+          \node [ inner~sep = .53pt,%minimum~width = .7*\f@size (or 1ex?),
+                  scale = \prop_item:Ne \c_chartopath_scale_prop 
+                            { \g__chartopath_scale_tl } * \f@size/9.8
+                ] {\tikz \path[#1] #2;};
+      }
+  \end{verbatim}
 \end{itemize}
 
 \end{document}
