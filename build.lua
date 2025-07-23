@@ -33,7 +33,7 @@ textfiles           = {"*.md", "LICENSE", "*.lua"}
 typesetcmds         = "\\AtBeginDocument{\\ifdefined\\DisableImplementation" ..
                       "\\DisableImplementation\\fi}"
 -- typesetdemofiles    = {module .. "-demo.tex"}
-typesetfiles        = {"num2path-doc.tex"}
+typesetfiles        = {"char2path-doc.tex"}
 typesetexe          = "latexmk -pdf"
 typesetruns         = 1
 uploadconfig  = {
