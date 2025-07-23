@@ -113,7 +113,7 @@ and the converted paths will be scaled to the corresponding factors.
   \end{keyval}
 \end{function}
 
-\begin{function}{\numfading}
+\begin{function}{\charfading}
   \begin{syntax}
     \cs{chartopath} \oarg{key-vals} \marg{string}
   \end{syntax}
@@ -225,13 +225,17 @@ is shown in the following figure.
       {\huge      \chartopath[fill = purple]{0123456789}};
     \makeatletter
     \node at (.06\linewidth,0)
-      {\small     \scalebox{\fpeval{10/\f@size}}{\small     \f@size pt}};
+      {\small     \scalebox{\fpeval{8/\f@size}}
+        {\small     \f@size pt (\cs[no-index]{small})}};
     \node at (.24\linewidth,0)
-      {\normalsize\scalebox{\fpeval{10/\f@size}}{\normalsize\f@size pt}};
+      {\normalsize\scalebox{\fpeval{8/\f@size}}
+        {\normalsize\f@size pt (\cs[no-index]{normalsize})}};
     \node at (.45\linewidth,0)
-      {\large     \scalebox{\fpeval{10/\f@size}}{\large     \f@size pt}};
+      {\large     \scalebox{\fpeval{8/\f@size}}
+        {\large     \f@size pt (\cs[no-index]{large})}};
     \node at (.72\linewidth,0)
-      {\huge      \scalebox{\fpeval{10/\f@size}}{\huge      \f@size pt}};
+      {\huge      \scalebox{\fpeval{8/\f@size}}
+        {\huge      \f@size pt (\cs[no-index]{huge})}};
     \makeatother
   \end{tikzpicture}
 \end{center}
@@ -246,11 +250,13 @@ then use this module
 \subsubsection{Discretely fading string}
 
 \begin{example}
-  \chartopath[path fading = east, fill = red]{1234567890}
+  \chartopath[path fading = east,
+              fill = red] {1234567890}
 \end{example}
 
 \begin{example}
-  \chartopath[path fading = west, fill = red]{1234567890}
+  \chartopath[path fading = west,
+              fill = red] {1234567890}
 \end{example}
 
 \subsubsection{Continously fading string}
@@ -258,28 +264,28 @@ then use this module
 \indent
 
 \begin{example}
- \numfading[colorset = {red, green},
+ \charfading[colorset = {red, green},
             direction = horizontal] {1234567890}
 \end{example}
 
 \begin{example}
- \numfading[colorset = {violet, blue},
+ \charfading[colorset = {violet, blue},
             direction = horizontal] {1234567890}
 \end{example}
 
 \begin{example}
- \numfading[colorset = {green, red},
+ \charfading[colorset = {green, red},
             direction = horizontal] {1234567890}
 \end{example}
 
 \begin{example}
- \numfading[colorset = {blue, violet},
+ \charfading[colorset = {blue, violet},
             direction = horizontal] {1234567890}
 \end{example}
 
-% \numfading[colorset = teal, direction = south]{20250721}
+% \charfading[colorset = teal, direction = south]{20250721}
 
-% \numfading[colorset = violet, direction = north]{20250721}
+% \charfading[colorset = violet, direction = north]{20250721}
 
 \end{documentation}
 
@@ -292,12 +298,12 @@ then use this module
   \item Function: |Use in text| needs to optimize: reduce the deviation.
   Is |.53pt|, |\f@size/9.8| ... the best practice? Or should we use |minimum width|?
   \begin{verbatim}
-    \cs_new_protected:Npn \__num_to_path_draw:nn #1#2
+    \cs_new_protected:Npn \@@_draw:nn #1#2
       {
         \tikz
           \node [ inner~sep = .53pt,%minimum~width = .7*\f@size (or 1ex?),
-                  scale = \prop_item:Ne \c_chartopath_scale_prop 
-                            { \g__chartopath_scale_tl } * \f@size/9.8
+                  scale = \prop_item:Ne \c_@@_scale_prop 
+                            { \g_@@_scale_tl } * \f@size/9.8
                 ] {\tikz \path[#1] #2;};
       }
   \end{verbatim}
