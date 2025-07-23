@@ -1,5 +1,5 @@
 --[==========================================[--
-          L3BUILD FILE FOR NOTEBEAMER
+          L3BUILD FILE FOR CHAR2PATH
       Once Pushed With This File Modified
         A New Release Will Be Published
 --]==========================================]--
@@ -11,7 +11,7 @@
 
 module              = "char2path"
 version             = "v1.0.0"
-date                = "2025-08-dd"
+date                = "2025-08-01"
 maintainer          = "Eureka, Mingyu Xia"
 uploader            = "Mingyu Xia"
 maintainid          = "myhsia"
@@ -29,6 +29,7 @@ description         = "The char2path package provides an easy way to converts ch
 ctanzip             = module
 cleanfiles          = {"*log", "*.pdf", "*.zip", "*.curlopt"}
 excludefiles        = {"*~"}
+tagfiles            = {"*.dtx", "*.tex", "*.sty"}
 textfiles           = {"*.md", "LICENSE", "*.lua"}
 typesetcmds         = "\\AtBeginDocument{\\ifdefined\\DisableImplementation" ..
                       "\\DisableImplementation\\fi}"
@@ -54,19 +55,19 @@ uploadconfig  = {
   development  = "https://github.com/" .. maintainid,
   update       = false --!!Remember to set this to true when upload next time!!
 }
--- function update_tag(file, content, tagname, tagdate)
---   tagname = version
---   tagdate = date
---   if string.match(file, "%.dtx$") then
---     content = string.gsub(content,
---       "\\ProvidesExplPackage {" .. module .. "} %{[^}]+%} %{[^}]+%}[\r\n%s]*%{[^}]+%}",
---       "\\ProvidesExplPackage {" .. module .. "} {" .. tagdate .. "} {" .. tagname .. "}\n  {" .. summary .. "}")
---     content = string.gsub(content,
---       "\\date{Released %d+%-%d+%-%d+\\quad \\texttt{v([%d%.A-Z]+)}}",
---       "\\date{Released " .. tagdate .. "\\quad \\texttt{" .. tagname .. "}}")
---   end
---   return content
--- end
+function update_tag(file, content, tagname, tagdate)
+  tagname = version
+  tagdate = date
+  if string.match(file, "%.dtx$") or string.match(file, "%.tex$") or string.match(file, "%.sty$") then
+    content = string.gsub(content,
+      "\\ProvidesExplPackage {" .. module .. "} %{[^}]+%} %{[^}]+%}[\r\n%s]*%{[^}]+%}",
+      "\\ProvidesExplPackage {" .. module .. "} {" .. tagdate .. "} {" .. tagname .. "}\n  {" .. summary .. "}")
+    content = string.gsub(content,
+      "\\date{Released %d+%-%d+%-%d+\\quad \\texttt{v([%d%.A-Z]+)}}",
+      "\\date{Released " .. tagdate .. "\\quad \\texttt{" .. tagname .. "}}")
+  end
+  return content
+end
 
 --[== "Hacks" to `l3build` | Do not Modify ==]--
 
