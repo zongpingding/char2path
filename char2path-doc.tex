@@ -13,7 +13,7 @@
 \DeclareCommandCopy \val \meta
 \def \TFF {true\textup{\textbar\textbf{false}}}
 \def \TTF {\textup{\textbf{true}\textbar}false}
-\def \HoLogo@ApLaTeX #1{%
+\def \HoLogo@ApLaTeX #1{^^A
   \HOLOGO@mbox {A\kern -.05em p\kern -.05em \hologo{LaTeX}}}
 \newcounter{example}[subsection]
 \renewcommand\theexample{\thesubsection.\arabic{example}}
@@ -47,7 +47,7 @@
 \makeindex
 
 \title{^^A
-  The \pkg{char2path} Package\thanks{%
+  The \pkg{char2path} Package\thanks{^^A
     \url{https://github.com/zongpingding/char2path},
     \texttt{https://ctan.org/pkg/char2path}^^A
   }^^A
@@ -164,12 +164,19 @@ Just like the keys in \pkg{Ti\textit k\/Z}
 Fading is also supported
 
 \begin{example}
- \chartopath[ draw = none, path fading = south,
-             scale = 2, fill = teal ] {0123456789}
+  \chartopath[draw = none, path fading = south,
+              scale = 2, fill = teal] {0123456789}
 \end{example}
 \begin{texnote}
   Fading will cost too much time !!!
 \end{texnote}
+
+as well as pattern
+
+\begin{example}
+  \chartopath[draw = black, pattern = crosshatch,
+              scale = 2] {0123456789}
+\end{example}
 
 \subsection{Use in \pkg{listings}}
 
@@ -219,8 +226,8 @@ is shown in the following figure.
 
 \begin{center}
   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
-    \draw [ -stealth, gray!25, line width = 1em ] (0,0) --++ (.93\linewidth,0)
-     node [ black ] {|\f@size|};
+    \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
+      (0,0) --++ (.93\linewidth,0) node [ black ] {|\f@size|};
     \node [ above = 1ex ] at (.06\linewidth,0) {\small      0123456789};
     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize 0123456789};
     \node [ above = 1ex ] at (.45\linewidth,0) {\large      0123456789};
@@ -304,8 +311,8 @@ then use this module
 \section{Todo list}
 
 \begin{itemize}
-  \item Merge the |Fading string| module (commmand) into \cs{chartopath}
-  \item Function: |Use in text| needs to optimize: reduce the deviation.
+  \item Merge the ``Fading string'' module (commmand) into \cs{chartopath}.
+  \item Function: ``Use in text'' needs to optimize: reduce the deviation.
   Is |.53pt|, |\f@size/9.8| ... the best practice? Or should we use |minimum width|?
   \begin{verbatim}
     \cs_new_protected:Npn \@@_draw:nn #1#2
@@ -317,6 +324,13 @@ then use this module
                 ] {\tikz \path[#1] #2;};
       }
   \end{verbatim}
+  \item Patterns could not accept values including ``space'', for example
+  \begin{verbatim}
+    \chartopath[draw = black, pattern = north east lines,
+                scale = 2] {0123456789}
+  \end{verbatim}
+  will return error(s): |Package pgf: Undefined pattern `north east lines'.|
+  \textcolor{red}{IT SEEMS THAT this is caused by the expansion of arguments.}
 \end{itemize}
 
 \end{document}
