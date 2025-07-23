@@ -9,21 +9,23 @@
 \ProvidesExplPackage {char2path} {\ctp@date} {\ctp@version}
   {Convert numbers to tikz path}
 
+\tl_new:N \l_@@_tikz_data_merge_tl
 \cs_new_protected_nopar:Npn \@@_load_font_data:n #1 
   {
     \clist_map_inline:nn {#1}
       {
-        \file_get:nnNTF {ctp-##1.def.tex} {} \l_@@_token_list
+        \file_get:nnNTF {ctp-##1.def.tex} {} \l_@@_tikz_data_single_tl
           {
-            \exp_args:NNV
-            \prop_const_from_keyval:Nn \c_@@_tikz_data_prop
-              { \l_@@_token_list }
+            \tl_gput_right:NV \l_@@_tikz_data_merge_tl
+              \l_@@_tikz_data_single_tl
           }
           {
             \__kernel_msg_error:nnn { kernel } { file-not-found }
               {ctp-##1.def.tex}
           }
       }
+    \exp_args:NNV \prop_const_from_keyval:Nn
+      \c_@@_tikz_arabic_data_prop { \l_@@_tikz_data_merge_tl }
   }
 
 \cs_new_protected_nopar:Npn \@@_provide_data:n #1
@@ -70,7 +72,7 @@
 
 % path data (0, 1, 2, 3, ..., 9)
 
-\@@_load_font_data:n {num}
+\@@_load_font_data:n { arabic, alpha-small, alpha-caps }
 
 % user interface (basic)
 
@@ -97,7 +99,7 @@
 
 \cs_new:Npn \@@_data:n #1
   {
-    \prop_item:Nn \c_@@_tikz_data_prop { #1 }
+    \prop_item:Nn \c_@@_tikz_arabic_data_prop { #1 }
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
