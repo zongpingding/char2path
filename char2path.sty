@@ -11,25 +11,25 @@
   {
     \clist_map_inline:nn {#1}
       {
-        \file_get:nnNTF {ctp-##1.def.tex} {} \l_@@_tikz_data_single_tl
+        \file_get:nnNTF {ctp-##1.data.tex} {} \l_@@_tikz_data_single_tl
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
               \l_@@_tikz_data_single_tl
           }
           {
-            \__kernel_msg_error:nnn { kernel } { file-not-found }
-              {ctp-##1.def.tex}
+            \msg_error:nnn { kernel } { file-not-found }
+              {ctp-##1.data.tex}
           }
       }
     \exp_args:NNV \prop_const_from_keyval:Nn
       \c_@@_tikz_arabic_data_prop { \l_@@_tikz_data_merge_tl }
   }
 
-\cs_new_protected_nopar:Npn \@@_provide_data:n #1
-  {
-    \ProvidesExplFile{ctp-##1.def.tex}{\ctp@date}{\ctp@version}
-      {char2path ~ \text_titlecase:n {#1} ~ Data}
-  }
+% \cs_new_protected_nopar:Npn \@@_provide_data:n #1
+%   {
+%     \ProvidesExplFile{ctp-##1.data.tex}{\ctp@date}{\ctp@version}
+%       {char2path ~ \text_titlecase:n {#1} ~ Data}
+%   }
 
 \keys_define:nn { char2path }
   {
@@ -67,7 +67,7 @@
 
 % path data (0, 1, 2, 3, ..., 9)
 
-\@@_load_font_data:n { arabic, alpha-small, alpha-caps }
+\@@_load_font_data:n { llm-arabic, llm-alpha-small, llm-alpha-caps }
 
 % user interface (basic)
 
