@@ -1,4 +1,5 @@
-## ignore SVG by fonts2svg
+## ignore SVG by fonts2svg, pycache
+__pycache__/
 SVGs/
 
 ## Core latex/pdflatex auxiliary files:

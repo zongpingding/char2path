@@ -1,12 +1,9 @@
 import os
-import string
 import subprocess
 from pathlib import Path
+# font table data
+from fonttable import *
 
-
-#####    assign font     #####
-FONT_FOLDER = "../../Fonts/"
-FONT = FONT_FOLDER + "latin-modern-roman.mroman10-regular.otf"
 
 
 #####  bool control  #####
@@ -15,39 +12,33 @@ EXTRACT_SVG = True
 EXTRACT_COOR = True
 
 
-#####  directories  #####
+#####    assign font     #####
+FONT_FOLDER = "../../Fonts/"
+FONT_NAME = "latin-modern-mono10.otf"
+FONT = FONT_FOLDER + FONT_NAME
+
+
+#####  SVG directories  #####
 PARENT_DIR = Path('SVGs')
 SUB_DIR_1 = Path('.')
 SUB_DIR_2 = Path('_moreSVGs_')
+RAW_SVG_PATH = PARENT_DIR
 SVG_DIR = [Path(os.path.join(PARENT_DIR, SUB_DIR_1)), Path(os.path.join(PARENT_DIR, SUB_DIR_2))]
 
 caps_dir = "caps"
 small_dir = "small"
 nums_dir = "nums"
+other_symbols_dir = "other_symbols"
 CAPS_DIR = Path(os.path.join(PARENT_DIR, caps_dir))
 SMALL_DIR = Path(os.path.join(PARENT_DIR, small_dir))
 NUMS_DIR = Path(os.path.join(PARENT_DIR, nums_dir))
-RAW_SVG_PATH = PARENT_DIR
+OTHER_SYMBOLS_DIR = Path(os.path.join(PARENT_DIR, other_symbols_dir))
+FONTABLE_SVG_DIR = [CAPS_DIR, SMALL_DIR, NUMS_DIR, OTHER_SYMBOLS_DIR]
 if EXTRACT_SVG:
     os.makedirs(CAPS_DIR, exist_ok=True)
     os.makedirs(SMALL_DIR, exist_ok=True)
     os.makedirs(NUMS_DIR, exist_ok=True)
-
-# extract target
-ALPHA_LIST = string.ascii_uppercase + string.ascii_lowercase 
-# TODO: handle 'eight.taboldstyle' in the future
-NUM_LIST = [
-        "zero",
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "six",
-        "seven",
-        "eight",
-        "nine",
-        ]
+    os.makedirs(OTHER_SYMBOLS_DIR, exist_ok=True)
 
 
 #####  generate svg from font  #####
@@ -69,15 +60,16 @@ if EXTRACT_SVG:
         for f in svg_dir.iterdir():
             # f_no_ext = f.name.split('.')[0] # this will extracts 'eight.taboldstyle', etc,
             f_no_ext = f.name[:-4]  # remove .svg extension
-            if f.suffix == '.svg' and \
-            (f_no_ext in ALPHA_LIST or f_no_ext in NUM_LIST):
+            if f.suffix == '.svg':
                 char = f_no_ext
                 match True:
+                    case _ if char in OTHER_SYMBOLS.values(): # type of 'dict_values'
+                        target_dir = OTHER_SYMBOLS_DIR
                     case _ if char in NUM_LIST:
                         target_dir = NUMS_DIR
-                    case _ if char.isupper(): # for numbers
+                    case _ if (len(char)==1 and char.isupper()):
                         target_dir = CAPS_DIR
-                    case _ if char.islower():
+                    case _ if (len(char)==1 and char.islower()):
                         target_dir = SMALL_DIR
                     case _:
                         continue
@@ -89,7 +81,7 @@ if EXTRACT_SVG:
 # svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_export_8.tikz
 # sed -n 's/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p' eight.pgf > output.txt 
 if EXTRACT_COOR:
-    for dir in [CAPS_DIR, SMALL_DIR, NUMS_DIR]:
+    for dir in FONTABLE_SVG_DIR:
         for f in dir.iterdir():
             if f.suffix == '.svg':
                 f_no_ext = f.name[:-4]  # remove .svg extension
@@ -111,6 +103,4 @@ if EXTRACT_COOR:
                         target_file
                     ], stdout=out_file, check=True)
                     print(target_file, "->", target_file+'.coor')
-
-
 
