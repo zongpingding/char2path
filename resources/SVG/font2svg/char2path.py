@@ -4,18 +4,22 @@ import subprocess
 from pathlib import Path
 
 
+#####    assign font     #####
+FONT_FOLDER = "../../Fonts/"
+FONT = FONT_FOLDER + "latin-modern-roman.mroman10-regular.otf"
+
 
 #####  bool control  #####
-EXTRACT_SVG_FROM_FONT = False 
+EXTRACT_SVG_FROM_FONT = True 
 EXTRACT_SVG = True
-EXTRACT_COOR = False
+EXTRACT_COOR = True
 
 
 #####  directories  #####
-PARENT_DIR = Path('SVGS')
-SUB_DIR = Path('.')
-# SUB_DIR = Path('_moreSVGs_')
-SVG_DIR = Path(os.path.join(PARENT_DIR, SUB_DIR))
+PARENT_DIR = Path('SVGs')
+SUB_DIR_1 = Path('.')
+SUB_DIR_2 = Path('_moreSVGs_')
+SVG_DIR = [Path(os.path.join(PARENT_DIR, SUB_DIR_1)), Path(os.path.join(PARENT_DIR, SUB_DIR_2))]
 
 caps_dir = "caps"
 small_dir = "small"
@@ -23,6 +27,7 @@ nums_dir = "nums"
 CAPS_DIR = Path(os.path.join(PARENT_DIR, caps_dir))
 SMALL_DIR = Path(os.path.join(PARENT_DIR, small_dir))
 NUMS_DIR = Path(os.path.join(PARENT_DIR, nums_dir))
+RAW_SVG_PATH = PARENT_DIR
 if EXTRACT_SVG:
     os.makedirs(CAPS_DIR, exist_ok=True)
     os.makedirs(SMALL_DIR, exist_ok=True)
@@ -47,34 +52,37 @@ NUM_LIST = [
 
 #####  generate svg from font  #####
 # fonts2svg lmmonolt10-regular.otf -av
-FONT = "latin-modern-mono10.otf"
 if EXTRACT_SVG_FROM_FONT:
+    os.makedirs(RAW_SVG_PATH, exist_ok=True)
     subprocess.run([
         "fonts2svg",
         FONT,
         "-av",
+        "-o",
+        RAW_SVG_PATH
         ], check=True)
 
 
 #####    extract letters and numbers from SVG_DIR      #####
 if EXTRACT_SVG:
-    for f in SVG_DIR.iterdir():
-        # f_no_ext = f.name.split('.')[0] # this will extracts 'eight.taboldstyle', etc,
-        f_no_ext = f.name[:-4]  # remove .svg extension
-        if f.suffix == '.svg' and \
-           (f_no_ext in ALPHA_LIST or f_no_ext in NUM_LIST):
-            char = f_no_ext
-            match True:
-                case _ if char in NUM_LIST:
-                    target_dir = NUMS_DIR
-                case _ if char.isupper(): # for numbers
-                    target_dir = CAPS_DIR
-                case _ if char.islower():
-                    target_dir = SMALL_DIR 
-                case _:
-                    continue
-            # subprocess.run(["cp", f, target_dir], check=True)
-            print(f.name, "->", target_dir)
+    for svg_dir in SVG_DIR:
+        for f in svg_dir.iterdir():
+            # f_no_ext = f.name.split('.')[0] # this will extracts 'eight.taboldstyle', etc,
+            f_no_ext = f.name[:-4]  # remove .svg extension
+            if f.suffix == '.svg' and \
+            (f_no_ext in ALPHA_LIST or f_no_ext in NUM_LIST):
+                char = f_no_ext
+                match True:
+                    case _ if char in NUM_LIST:
+                        target_dir = NUMS_DIR
+                    case _ if char.isupper(): # for numbers
+                        target_dir = CAPS_DIR
+                    case _ if char.islower():
+                        target_dir = SMALL_DIR
+                    case _:
+                        continue
+                subprocess.run(["cp", f, target_dir], check=True)
+                print(f.name, "->", target_dir)
 
 
 #####   generate pgf from svg   #####
