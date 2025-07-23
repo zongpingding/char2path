@@ -33,7 +33,7 @@
         \small\verbatiminput \example@name^^A
       \end{minipage}^^A
       \fbox{^^A
-        \begin{minipage}[c]{.32\textwidth}^^A
+        \begin{minipage}[c]{.36\textwidth}^^A
           \normalsize\input \example@name^^A
         \end{minipage}^^A
       }^^A
@@ -128,14 +128,11 @@ and the converted paths will be scaled to the corresponding factors.
 
 \section{Examples}
 
-\fbox{Under Construction, waiting to \texttt{@Eureka}'s \textcolor{red}{DATA}}
-
 \begin{example}
- \chartopath{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
-\end{example}
-
-\begin{example}
- \chartopath{abcdefghijklmnopqrstuvwxyz}
+ \chartopath{! #$\%&'()*+,-./01234567}
+ \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}
+ \chartopath{PQRSTUVWXYZ[ ]^_`'abcdef}
+ \chartopath{ghijklmnopqrstuvwxyz{ }~}
 \end{example}
 
 \subsection{Basic usage}
@@ -311,8 +308,18 @@ then use this module
 \section{Todo list}
 
 \begin{itemize}
-  \item Merge the ``Fading string'' module (commmand) into \cs{chartopath}.
-  \item Function: ``Use in text'' needs to optimize: reduce the deviation.
+  \item [\textcolor{red}{\textsf{Enhanced}}]
+  Patterns could not accept values including ``space'', for example
+  \begin{verbatim}
+    \chartopath[draw = black, pattern = north east lines,
+                scale = 2] {0123456789}
+  \end{verbatim}
+  will return error(s): |Package pgf: Undefined pattern `north east lines'.|
+  \textcolor{red}{IT SEEMS THAT this is caused by the expansion of arguments.}
+  \item [\textcolor{red}{\textsf{Enhanced}}] Baselines of
+  Alpha-small \& Alpha-caps need to optimize.
+  \item [\textcolor{green}{\textsf{Function}}] Merge the ``Fading string'' module (commmand) into \cs{chartopath}.
+  \item [\textcolor{blue}{\textsf{Detail}}] Function: ``Use in text'' needs to optimize: reduce the deviation.
   Is |.53pt|, |\f@size/9.8| ... the best practice? Or should we use |minimum width|?
   \begin{verbatim}
     \cs_new_protected:Npn \@@_draw:nn #1#2
@@ -324,13 +331,6 @@ then use this module
                 ] {\tikz \path[#1] #2;};
       }
   \end{verbatim}
-  \item Patterns could not accept values including ``space'', for example
-  \begin{verbatim}
-    \chartopath[draw = black, pattern = north east lines,
-                scale = 2] {0123456789}
-  \end{verbatim}
-  will return error(s): |Package pgf: Undefined pattern `north east lines'.|
-  \textcolor{red}{IT SEEMS THAT this is caused by the expansion of arguments.}
 \end{itemize}
 
 \end{document}

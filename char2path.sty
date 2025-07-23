@@ -87,7 +87,9 @@
 
 \cs_new:Npn \@@_data:n #1
   {
-    \prop_item:Nn \c_@@_tikz_arabic_data_prop { #1 }
+    \prop_if_in:NnTF \c_@@_tikz_arabic_data_prop { #1 }
+      { \prop_item:Nn \c_@@_tikz_arabic_data_prop { #1 } }
+      { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
