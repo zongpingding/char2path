@@ -75,13 +75,15 @@
   { O { draw = black, line~width = .01cm } m }
   { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:e {##1} } } }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
+\clist_const:Nn \c_@@_baseline_anchor_above { ', ^, `, }
+\clist_const:Nn \c_@@_baseline_anchor_below { Q, g, j, p, q, y, _, }
 \cs_new_protected:Npn \@@_draw:nn #1#2
   {
     \tikz \node
       [ inner~sep = .054pt * \f@size ]%minimum~width = .7*\f@size (or 1ex?),
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
                         \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp }
-              ] \path[#1] #2;};
+              ] \path [#1] #2;};
   }
 \cs_generate_variant:Nn \@@_draw:nn { ne, ee }
 
