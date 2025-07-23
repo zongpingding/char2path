@@ -106,30 +106,30 @@
 
 % user interface (fading)
 
-\keys_define:nn { char2path / numfading }
+\keys_define:nn { char2path / charfading }
   {
-    colorset    .clist_set:N  = \l_@@_numfading_color_clist,
+    colorset    .clist_set:N  = \l_@@_color_clist,
       colorset  .initial:n    = {black, white},
-    direction   .tl_set:N     = \l_@@_numfading_direction_tl,
+    direction   .tl_set:N     = \l_@@_direction_tl,
       direction .initial:n    = east,
   }
-\tl_set:Nn \l_@@_numfading_direction_north_tl { north }
-\tl_set:Nn \l_@@_numfading_direction_south_tl { south }
+\tl_set:Nn \l_@@_direction_north_tl { north }
+\tl_set:Nn \l_@@_direction_south_tl { south }
 
 \clist_new:N \l_@@_continous_color_left_clist
 \clist_new:N \l_@@_continous_color_right_clist
-\seq_new:N \l_@@_numfading_tmp_seq
+\seq_new:N \l_@@_tmp_seq
 
-\NewDocumentCommand \numfading { O{} m }
+\NewDocumentCommand \charfading { O{} m }
   {
     \group_begin:
-    \keys_set:nn { char2path / numfading } {#1}
-    \@@_continous_colorset_aux:NNN \l_@@_numfading_color_clist
-      \l_@@_numfading_color_i_tl \l_@@_numfading_color_ii_tl
+    \keys_set:nn { char2path / charfading } {#1}
+    \@@_continous_colorset_aux:NNN \l_@@_color_clist
+      \l_@@_color_i_tl \l_@@_color_ii_tl
     \@@_continous_color_aux:nNN {#2}
       \l_@@_continous_color_left_clist
       \l_@@_continous_color_right_clist
-    \seq_set_split:Nnn \l_@@_numfading_tmp_seq {} {#2}
+    \seq_set_split:Nnn \l_@@_tmp_seq {} {#2}
     \int_step_inline:nn { \tl_count:n {#2} }
       {
         \tl_set:Nn \l_@@_continous_color_tmpa_tl
@@ -137,17 +137,17 @@
         \tl_set:Nn \l_@@_continous_color_tmpb_tl
           { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
         \tl_set:Nn \l_@@_continous_color_tmpc_tl
-          { \seq_item:Nn \l_@@_numfading_tmp_seq {##1} }
-        \str_case_e:nnT { \l_@@_numfading_direction_tl }
+          { \seq_item:Nn \l_@@_tmp_seq {##1} }
+        \str_case_e:nnT { \l_@@_direction_tl }
           { { north } {} { south } {} }
           {
             \chartopath
               [
-                fill = \l_@@_numfading_color_tl,
-                path ~ fading = \l_@@_numfading_direction_tl
+                fill = \l_@@_color_tl,
+                path ~ fading = \l_@@_direction_tl
               ] { \l_@@_continous_color_tmpc_tl }
           }
-        \str_if_eq:eeT { \l_@@_numfading_direction_tl } { horizontal }
+        \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
           {
             \chartopath
               [
@@ -156,13 +156,13 @@
                     { \fp_eval:n { 100 - \l_@@_continous_color_tmpa_tl } } <
                     { \l_@@_continous_color_tmpa_tl }
                     {
-                      \l_@@_numfading_color_ii_tl!
+                      \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpa_tl }!
-                      \l_@@_numfading_color_i_tl!\l_@@_continous_color_tmpa_tl,
+                      \l_@@_color_i_tl!\l_@@_continous_color_tmpa_tl,
                     }
                     {
-                      \l_@@_numfading_color_i_tl!\l_@@_continous_color_tmpa_tl!
-                      \l_@@_numfading_color_ii_tl!
+                      \l_@@_color_i_tl!\l_@@_continous_color_tmpa_tl!
+                      \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpa_tl },
                     }
                 ,
@@ -171,15 +171,15 @@
                     { \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl } } <
                     { \l_@@_continous_color_tmpb_tl }
                     {
-                      \l_@@_numfading_color_ii_tl!
+                      \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
-                      \l_@@_numfading_color_i_tl!
+                      \l_@@_color_i_tl!
                       \l_@@_continous_color_tmpb_tl
                     }
                     {
-                      \l_@@_numfading_color_i_tl!
+                      \l_@@_color_i_tl!
                       \l_@@_continous_color_tmpb_tl!
-                      \l_@@_numfading_color_ii_tl!
+                      \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }
                     }
               ] { \l_@@_continous_color_tmpc_tl }
