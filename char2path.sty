@@ -3,7 +3,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesExplPackage {char2path} {2025-08-dd} {v1.0.1}
+\ProvidesExplPackage {char2path} {2025-08-01} {v1.0.0}
   {A LaTeX package that converts characters into TikZ paths}
 
 \tl_new:N \l_@@_tikz_data_merge_tl
@@ -40,10 +40,8 @@
 
 % env setup
 
-\RequirePackage{tikz}
+\RequirePackage{tikz, etoolbox}
 \usetikzlibrary{patterns, fadings}
-
-\RequirePackage{etoolbox}
 
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
@@ -74,15 +72,16 @@
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .003cm } m }
+  { O { draw = black, line~width = .01cm } m }
   { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:e {##1} } } }
+\fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \cs_new_protected:Npn \@@_draw:nn #1#2
   {
-    \tikz
-      \node [ inner~sep = .53pt,%minimum~width = .7*\f@size (or 1ex?),
-              scale = \prop_item:Ne \c_@@_scale_prop 
-                        { \g_@@_scale_tl } * \f@size/9.8
-            ] {\tikz \path[#1] #2;};
+    \tikz \node
+      [ inner~sep = .054pt * \f@size ]%minimum~width = .7*\f@size (or 1ex?),
+      { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
+                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp }
+              ] \path[#1] #2;};
   }
 \cs_generate_variant:Nn \@@_draw:nn { ne, ee }
 
