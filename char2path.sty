@@ -77,17 +77,8 @@
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O {
-      draw = black,
-      line~width = .003cm
-    } m
-  }{
-    \tl_map_inline:nn {#2}
-      {
-        \exp_args:Nee \@@_draw:nn 
-          {#1} { \@@_data:e {##1} }
-      }
-  }
+  { O { draw = black, line~width = .003cm } m }
+  { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:e {##1} } } }
 \cs_new_protected:Npn \@@_draw:nn #1#2
   {
     \tikz
@@ -96,6 +87,7 @@
                         { \g_@@_scale_tl } * \f@size/9.8
             ] {\tikz \path[#1] #2;};
   }
+\cs_generate_variant:Nn \@@_draw:nn { nn, ne, ee }
 
 \cs_new:Npn \@@_data:n #1
   {
@@ -103,7 +95,6 @@
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
-
 \cs_generate_variant:Nn \@@_data:n { e }
 
 % user interface (fading)
