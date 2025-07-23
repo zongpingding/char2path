@@ -3,7 +3,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesExplPackage {char2path} {2025-08-dd} {v1.0.1}
+\ProvidesExplPackage {char2path} {2025-08-01} {v1.0.0}
   {A LaTeX package that converts characters into TikZ paths}
 
 \tl_new:N \l_@@_tikz_data_merge_tl
@@ -11,25 +11,25 @@
   {
     \clist_map_inline:nn {#1}
       {
-        \file_get:nnNTF {ctp-##1.def.tex} {} \l_@@_tikz_data_single_tl
+        \file_get:nnNTF {ctp-##1.data.tex} {} \l_@@_tikz_data_single_tl
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
               \l_@@_tikz_data_single_tl
           }
           {
-            \__kernel_msg_error:nnn { kernel } { file-not-found }
-              {ctp-##1.def.tex}
+            \msg_error:nnn { kernel } { file-not-found }
+              {ctp-##1.data.tex}
           }
       }
     \exp_args:NNV \prop_const_from_keyval:Nn
       \c_@@_tikz_arabic_data_prop { \l_@@_tikz_data_merge_tl }
   }
 
-\cs_new_protected_nopar:Npn \@@_provide_data:n #1
-  {
-    \ProvidesExplFile{ctp-##1.def.tex}{\ctp@date}{\ctp@version}
-      {char2path ~ \text_titlecase:n {#1} ~ Data}
-  }
+% \cs_new_protected_nopar:Npn \@@_provide_data:n #1
+%   {
+%     \ProvidesExplFile{ctp-##1.data.tex}{\ctp@date}{\ctp@version}
+%       {char2path ~ \text_titlecase:n {#1} ~ Data}
+%   }
 
 \keys_define:nn { char2path }
   {
@@ -40,10 +40,8 @@
 
 % env setup
 
-\RequirePackage{tikz}
+\RequirePackage{tikz, etoolbox}
 \usetikzlibrary{patterns, fadings}
-
-\RequirePackage{etoolbox}
 
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
@@ -69,26 +67,31 @@
 
 % path data (0, 1, 2, 3, ..., 9)
 
-\@@_load_font_data:n { arabic, alpha-small, alpha-caps }
+\@@_load_font_data:n { llm-arabic, llm-alpha-small, llm-alpha-caps }
 
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .003cm } m }
+  { O { draw = black, line~width = .01cm } m }
   { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:e {##1} } } }
+\fp_const:Nn \c_@@_global_scale_fp { .0135 }
+\clist_const:Nn \c_@@_baseline_anchor_above { ', ^, `, }
+\clist_const:Nn \c_@@_baseline_anchor_below { Q, g, j, p, q, y, _, }
 \cs_new_protected:Npn \@@_draw:nn #1#2
   {
-    \tikz
-      \node [ inner~sep = .53pt,%minimum~width = .7*\f@size (or 1ex?),
-              scale = \prop_item:Ne \c_@@_scale_prop 
-                        { \g_@@_scale_tl } * \f@size/9.8
-            ] {\tikz \path[#1] #2;};
+    \tikz \node
+      [ inner~sep = .054pt * \f@size ]%minimum~width = .7*\f@size (or 1ex?),
+      { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
+                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp }
+              ] \path [#1] #2;};
   }
 \cs_generate_variant:Nn \@@_draw:nn { ne, ee }
 
 \cs_new:Npn \@@_data:n #1
   {
-    \prop_item:Nn \c_@@_tikz_arabic_data_prop { #1 }
+    \prop_if_in:NnTF \c_@@_tikz_arabic_data_prop { #1 }
+      { \prop_item:Nn \c_@@_tikz_arabic_data_prop { #1 } }
+      { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
