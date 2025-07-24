@@ -183,8 +183,8 @@ Fading is also supported
 as well as pattern
 
 \begin{example}
-  \chartopath[draw = black, pattern = crosshatch,
-              scale = 2]  {0123456789}
+  \chartopath[draw = black, pattern = north east lines,
+              scale = 3]  {0123456789}
 \end{example}
 
 \subsection{Use in \pkg{listings}}
@@ -313,36 +313,34 @@ then use this module
 
 % \charfading[colorset = violet, direction = north]{20250721}
 
-\end{documentation}
-
-\PrintIndex
-
 \section{Todo list}
 
 \begin{itemize}
-  \item [\textcolor{red}{\textsf{Enhanced, Bug}}]
-  Patterns could not accept values including ``space'', for example
+  \item [\textcolor{red}{\textsf{Enhanced}}] Baselines of some characters need to optimize.
+  \item [\textcolor{red}{\textsf{Enhanced, Detail}}] The "mono font" doesn't
+  appears mono: a fixed box should be applied.
+  \item [\textcolor{red}{\textsf{Enhanced, Detail}}] Function: ``Use in text'' needs to optimize: reduce the deviation.
+  Is |.054pt|, |\f@size/8.4| ... the best practice? Or should we use |minimum width|?
   \begin{verbatim}
-    \chartopath[draw = black, pattern = north east lines,
-                scale = 2]  {0123456789}
+  \cs_new_protected:Npn \@@_draw:nn #1#2
+    {
+      \tikz \node
+        [ inner~sep = .054pt * \f@size ]%minimum~width = .7*\f@size (or 1ex?),
+        { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
+                          \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp }
+                ] \path [#1] #2;};
+    }
   \end{verbatim}
-  will return error(s): |Package pgf: Undefined pattern `north east lines'.|
-  \textcolor{red}{IT SEEMS THAT this is caused by the expansion of arguments.}
-  \item [\textcolor{red}{\textsf{Enhanced}}] Baselines of
-  Alpha-small \& Alpha-caps need to optimize.
   \item [\textcolor{green}{\textsf{Function}}] Merge the ``Fading string'' module (commmand) into \cs{chartopath}.
-  \item [\textcolor{blue}{\textsf{Detail}}] Function: ``Use in text'' needs to optimize: reduce the deviation.
-  Is |.53pt|, |\f@size/9.8| ... the best practice? Or should we use |minimum width|?
-  \begin{verbatim}
-    \cs_new_protected:Npn \@@_draw:nn #1#2
-      {
-        \tikz
-          \node [ inner~sep = .53pt,%minimum~width = .7*\f@size (or 1ex?),
-                  scale = \prop_item:Ne \c_@@_scale_prop 
-                            { \g_@@_scale_tl } * \f@size/9.8
-                ] {\tikz \path[#1] #2;};
-      }
-  \end{verbatim}
+  \item [\textcolor{green}{\textsf{Function}}] "AutoFakeSlant".
 \end{itemize}
+
+\end{documentation}
+
+\begin{implementation}
+
+\end{implementation}
+
+\PrintIndex
 
 \end{document}
