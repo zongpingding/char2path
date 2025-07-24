@@ -174,17 +174,24 @@ Fading is also supported
 
 \begin{example}
   \chartopath[draw = none, path fading = south,
-              scale = 2, fill = teal]  {0123456789}
+              scale = 2, fill = teal] {0123456789}
 \end{example}
 \begin{texnote}
-  Fading will cost too much time !!!
+  Fading will cost too much time!!!
 \end{texnote}
 
 as well as pattern
 
 \begin{example}
-  \chartopath[draw = black, pattern = north east lines,
-              scale = 3]  {0123456789}
+  \chartopath[pattern = north west lines,
+              draw = black, scale = 2.5] {0123456789}
+\end{example}
+
+FakeSlant is also supported
+
+\begin{example}
+  \chartopath[draw = red, fill = green,
+              scale = 2.5] {0123456789} [lmm] [.15]
 \end{example}
 
 \subsection{Use in \pkg{listings}}
@@ -332,7 +339,6 @@ then use this module
     }
   \end{verbatim}
   \item [\textcolor{green}{\textsf{Function}}] Merge the ``Fading string'' module (commmand) into \cs{chartopath}.
-  \item [\textcolor{green}{\textsf{Function}}] "AutoFakeSlant".
 \end{itemize}
 
 \end{documentation}
