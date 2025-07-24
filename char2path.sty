@@ -62,14 +62,15 @@
 % path data (0, 1, 2, 3, ..., 9)
 
 \@@_load_font_data:nn { lmm } { arabic, alpha-small, alpha-caps }
+\@@_load_font_data:nn { lmr } { arabic, alpha-small, alpha-caps }
 
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .01cm } m m }
+  { O { draw = black, line~width = .01cm }  m O {lmm} }
   {
-    \tl_map_inline:nn {#3}
-      { \@@_draw:ee {#1} { \@@_data:ne {#2} {##1} } }
+    \tl_map_inline:nn {#2}
+      { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } }
   }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \clist_const:Nn \c_@@_baseline_anchor_above { ', ^, `, }
@@ -86,10 +87,8 @@
 
 \cs_new:Npn \@@_data:nn #1#2
   {
-    \prop_if_in:cnTF { c_@@_tikz_lmm_data_prop } { #2 }
-      { \prop_item:cn { c_@@_tikz_lmm_data_prop } { #2 } }
-    % \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
-    %   { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
+    \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
+      { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
@@ -137,7 +136,7 @@
               [
                 fill = \l_@@_color_tl,
                 path ~ fading = \l_@@_direction_tl
-              ] {llm} { \l_@@_continous_color_tmpc_tl }
+              ] { \l_@@_continous_color_tmpc_tl }
           }
         \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
           {
@@ -174,7 +173,7 @@
                       \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }
                     }
-              ] {llm} { \l_@@_continous_color_tmpc_tl }
+              ] { \l_@@_continous_color_tmpc_tl }
           }
       }
     \group_end:
