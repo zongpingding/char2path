@@ -14,10 +14,7 @@
 \ProcessKeyOptions [ char2path ]
 
 % env setup
-
 \RequirePackage{tikz, etoolbox}
-\usetikzlibrary{patterns, fadings}
-
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
   {
@@ -26,9 +23,9 @@
     \input #1
     \@popfilename
   }{}{}
+\usetikzlibrary{patterns, fadings}
 
 \tl_const:Nn \c_@@_tikz_folder_tl { lmm_nums_tikz }
-
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
     10pt = 0.820, % basic scale factor

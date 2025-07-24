@@ -8,13 +8,13 @@ from fonttable import *
 
 #####  bool control  #####
 EXTRACT_SVG_FROM_FONT = True 
-EXTRACT_SVG = True
-EXTRACT_COOR = True
+EXTRACT_SVG = False
+EXTRACT_COOR = False
 
 
 #####    assign font     #####
 FONT_FOLDER = "../../Fonts/"
-FONT_NAME = "latin-modern-mono10.otf"
+FONT_NAME = "latin-modern-roman.mroman10-regular.otf"
 FONT = FONT_FOLDER + FONT_NAME
 
 
@@ -48,7 +48,7 @@ if EXTRACT_SVG_FROM_FONT:
     subprocess.run([
         "fonts2svg",
         FONT,
-        "-av",
+        "-av", # cancel view adjust to get the baseline --> still fails
         "-o",
         RAW_SVG_PATH
         ], check=True)

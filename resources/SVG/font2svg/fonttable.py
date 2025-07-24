@@ -25,6 +25,7 @@ OTHER_SYMBOLS = {
     '"': "quotedbl",
     "#": "numbersign",
     "$": "dollar",
+    "%": "percent",
     # " ": "space", # ignore space symbol
     "&": "ampersand",
     "'": "quotesingle",
