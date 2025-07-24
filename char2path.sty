@@ -55,8 +55,8 @@
               {ctp-#1-##1.data.tex}
           }
       }
-    \exp_args:NNV \prop_const_from_keyval:Nn
-      \c_@@_tikz_lmm_data_prop { \l_@@_tikz_data_merge_tl }
+    \exp_args:NnV \prop_const_from_keyval:cn
+      { c_@@_tikz_#1_data_prop } { \l_@@_tikz_data_merge_tl }
   }
 
 % path data (0, 1, 2, 3, ..., 9)
@@ -66,8 +66,11 @@
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .01cm } m }
-  { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:e {##1} } } }
+  { O { draw = black, line~width = .01cm } m m }
+  {
+    \tl_map_inline:nn {#3}
+      { \@@_draw:ee {#1} { \@@_data:ne {#2} {##1} } }
+  }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \clist_const:Nn \c_@@_baseline_anchor_above { ', ^, `, }
 \clist_const:Nn \c_@@_baseline_anchor_below { Q, g, j, p, q, y, _, }
@@ -81,15 +84,17 @@
   }
 \cs_generate_variant:Nn \@@_draw:nn { ne, ee }
 
-\cs_new:Npn \@@_data:n #1
+\cs_new:Npn \@@_data:nn #1#2
   {
-    \prop_if_in:NnTF \c_@@_tikz_lmm_data_prop { #1 }
-      { \prop_item:Nn \c_@@_tikz_lmm_data_prop { #1 } }
+    \prop_if_in:cnTF { c_@@_tikz_lmm_data_prop } { #2 }
+      { \prop_item:cn { c_@@_tikz_lmm_data_prop } { #2 } }
+    % \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
+    %   { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
-\cs_generate_variant:Nn \@@_data:n { e }
+\cs_generate_variant:Nn \@@_data:nn { ne, ee }
 
 % user interface (fading)
 
@@ -132,7 +137,7 @@
               [
                 fill = \l_@@_color_tl,
                 path ~ fading = \l_@@_direction_tl
-              ] { \l_@@_continous_color_tmpc_tl }
+              ] {llm} { \l_@@_continous_color_tmpc_tl }
           }
         \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
           {
@@ -169,7 +174,7 @@
                       \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }
                     }
-              ] { \l_@@_continous_color_tmpc_tl }
+              ] {llm} { \l_@@_continous_color_tmpc_tl }
           }
       }
     \group_end:
