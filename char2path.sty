@@ -6,31 +6,6 @@
 \ProvidesExplPackage {char2path} {2025-08-01} {v1.0.0}
   {A LaTeX package that converts characters into TikZ paths}
 
-\tl_new:N \l_@@_tikz_data_merge_tl
-\cs_new_protected_nopar:Npn \@@_load_font_data:n #1 
-  {
-    \clist_map_inline:nn {#1}
-      {
-        \file_get:nnNTF {ctp-##1.data.tex} {} \l_@@_tikz_data_single_tl
-          {
-            \tl_gput_right:NV \l_@@_tikz_data_merge_tl
-              \l_@@_tikz_data_single_tl
-          }
-          {
-            \msg_error:nnn { kernel } { file-not-found }
-              {ctp-##1.data.tex}
-          }
-      }
-    \exp_args:NNV \prop_const_from_keyval:Nn
-      \c_@@_tikz_arabic_data_prop { \l_@@_tikz_data_merge_tl }
-  }
-
-% \cs_new_protected_nopar:Npn \@@_provide_data:n #1
-%   {
-%     \ProvidesExplFile{ctp-##1.data.tex}{\ctp@date}{\ctp@version}
-%       {char2path ~ \text_titlecase:n {#1} ~ Data}
-%   }
-
 \keys_define:nn { char2path }
   {
     scale .tl_gset:N = \g_@@_scale_tl,
@@ -65,9 +40,28 @@
     16pt = 1.311,
   }
 
+\tl_new:N \l_@@_tikz_data_merge_tl
+\cs_new_protected_nopar:Npn \@@_load_font_data:nn #1#2
+  {
+    \clist_map_inline:nn {#2}
+      {
+        \file_get:nnNTF {ctp-#1-##1.data.tex} {} \l_@@_tikz_data_single_tl
+          {
+            \tl_gput_right:NV \l_@@_tikz_data_merge_tl
+              \l_@@_tikz_data_single_tl
+          }
+          {
+            \msg_error:nnn { kernel } { file-not-found }
+              {ctp-#1-##1.data.tex}
+          }
+      }
+    \exp_args:NNV \prop_const_from_keyval:Nn
+      \c_@@_tikz_lmm_data_prop { \l_@@_tikz_data_merge_tl }
+  }
+
 % path data (0, 1, 2, 3, ..., 9)
 
-\@@_load_font_data:n { llm-arabic, llm-alpha-small, llm-alpha-caps }
+\@@_load_font_data:nn { lmm } { arabic, alpha-small, alpha-caps }
 
 % user interface (basic)
 
@@ -89,8 +83,8 @@
 
 \cs_new:Npn \@@_data:n #1
   {
-    \prop_if_in:NnTF \c_@@_tikz_arabic_data_prop { #1 }
-      { \prop_item:Nn \c_@@_tikz_arabic_data_prop { #1 } }
+    \prop_if_in:NnTF \c_@@_tikz_lmm_data_prop { #1 }
+      { \prop_item:Nn \c_@@_tikz_lmm_data_prop { #1 } }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n
     %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
