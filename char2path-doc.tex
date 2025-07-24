@@ -277,24 +277,20 @@ is shown in the following figure.
 
 \subsection{Fading string}
 
-If the users want to fading the whole strings, not fading one by one,
-then use this module
-
-\subsubsection{Discretely fading string}
+If the users directly use
 
 \begin{example}
   \chartopath[path fading = east,
-              fill = red]  {0123456789}
+              fill = red] {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath[path fading = west,
-              fill = red]  {0123456789}
+              fill = blue] {0123456789}
 \end{example}
-
-\subsubsection{Continously fading string}
-
-\indent
+they will found that every character fading discretely.
+If they want to fading the whole strings, not fading one by one,
+then use this module
 
 \begin{example}
   \charfading[colorset = {red, green},
@@ -316,9 +312,15 @@ then use this module
               direction = horizontal] {0123456789}
 \end{example}
 
-% \charfading[colorset = teal, direction = south]{20250721}
+\begin{example}
+  \charfading[colorset = {teal, violet},
+              direction = vertical] {0123456789}
+\end{example}
 
-% \charfading[colorset = violet, direction = north]{20250721}
+\begin{example}
+  \charfading[colorset = {violet, teal},
+              direction = vertical] {0123456789}
+\end{example}
 
 \section{Todo list}
 
