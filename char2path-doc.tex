@@ -131,19 +131,21 @@ and the converted paths will be scaled to the corresponding factors.
 This package could convert the following characters to path:
 including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
 
+\DeleteShortVerb\| \DeleteShortVerb\"
 \begin{example}
- \chartopath{!\#\$\%&'()*+,-./01234567}
+ \chartopath{!#$"\%&'()*+,-./01234567}
  \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}
- \chartopath{PQRSTUVWXYZ[ ]^_`abcdefg}
- \chartopath{hijklmnopqrstuvwxyz{ }~}
+ \chartopath{PQRSTUVWXYZ[\ ]^_`abcdefg}
+ \chartopath{hijklmnopqrstuvwxyz\{|\}~$}
 \end{example}
 
 \begin{example}
- \chartopath{!\#\$\%&'()*+,-./01234567}[lmr]
+ \chartopath{!#$"\%&'()*+,-./01234567}[lmr]
  \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}[lmr]
- \chartopath{PQRSTUVWXYZ[ ]^_`abcdefg}[lmr]
- \chartopath{hijklmnopqrstuvwxyz{ }~}[lmr]
+ \chartopath{PQRSTUVWXYZ[\ ]^_`abcdefg}[lmr]
+ \chartopath{hijklmnopqrstuvwxyz\{|\}~$}[lmr]
 \end{example}
+\MakeShortVerb\| \MakeShortVerb\"
 
 \subsection{Basic usage}
 
