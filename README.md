@@ -17,7 +17,7 @@ The package provides the `\chartopath` macro
 
     \chartopath [<keys>] {<string>}
 
-to print TikZ paths for characters in a string.
+to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
@@ -28,9 +28,9 @@ Usage
 
 #### Use `Inkscape`
 
-1. set text font to latin modern mono
-2. click `Object` -> `Object to path`
-3. save as `Plain SVG`
+1. Set text font to latin modern mono
+2. Click `Object` -> `Object to path`
+3. Save as `Plain SVG`
 
 > Note: The default unit in Inkscape is millimeters (`mm`), while in svg2tikz it is centimeters (`cm`).
 
@@ -57,7 +57,7 @@ svg2tikz lmm_8.svg --output lmm_export_8.tikz
 # just `scope' env
 svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_export_8.tikz
 
-# batch mode(powershell)
+# batch mode (powershell)
 for ($i=0; $i -le 9; $i++) {svg2tikz --codeoutput=codeonly lmm_$i.svg --output lmm_export_$i.tikz}
 ```
 
