@@ -14,7 +14,7 @@
 \ProcessKeyOptions [ char2path ]
 
 % env setup
-\RequirePackage{tikz, etoolbox}
+\RequirePackage{l3draw, tikz, etoolbox}
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
   {
@@ -42,36 +42,42 @@
   {
     \clist_map_inline:nn {#2}
       {
-        \file_get:nnNTF {ctp-#1-##1.data.tex} {} \l_@@_tikz_data_single_tl
+        \file_get:nnNTF { ctp-#1-##1.data.tex } {} \l_@@_tikz_data_single_tl
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
               \l_@@_tikz_data_single_tl
           }
           {
             \msg_error:nnn { kernel } { file-not-found }
-              {ctp-#1-##1.data.tex}
+              { ctp-#1-##1.data.tex }
           }
       }
     \exp_args:NnV \prop_const_from_keyval:cn
       { c_@@_tikz_#1_data_prop } { \l_@@_tikz_data_merge_tl }
   }
-
-% path data (0, 1, 2, 3, ..., 9)
-
 \@@_load_font_data:nn { lmm } { arabic, alpha-small, alpha-caps, others, }
 \@@_load_font_data:nn { lmr } { arabic, alpha-small, alpha-caps, others, }
 
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .01cm }  m O {lmm} }
+  { O { draw = black, line~width = .01cm }  m O {lmm} O{} }
   {
     \tl_map_inline:nn {#2}
-      { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } }
+      {
+        \IfBlankTF {#4}
+          { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } }
+          {
+            \draw_begin:
+            \draw_transform_matrix_absolute:nnnn { 1 } { 0 } { #4 } { 1 }
+              \hbox_set:Nn \l_tmpa_box
+                { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } }
+              \draw_box_use:N \l_tmpa_box
+            \draw_end:
+          }
+      }
   }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
-\clist_const:Nn \c_@@_baseline_anchor_above { ', ^, `, }
-\clist_const:Nn \c_@@_baseline_anchor_below { Q, g, j, p, q, y, _, }
 \cs_new_protected:Npn \@@_draw:nn #1#2
   {
     \tikz \node
