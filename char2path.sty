@@ -61,22 +61,8 @@
 % user interface (basic)
 
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .01cm }  m O {lmm} O{} }
-  {
-    \tl_map_inline:nn {#2}
-      {
-        \IfBlankTF {#4}
-          { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } }
-          {
-            \draw_begin:
-            \draw_transform_matrix_absolute:nnnn { 1 } { 0 } { #4 } { 1 }
-              \hbox_set:Nn \l_tmpa_box
-                { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } }
-              \draw_box_use:N \l_tmpa_box
-            \draw_end:
-          }
-      }
-  }
+  { O { draw = black, line~width = .01cm }  m O {lmm} }
+  { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } } }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \cs_new_protected:Npn \@@_draw:nn #1#2
   {
