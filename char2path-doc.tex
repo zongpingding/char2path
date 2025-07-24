@@ -128,11 +128,21 @@ and the converted paths will be scaled to the corresponding factors.
 
 \section{Examples}
 
+This package could convert the following characters to path:
+including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
+
 \begin{example}
- \chartopath{llm}{!\#\$\%&'()*+,-./01234567}
- \chartopath{llm}{89:;<=>?@ABCDEFGHIJKLMNO}
- \chartopath{llm}{PQRSTUVWXYZ[ ]^_`abcdefg}
- \chartopath{llm}{hijklmnopqrstuvwxyz{ }~}
+ \chartopath{!\#\$\%&'()*+,-./01234567}
+ \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}
+ \chartopath{PQRSTUVWXYZ[ ]^_`abcdefg}
+ \chartopath{hijklmnopqrstuvwxyz{ }~}
+\end{example}
+
+\begin{example}
+ \chartopath{!\#\$\%&'()*+,-./01234567}[lmr]
+ \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}[lmr]
+ \chartopath{PQRSTUVWXYZ[ ]^_`abcdefg}[lmr]
+ \chartopath{hijklmnopqrstuvwxyz{ }~}[lmr]
 \end{example}
 
 \subsection{Basic usage}
@@ -140,29 +150,29 @@ and the converted paths will be scaled to the corresponding factors.
 \noindent
 The basic usage only print the outline of the inputted string.
 \begin{example}
- \chartopath{llm}{0123456789}
+ \chartopath{0123456789}
 \end{example}
 \noindent
 Users can pecific the color of outline and fill,
 or specific the scale of inputted characters.
 Just like the keys in \pkg{Ti\textit k\/Z}
 \begin{example}
- \chartopath[draw = none, fill = blue]{llm}{0123456789}
+ \chartopath[draw = none, fill = blue]{0123456789}
 \end{example}
 
 \begin{example}
- \chartopath[draw = blue, fill = red]{llm}{0123456789}
+ \chartopath[draw = blue, fill = red]{0123456789}
 \end{example}
 
 \begin{example}
- \chartopath[draw = red, scale = 2]{llm}{0123456789}
+ \chartopath[draw = red, scale = 2]{0123456789}
 \end{example}
 
 Fading is also supported
 
 \begin{example}
   \chartopath[draw = none, path fading = south,
-              scale = 2, fill = teal] {llm} {0123456789}
+              scale = 2, fill = teal]  {0123456789}
 \end{example}
 \begin{texnote}
   Fading will cost too much time !!!
@@ -172,7 +182,7 @@ as well as pattern
 
 \begin{example}
   \chartopath[draw = black, pattern = crosshatch,
-              scale = 2] {llm} {0123456789}
+              scale = 2]  {0123456789}
 \end{example}
 
 \subsection{Use in \pkg{listings}}
@@ -184,13 +194,13 @@ including unwanted line numbers.
 \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
     \chartopath[path fading = east, fill = blue]
-      {llm} {\orithelstnumber}
+       {\orithelstnumber}
   }
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
     \chartopath[path fading = east, fill = blue]
-      {llm} {\orithelstnumber}
+       {\orithelstnumber}
   }
 \end{verbatim}
 
@@ -230,13 +240,13 @@ is shown in the following figure.
     \node [ above = 1ex ] at (.45\linewidth,0) {\large      0123456789};
     \node [ above = 1ex ] at (.72\linewidth,0) {\huge       0123456789};
     \node [ below = 1ex ] at (.06\linewidth,0)
-      {\small     \chartopath[fill = orange]{llm}{0123456789}};
+      {\small     \chartopath[fill = orange]{0123456789}};
     \node [ below  = 1ex] at (.24\linewidth,0)
-      {\normalsize\chartopath[fill = green]{llm}{0123456789}};
+      {\normalsize\chartopath[fill = green]{0123456789}};
     \node [ below = 1ex ] at (.45\linewidth,0)
-      {\large     \chartopath[fill = blue]{llm}{0123456789}};
+      {\large     \chartopath[fill = blue]{0123456789}};
     \node [ below = 1ex ] at (.72\linewidth,0)
-      {\huge      \chartopath[fill = purple]{llm}{0123456789}};
+      {\huge      \chartopath[fill = purple]{0123456789}};
     \makeatletter
     \node at (.06\linewidth,0)
       {\small     \scalebox{\fpeval{8/\f@size}}
@@ -265,12 +275,12 @@ then use this module
 
 \begin{example}
   \chartopath[path fading = east,
-              fill = red] {llm} {0123456789}
+              fill = red]  {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath[path fading = west,
-              fill = red] {llm} {0123456789}
+              fill = red]  {0123456789}
 \end{example}
 
 \subsubsection{Continously fading string}
@@ -312,7 +322,7 @@ then use this module
   Patterns could not accept values including ``space'', for example
   \begin{verbatim}
     \chartopath[draw = black, pattern = north east lines,
-                scale = 2] {llm} {0123456789}
+                scale = 2]  {0123456789}
   \end{verbatim}
   will return error(s): |Package pgf: Undefined pattern `north east lines'.|
   \textcolor{red}{IT SEEMS THAT this is caused by the expansion of arguments.}
