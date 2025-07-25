@@ -58,10 +58,11 @@
       }
     \exp_args:NnV \prop_const_from_keyval:cn
       { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
+    \tl_set:cn { l_@@_font_#2_type_tl } {#1}
   }
-\@@_load_font_data:nnn { mono } { lmm }
+\@@_load_font_data:nnn { serif } { lmr }
   { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { sans } { lmr }
+\@@_load_font_data:nnn { mono } { lmm }
   { arabic, alpha-small, alpha-caps, others, }
 
 \box_new:N \l_@@_glyph_box
@@ -159,7 +160,12 @@
   {
     \str_map_inline:nn {#2}
       {
-        \setbox \l_@@_glyph_box \hbox {##1}
+        \tl_if_eq:cnT { l_@@_font_#3_type_tl } { serif }
+          { \setbox \l_@@_glyph_box \hbox { \rmfamily ##1 } }
+        \tl_if_eq:cnT { l_@@_font_#3_type_tl } { sans }
+          { \setbox \l_@@_glyph_box \hbox { \sffamily ##1 } }
+        \tl_if_eq:cnT { l_@@_font_#3_type_tl } { mono }
+          { \setbox \l_@@_glyph_box \hbox { \ttfamily ##1 } }
         \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
           {#1} { \@@_data:ne {#3} {##1} } {#4}
       }
@@ -169,7 +175,8 @@
 \cs_new_protected:Npn \@@_draw:nnnn #1#2#3#4
   {
     \tikz [ baseline = #1 ] \node
-      [ above, inner~sep = .054pt * \f@size ]%minimum~width=.7*\f@size(or 1ex?)
+      [ above, inner~sep = 0pt, outer~sep = 0pt,
+        minimum~width = 5.124975pt * \f@size/10 ]
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
                         \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
               ] \path [#2] #3; };

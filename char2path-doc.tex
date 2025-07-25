@@ -67,52 +67,52 @@
 
 \begin{documentation}
 
-\section{Introduction}
+% \section{Introduction}
 
-The \pkg{char2path} package (conducted with \LaTeX3) provides
-a \LaTeX\ package that converts characters into Ti\textit k\/Z paths.
-It supports various compilation methods, such as \hologo{pdfLaTeX},
-\hologo{XeLaTeX}, \hologo{ApLaTeX} (pending for check), \hologo{LuaLaTeX}, etc.
+% The \pkg{char2path} package (conducted with \LaTeX3) provides
+% a \LaTeX\ package that converts characters into Ti\textit k\/Z paths.
+% It supports various compilation methods, such as \hologo{pdfLaTeX},
+% \hologo{XeLaTeX}, \hologo{ApLaTeX} (pending for check), \hologo{LuaLaTeX}, etc.
 
-\section{Usage}
+% \section{Usage}
 
-To load this package, write the line
-\begin{quote}
-  |\usepackage[scale = |\meta{int}|pt]{char2path}|
-\end{quote}
+% To load this package, write the line
+% \begin{quote}
+%   |\usepackage[scale = |\meta{int}|pt]{char2path}|
+% \end{quote}
 
-Here, the integral number \meta{int} supports the following choices,
-and the converted paths will be scaled to the corresponding factors.
+% Here, the integral number \meta{int} supports the following choices,
+% and the converted paths will be scaled to the corresponding factors.
 
-\begin{center}
-  \begin{tabular}{*9c}
-    \toprule
-    Pound   & |10pt|  & |11pt|  & |12pt|  &
-    |13pt|  & |14pt|  & |15pt|  & |16pt|  & (Pending...)\\
-    \midrule
-    Factor  & |0.820| & |0.902| & |0.984| &
-    |1.066| & |1.148| & |1.230| & |1.311| & ...\\
-    \bottomrule
-  \end{tabular}
-\end{center}
+% \begin{center}
+%   \begin{tabular}{*9c}
+%     \toprule
+%     Pound   & |10pt|  & |11pt|  & |12pt|  &
+%     |13pt|  & |14pt|  & |15pt|  & |16pt|  & (Pending...)\\
+%     \midrule
+%     Factor  & |0.820| & |0.902| & |0.984| &
+%     |1.066| & |1.148| & |1.230| & |1.311| & ...\\
+%     \bottomrule
+%   \end{tabular}
+% \end{center}
 
-\begin{function}{\chartopath}
-  \begin{syntax}
-    \cs{chartopath} \oarg{key-vals} \marg{string}
-  \end{syntax}
-  The mandatory argument accepts the required input string, and the optional
-  argument accepts the following keys to set the style how the string converts
-  to path.
-  \begin{keyval}
-    \item [\key{draw,fill}] \val{color} can set the color of the outline/fill of string
-    (Default: |black|).
-    \item [\key{scale}] \val{fp num} can set the scale of the string
-    (Default: |1|).
-    \item [\key{path fading}] \val{direction} can set the direction of
-    fading of each string.
-    \item [\key{fading}] \val{clist} can set the two colors and one direction for fading the whole string.
-  \end{keyval}
-\end{function}
+% \begin{function}{\chartopath}
+%   \begin{syntax}
+%     \cs{chartopath} \oarg{key-vals} \marg{string}
+%   \end{syntax}
+%   The mandatory argument accepts the required input string, and the optional
+%   argument accepts the following keys to set the style how the string converts
+%   to path.
+%   \begin{keyval}
+%     \item [\key{draw,fill}] \val{color} can set the color of the outline/fill of string
+%     (Default: |black|).
+%     \item [\key{scale}] \val{fp num} can set the scale of the string
+%     (Default: |1|).
+%     \item [\key{path fading}] \val{direction} can set the direction of
+%     fading of each string.
+%     \item [\key{fading}] \val{clist} can set the two colors and one direction for fading the whole string.
+%   \end{keyval}
+% \end{function}
 
 \section{Examples}
 
@@ -135,105 +135,105 @@ including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
 \end{example}
 \MakeShortVerb\| \MakeShortVerb\"
 
-\subsection{Basic usage}
+% \subsection{Basic usage}
 
-\noindent
-The basic usage only print the outline of the inputted string.
-\begin{example}
- \chartopath{lmm}{0123456789}
-\end{example}
-\noindent
-Users can pecific the color of outline and fill,
-or specific the scale of inputted characters.
-Just like the keys in \pkg{Ti\textit k\/Z}
-\begin{example}
- \chartopath[draw = none, fill = blue]{lmm}{0123456789}
-\end{example}
+% \noindent
+% The basic usage only print the outline of the inputted string.
+% \begin{example}
+%  \chartopath{lmm}{0123456789}
+% \end{example}
+% \noindent
+% Users can pecific the color of outline and fill,
+% or specific the scale of inputted characters.
+% Just like the keys in \pkg{Ti\textit k\/Z}
+% \begin{example}
+%  \chartopath[draw = none, fill = blue]{lmm}{0123456789}
+% \end{example}
 
-\begin{example}
- \chartopath[draw = blue, fill = red]{lmm}{0123456789}
-\end{example}
+% \begin{example}
+%  \chartopath[draw = blue, fill = red]{lmm}{0123456789}
+% \end{example}
 
-\begin{example}
- \chartopath[draw = red, scale = 2]{lmm}{0123456789}
-\end{example}
+% \begin{example}
+%  \chartopath[draw = red, scale = 2]{lmm}{0123456789}
+% \end{example}
 
-Fading is also supported
+% Fading is also supported
 
-\begin{example}
-  \chartopath [fading = {red, green, horizontal}
-              ] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath [fading = {red, green, horizontal}
+%               ] {lmm} {0123456789}
+% \end{example}
 
-\begin{example}
-  \chartopath [fading = {violet, blue, horizontal}
-              ] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath [fading = {violet, blue, horizontal}
+%               ] {lmm} {0123456789}
+% \end{example}
 
-\begin{example}
-  \chartopath [fading = {green, red, horizontal}
-              ] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath [fading = {green, red, horizontal}
+%               ] {lmm} {0123456789}
+% \end{example}
 
-\begin{example}
-  \chartopath [fading = {blue, violet, horizontal}
-              ] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath [fading = {blue, violet, horizontal}
+%               ] {lmm} {0123456789}
+% \end{example}
 
-\begin{example}
-  \chartopath [fading = {teal, violet, vertical}
-              ] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath [fading = {teal, violet, vertical}
+%               ] {lmm} {0123456789}
+% \end{example}
 
-\begin{example}
-  \chartopath [fading = {violet, teal, vertical}
-              ] {lmm} {0123456789}
-\end{example}
-\begin{texnote}
-  Fading will cost too much time!!!
-\end{texnote}
+% \begin{example}
+%   \chartopath [fading = {violet, teal, vertical}
+%               ] {lmm} {0123456789}
+% \end{example}
+% \begin{texnote}
+%   Fading will cost too much time!!!
+% \end{texnote}
 
-as well as pattern
+% as well as pattern
 
-\begin{example}
-  \chartopath[pattern = north west lines,
-              draw, scale = 2.5] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath[pattern = north west lines,
+%               draw, scale = 2.5] {lmm} {0123456789}
+% \end{example}
 
-FakeSlant is also supported
+% FakeSlant is also supported
 
-\begin{example}
-  \chartopath[draw, fill = green, xslant = .15,
-              scale = 2.5] {lmm} {0123456789}
-\end{example}
+% \begin{example}
+%   \chartopath[draw, fill = green, xslant = .15,
+%               scale = 2.5] {lmm} {0123456789}
+% \end{example}
 
-\subsection{Use in \pkg{listings}}
+% \subsection{Use in \pkg{listings}}
 
-This package can be used in the \pkg{listings} package, so that users could
-directly copy and paste the source code from |.pdf| file without worry about
-including unwanted line numbers.
+% This package can be used in the \pkg{listings} package, so that users could
+% directly copy and paste the source code from |.pdf| file without worry about
+% including unwanted line numbers.
 
-\let\orithelstnumber\thelstnumber
-  \def\thelstnumber{%
-    \chartopath[path fading = east, fill = blue]
-      {lmm} {\orithelstnumber}
-  }
-\begin{verbatim}
-  \let\orithelstnumber\thelstnumber
-  \def\thelstnumber{%
-    \chartopath[path fading = east, fill = blue]
-       {lmm} {\orithelstnumber}
-  }
-\end{verbatim}
+% \let\orithelstnumber\thelstnumber
+%   \def\thelstnumber{%
+%     \chartopath[path fading = east, fill = blue]
+%       {lmm} {\orithelstnumber}
+%   }
+% \begin{verbatim}
+%   \let\orithelstnumber\thelstnumber
+%   \def\thelstnumber{%
+%     \chartopath[path fading = east, fill = blue]
+%        {lmm} {\orithelstnumber}
+%   }
+% \end{verbatim}
 
-\begin{example}
-\begin{lstlisting}[language = {[LaTeX]TeX}]
-\documentclass{article}
-\begin{document}
-  Hello, \LaTeX!
-\end{document}
-\end{lstlisting}
-\end{example}
+% \begin{example}
+% \begin{lstlisting}[language = {[LaTeX]TeX}]
+% \documentclass{article}
+% \begin{document}
+%   Hello, \LaTeX!
+% \end{document}
+% \end{lstlisting}
+% \end{example}
 
 % Test Indent???
 
