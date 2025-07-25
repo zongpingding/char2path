@@ -25,6 +25,16 @@
   }{}{}
 \usetikzlibrary{patterns, fadings}
 
+% Warning information
+\cs_new_protected:Npn \@@_msg_new:nn #1#2
+  { \msg_new:nnn { char2path } {#1} {#2} }
+\cs_new_protected:Npn \@@_msg_warning:nn #1#2
+  { \msg_warning:nne { char2path } {#1} {#2} }
+\cs_new_protected:Npn \@@_msg_error:nn #1#2
+  { \msg_error:nne { char2path } {#1} {#2} }
+\@@_msg_new:nn { path ~ fading } { Unsupported ~ fading ~ direction }
+\@@_msg_new:nn { kernel } { file not found }
+
 \tl_const:Nn \c_@@_tikz_folder_tl { lmm_nums_tikz }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
@@ -46,11 +56,7 @@
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
               \l_@@_tikz_data_single_tl
-          }
-          {
-            \msg_error:nnn { kernel } { file-not-found }
-              { ctp-#1-##1.data.tex }
-          }
+          } { \@@_msg_error:nn { kernel } { ctp-#1-##1.data.tex } }
       }
     \exp_args:NnV \prop_const_from_keyval:cn
       { c_@@_tikz_#1_data_prop } { \l_@@_tikz_data_merge_tl }
@@ -93,11 +99,9 @@
     direction   .tl_set:N     = \l_@@_direction_tl,
       direction .initial:n    = east,
   }
-\tl_set:Nn \l_@@_direction_north_tl { north }
-\tl_set:Nn \l_@@_direction_south_tl { south }
+
 \clist_new:N \l_@@_continous_color_left_clist
 \clist_new:N \l_@@_continous_color_right_clist
-\seq_new:N \l_@@_tmp_seq
 
 \NewDocumentCommand \charfading { O{} m }
   {
@@ -107,7 +111,7 @@
       \l_@@_color_i_tl \l_@@_color_ii_tl
     \str_if_eq:eeT { \l_@@_direction_tl } { vertical }
       {
-        \chartopath [ top~color = \l_@@_color_i_tl,
+        \chartopath [ top~color    = \l_@@_color_i_tl,
                       bottom~color = \l_@@_color_ii_tl ] {#2}
       }
     \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
@@ -115,15 +119,13 @@
         \@@_continous_color_aux:nNN {#2}
           \l_@@_continous_color_left_clist
           \l_@@_continous_color_right_clist
-        \seq_set_split:Nnn \l_@@_tmp_seq {} {#2}
         \int_step_inline:nn { \tl_count:n {#2} }
           {
             \tl_set:Nn \l_@@_continous_color_tmpa_tl
               { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
             \tl_set:Nn \l_@@_continous_color_tmpb_tl
               { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
-            \tl_set:Nn \l_@@_continous_color_tmpc_tl
-              { \seq_item:Nn \l_@@_tmp_seq {##1} }
+            \tl_set:Nn \l_@@_continous_color_tmpd_tl { \tl_item:nn {#2} {##1} }
             \chartopath
               [ left~color =
                   \l_@@_color_i_tl!
@@ -133,9 +135,11 @@
                   \l_@@_color_ii_tl!
                   \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                   \l_@@_color_i_tl
-              ] { \l_@@_continous_color_tmpc_tl }
+              ] { \l_@@_continous_color_tmpd_tl }
           }
       }
+    \str_case_e:nnF { \l_@@_direction_tl } { { horizontal } {} { vertical } {} }
+      { \@@_msg_warning:nn { path ~ fading } { \l_@@_direction_tl } }
     \group_end:
   }
 
