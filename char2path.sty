@@ -48,37 +48,48 @@
   }
 
 \tl_new:N \l_@@_tikz_data_merge_tl
-\cs_new_protected_nopar:Npn \@@_load_font_data:nn #1#2
+\cs_new_protected_nopar:Npn \@@_load_font_data:nnn #1#2#3
   {
-    \clist_map_inline:nn {#2}
+    \clist_map_inline:nn {#3}
       {
-        \file_get:nnNTF { ctp-#1-##1.data.tex } {} \l_@@_tikz_data_single_tl
+        \file_get:nnNTF { ctp-#2-##1.data.tex } {} \l_@@_tikz_data_single_tl
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
               \l_@@_tikz_data_single_tl
-          } { \@@_msg_error:nn { kernel } { ctp-#1-##1.data.tex } }
+          } { \@@_msg_error:nn { kernel } { ctp-#2-##1.data.tex } }
       }
     \exp_args:NnV \prop_const_from_keyval:cn
-      { c_@@_tikz_#1_data_prop } { \l_@@_tikz_data_merge_tl }
+      { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
   }
-\@@_load_font_data:nn { lmm } { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nn { lmr } { arabic, alpha-small, alpha-caps, others, }
+\@@_load_font_data:nnn { mono } { lmm }
+  { arabic, alpha-small, alpha-caps, others, }
+\@@_load_font_data:nnn { sans } { lmr }
+  { arabic, alpha-small, alpha-caps, others, }
 
 % user interface (basic)
-
+\box_new:N \l_@@_glyph_box
 \NewDocumentCommand \chartopath
-  { O { draw = black, line~width = .01cm }  m O {lmm} }
-  { \tl_map_inline:nn {#2} { \@@_draw:ee {#1} { \@@_data:ne {#3} {##1} } } }
-\fp_const:Nn \c_@@_global_scale_fp { .0135 }
-\cs_new_protected:Npn \@@_draw:nn #1#2
+  { O { draw = black, line~width = .01cm } m O {lmm} }
+  { \@@_aux:nnn {#1} {#2} {#3} }
+\cs_new_protected:Npn \@@_aux:nnn #1#2#3
   {
-    \tikz \node
-      [ inner~sep = .054pt * \f@size ]%minimum~width = .7*\f@size (or 1ex?),
+    \tl_map_inline:nn {#2}
+      {
+        \setbox \l_@@_glyph_box \hbox {##1}
+        \@@_draw:nee { \int_use:N \box_dp:N \l_@@_glyph_box }
+          {#1} { \@@_data:ne {#3} {##1} }
+      }
+  }
+\fp_const:Nn \c_@@_global_scale_fp { .0135 }
+\cs_new_protected:Npn \@@_draw:nnn #1#2#3
+  {
+    \tikz [ baseline = #1 ] \node
+      [ above, inner~sep = .054pt * \f@size ]%minimum~width=.7*\f@size(or 1ex?)
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
                         \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp }
-              ] \path [#1] #2;};
+              ] \path [#2] #3; };
   }
-\cs_generate_variant:Nn \@@_draw:nn { ne, ee }
+\cs_generate_variant:Nn \@@_draw:nnn { nne, nee }
 
 \cs_new:Npn \@@_data:nn #1#2
   {
@@ -109,8 +120,9 @@
       \l_@@_color_i_tl \l_@@_color_ii_tl \l_@@_direction_tl
     \str_if_eq:eeT { \l_@@_direction_tl } { vertical }
       {
-        \chartopath [ top~color    = \l_@@_color_i_tl,
-                      bottom~color = \l_@@_color_ii_tl ] {#2}
+        \@@_aux:nnn
+          { top~color = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl }
+          {#2} { lmm }
       }
     \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
       {
@@ -124,8 +136,9 @@
             \tl_set:Nn \l_@@_continous_color_tmpb_tl
               { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
             \tl_set:Nn \l_@@_continous_color_tmpd_tl { \tl_item:nn {#2} {##1} }
-            \chartopath
-              [ left~color =
+            \@@_aux:nnn
+              {
+                left~color =
                   \l_@@_color_i_tl!
                   \l_@@_continous_color_tmpa_tl!
                   \l_@@_color_ii_tl,
@@ -133,7 +146,7 @@
                   \l_@@_color_ii_tl!
                   \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                   \l_@@_color_i_tl
-              ] { \l_@@_continous_color_tmpd_tl }
+              } { \l_@@_continous_color_tmpd_tl } { lmm }
           }
       }
     \str_case_e:nnF { \l_@@_direction_tl } { { horizontal } {} { vertical } {} }
