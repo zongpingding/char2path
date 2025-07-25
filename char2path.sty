@@ -92,12 +92,11 @@
         { \l_keys_key_str = \exp_not:n {#1} }
     }
   }
-\NewDocumentCommand \chartopath
-  { O{} m O {lmm} }
+\NewDocumentCommand \chartopath { O{} m m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartopath } {#1}
-    \IfNoValueT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
+    \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
     \clist_if_empty:NTF \l_@@_fading_clist
       {
         \@@_aux:nnnn
@@ -105,7 +104,7 @@
             draw        = \l_@@_draw_tl,  line~width  = \l_@@_outlint_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
             \clist_use:Nn \l_@@_options_clist {,}
-          } {#2} {#3} { \l_@@_scale_fp }
+          } {#3} {#2} { \l_@@_scale_fp }
       }
       {
         \@@_continous_fading_parse_aux:NNNN \l_@@_fading_clist
@@ -117,22 +116,22 @@
                 draw        = \l_@@_draw_tl,  bottom~color  = \l_@@_color_ii_tl,
                 top~color   = \l_@@_color_i_tl, line~width  = \l_@@_outlint_tl,
                 \clist_use:Nn \l_@@_options_clist {,}
-              } {#2} {#3} { \l_@@_scale_fp }
+              } {#3} {#2} { \l_@@_scale_fp }
           }
         \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
           {
-            \@@_continous_color_aux:nNN {#2}
+            \@@_continous_color_aux:nNN {#3}
               \l_@@_continous_color_left_clist
               \l_@@_continous_color_right_clist
-            \int_step_inline:nn { \tl_count:n {#2} }
+            \int_step_inline:nn { \tl_count:n {#3} }
               {
                 \tl_set:Nn \l_@@_continous_color_tmpa_tl
                   { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
                 \tl_set:Nn \l_@@_continous_color_tmpb_tl
                   { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
                 \tl_set:Nn \l_@@_continous_color_tmpd_tl
-                  { \tl_item:nn {#2} {##1} }
-                \@@_aux:nnnn
+                  { \str_item:nn {#3} {##1} }
+                \@@_aux:nenn
                   {
                     draw        = \l_@@_draw_tl,
                     line~width  = \l_@@_outlint_tl,
@@ -145,12 +144,12 @@
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                       \l_@@_color_i_tl,
                     \clist_use:Nn \l_@@_options_clist {,}
-                  } { \l_@@_continous_color_tmpd_tl } {#3} { \l_@@_scale_fp }
+                  } { \str_item:nn {#3} {##1} } {#2} { \l_@@_scale_fp }
               }
           }
         \str_case_e:nnF { \l_@@_direction_tl }
           { { horizontal } {} { vertical } {} }
-          { \@@_msg_warning:nn { path ~ fading } { \l_@@_direction_tl } }
+          { \@@_msg_warning:nn { fading } { \l_@@_direction_tl } }
       }
     \group_end:
     \clist_gclear:N \l_@@_options_clist
@@ -158,13 +157,14 @@
 
 \cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
   {
-    \tl_map_inline:nn {#2}
+    \str_map_inline:nn {#2}
       {
         \setbox \l_@@_glyph_box \hbox {##1}
         \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
           {#1} { \@@_data:ne {#3} {##1} } {#4}
       }
   }
+\cs_generate_variant:Nn \@@_aux:nnnn { nenn }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \cs_new_protected:Npn \@@_draw:nnnn #1#2#3#4
   {
@@ -174,7 +174,7 @@
                         \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
               ] \path [#2] #3; };
   }
-\cs_generate_variant:Nn \@@_draw:nnnn { nnen, neen }
+\cs_generate_variant:Nn \@@_draw:nnnn { neen }
 \cs_new:Npn \@@_data:nn #1#2
   {
     \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }

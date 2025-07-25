@@ -121,17 +121,17 @@ including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
 
 \DeleteShortVerb\| \DeleteShortVerb\"
 \begin{example}
-  \chartopath{!\#\$"\%\&'()*+,-./01234567}
-  \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}
-  \chartopath{PQRSTUVWXYZ[\ ] \_`abcdefg}
-  \chartopath{hijklmnopqrstuvwxyz{|}~\$}
+  \chartopath{lmm}{!#$"\%&'()*+,-./01234567}
+  \chartopath{lmm}{89:;<=>?@ABCDEFGHIJKLMNO}
+  \chartopath{lmm}{PQRSTUVWXYZ[\]^_`abcdefg}
+  \chartopath{lmm}{hijklmnopqrstuvwxyz{|}~$}
 \end{example}
 
 \begin{example}
-  \chartopath{!\#\$"\%\&'()*+,-./01234567}[lmr]
-  \chartopath{89:;<=>?@ABCDEFGHIJKLMNO}[lmr]
-  \chartopath{PQRSTUVWXYZ[\ ] \_`abcdefg}[lmr]
-  \chartopath{hijklmnopqrstuvwxyz{|}~\$}[lmr]
+  \chartopath{lmr}{!#$"\%&'()*+,-./01234567}
+  \chartopath{lmr}{89:;<=>?@ABCDEFGHIJKLMNO}
+  \chartopath{lmr}{PQRSTUVWXYZ[\]^_`abcdefg}
+  \chartopath{lmr}{hijklmnopqrstuvwxyz{|}~$}
 \end{example}
 \MakeShortVerb\| \MakeShortVerb\"
 
@@ -140,54 +140,54 @@ including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
 \noindent
 The basic usage only print the outline of the inputted string.
 \begin{example}
- \chartopath{0123456789}
+ \chartopath{lmm}{0123456789}
 \end{example}
 \noindent
 Users can pecific the color of outline and fill,
 or specific the scale of inputted characters.
 Just like the keys in \pkg{Ti\textit k\/Z}
 \begin{example}
- \chartopath[draw = none, fill = blue]{0123456789}
+ \chartopath[draw = none, fill = blue]{lmm}{0123456789}
 \end{example}
 
 \begin{example}
- \chartopath[draw = blue, fill = red]{0123456789}
+ \chartopath[draw = blue, fill = red]{lmm}{0123456789}
 \end{example}
 
 \begin{example}
- \chartopath[draw = red, scale = 2]{0123456789}
+ \chartopath[draw = red, scale = 2]{lmm}{0123456789}
 \end{example}
 
 Fading is also supported
 
 \begin{example}
   \chartopath [fading = {red, green, horizontal}
-              ] {0123456789}
+              ] {lmm} {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath [fading = {violet, blue, horizontal}
-              ] {0123456789}
+              ] {lmm} {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath [fading = {green, red, horizontal}
-              ] {0123456789}
+              ] {lmm} {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath [fading = {blue, violet, horizontal}
-              ] {0123456789}
+              ] {lmm} {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath [fading = {teal, violet, vertical}
-              ] {0123456789}
+              ] {lmm} {0123456789}
 \end{example}
 
 \begin{example}
   \chartopath [fading = {violet, teal, vertical}
-              ] {0123456789}
+              ] {lmm} {0123456789}
 \end{example}
 \begin{texnote}
   Fading will cost too much time!!!
@@ -197,14 +197,14 @@ as well as pattern
 
 \begin{example}
   \chartopath[pattern = north west lines,
-              draw, scale = 2.5] {0123456789}
+              draw, scale = 2.5] {lmm} {0123456789}
 \end{example}
 
 FakeSlant is also supported
 
 \begin{example}
   \chartopath[draw, fill = green, xslant = .15,
-              scale = 2.5] {0123456789}
+              scale = 2.5] {lmm} {0123456789}
 \end{example}
 
 \subsection{Use in \pkg{listings}}
@@ -216,13 +216,13 @@ including unwanted line numbers.
 \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
     \chartopath[path fading = east, fill = blue]
-       {\orithelstnumber}
+      {lmm} {\orithelstnumber}
   }
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
     \chartopath[path fading = east, fill = blue]
-       {\orithelstnumber}
+       {lmm} {\orithelstnumber}
   }
 \end{verbatim}
 
@@ -244,7 +244,7 @@ including unwanted line numbers.
 % \hskip1em 0123456789
 
 % \noindent\hskip2em
-% \chartopath[fill=teal]{0123456789}
+% \chartopath[fill=teal]{lmm}{0123456789}
 
 \subsection{Use in text\texorpdfstring{\color{red}[Needs to Optimize]}{}}
 
@@ -262,13 +262,13 @@ is shown in the following figure.
     \node [ above = 1ex ] at (.45\linewidth,0) {\large      0123456789};
     \node [ above = 1ex ] at (.72\linewidth,0) {\huge       0123456789};
     \node [ below = 1ex ] at (.06\linewidth,0)
-      {\small     \chartopath[fill = orange]{0123456789}};
+      {\small     \chartopath[fill = orange]{lmm}{0123456789}};
     \node [ below  = 1ex] at (.24\linewidth,0)
-      {\normalsize\chartopath[fill = green]{0123456789}};
+      {\normalsize\chartopath[fill = green]{lmm}{0123456789}};
     \node [ below = 1ex ] at (.45\linewidth,0)
-      {\large     \chartopath[fill = blue]{0123456789}};
+      {\large     \chartopath[fill = blue]{lmm}{0123456789}};
     \node [ below = 1ex ] at (.72\linewidth,0)
-      {\huge      \chartopath[fill = purple]{0123456789}};
+      {\huge      \chartopath[fill = purple]{lmm}{0123456789}};
     \makeatletter
     \node at (.06\linewidth,0)
       {\small     \scalebox{\fpeval{8/\f@size}}
