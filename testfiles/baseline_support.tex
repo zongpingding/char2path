@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage{tikz}
 
 
@@ -36,22 +36,25 @@
 
 \begin{document}
 \long\def\testglyph#1{%
-\leavevmode\llap{#1:\glyphpath{#1}:}
+% \leavevmode\llap{#1:\glyphpath{#1}:}
 \setbox\glyphbox\hbox{#1}%
-\glyphtotalht=\dimexpr\the\ht\glyphbox+\the\dp\glyphbox\relax
+% \glyphtotalht=\dimexpr\the\ht\glyphbox+\the\dp\glyphbox\relax
 % \showthe\glyphtotalht % --> works
 % \rule[-\the\dp\glyphbox]{\the\wd\glyphbox}{\dimexpr\the\ht\glyphbox+\the\dp\glyphbox}
-\setbox\glyphtypesetbox=\vbox to \glyphtotalht{%
-  % 1. use \rule as example:
-  % \hbox{\rule{\wd\glyphbox}{\the\glyphtotalht}}%
-  % 2. test glyph "[x], [y], [Q], [']":
-  \hbox{\glyphpath{#1}}\vss
-}
-\lower\the\dp\glyphbox\box\glyphtypesetbox\par
+% \setbox\glyphtypesetbox=\vbox to \glyphtotalht{%
+%   % 1. use \rule as example:
+%   % \hbox{\rule{\wd\glyphbox}{\the\glyphtotalht}}%
+%   % 2. test glyph "[x], [y], [Q], [']":
+%   \hbox{\glyphpath{#1}}
+%   \vss
+% }
+% \lower\the\dp\glyphbox\box\glyphtypesetbox\par
 width: \the\wd\glyphbox;
 height: \the\ht\glyphbox;
-depth: \the\dp\glyphbox
-\par\dotfill\vskip3em}
+depth: \the\dp\glyphbox\par
+% \par\dotfill\vskip3em
+% \par\vskip1em
+}
 
 
 % test glyph layout
@@ -62,4 +65,46 @@ depth: \the\dp\glyphbox
 \testglyph{Q}
 
 \testglyph{'}
+
+\foreach \i in {a,b,...,z}
+  {\testglyph\i}
+
+\foreach \i in {A,B,...,Z}
+  {\testglyph\i}
+
+g, j, p, q, y, Q
+
+\long \def \fooa#1{\setbox\glyphbox\hbox{#1}%
+\leavevmode\lower\the\dp\glyphbox \hbox{\tikz \node {\rmfamily #1};}}
+
+\long \def \foob#1{\setbox\glyphbox\hbox{\rmfamily #1}%
+\leavevmode\tikz[baseline = \the\dp\glyphbox] \node [above] {#1};}
+
+\foreach \i in {a,b,...,z}
+  {\fooa\i}
+
+\foreach \i in {a,b,...,z}
+  {\foob\i}
+
+\foreach \i in {A,B,...,Z}
+  {\fooa\i}
+
+\foreach \i in {A,B,...,Z}
+  {\foob\i}
+
+\ttfamily
+\foreach \i in {a,b,...,z}
+  {\fooa\i}
+
+\foreach \i in {a,b,...,z}
+  {\foob\i}
+
+\foreach \i in {A,B,...,Z}
+  {\fooa\i}
+
+\foreach \i in {A,B,...,Z}
+  {\foob\i}
+
+
+
 \end{document}
