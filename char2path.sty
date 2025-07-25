@@ -45,6 +45,10 @@
     16pt = 1.311,
   }
 
+\DeclareDocumentCommand \CTPSyntaxOn {}
+  { \catcode`\~11\relax \catcode`\#11\relax }
+\DeclareDocumentCommand \CTPSyntaxOff {}
+  { \catcode`\~10\relax \catcode`\#6\relax }
 \tl_new:N \l_@@_tikz_data_merge_tl
 \cs_new_protected_nopar:Npn \@@_load_font_data:nnn #1#2#3
   {
@@ -60,10 +64,13 @@
       { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
     \tl_set:cn { l_@@_font_#2_type_tl } {#1}
   }
+
+\CTPSyntaxOn
 \@@_load_font_data:nnn { serif } { lmr }
   { arabic, alpha-small, alpha-caps, others, }
 \@@_load_font_data:nnn { mono } { lmm }
   { arabic, alpha-small, alpha-caps, others, }
+\CTPSyntaxOff
 
 \box_new:N \l_@@_glyph_box
 \clist_new:N \l_@@_continous_color_left_clist
