@@ -119,21 +119,21 @@ and the converted paths will be scaled to the corresponding factors.
 This package could convert the following characters to path:
 including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
 
-\DeleteShortVerb\| \DeleteShortVerb\"
+\DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
 \begin{example}
-  \chartopath{lmm}{!#$"\%&'()*+,-./01234567}
-  \chartopath{lmm}{89:;<=>?@ABCDEFGHIJKLMNO}
-  \chartopath{lmm}{PQRSTUVWXYZ[\]^_`abcdefg}
-  \chartopath{lmm}{hijklmnopqrstuvwxyz{|}~$}
+\chartopath{lmm}{!\#\ctpdollar"\%\&'()*+,-./01234567}
+\chartopath{lmm}{89:;<=>?@ABCDEFGHIJKLMNO}
+\chartopath{lmm}{PQRSTUVWXYZ[\ctpbackslash]^_`abcdefg}
+\chartopath{lmm}{hijklmnopqrstuvwxyz\{|\}\ctptilde}
 \end{example}
 
 \begin{example}
-  \chartopath{lmr}{!#$"\%&'()*+,-./01234567}
-  \chartopath{lmr}{89:;<=>?@ABCDEFGHIJKLMNO}
-  \chartopath{lmr}{PQRSTUVWXYZ[\]^_`abcdefg}
-  \chartopath{lmr}{hijklmnopqrstuvwxyz{|}~$}
+\chartopath{lmr}{!\#\ctpdollar"\%\&'()*+,-./01234567}
+\chartopath{lmr}{89:;<=>?@ABCDEFGHIJKLMNO}
+\chartopath{lmr}{PQRSTUVWXYZ[\ctpbackslash]^_`abcdefg}
+\chartopath{lmr}{hijklmnopqrstuvwxyz\{|\}\ctptilde}
 \end{example}
-\MakeShortVerb\| \MakeShortVerb\"
+\MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
 
 \subsection{Basic usage}
 
@@ -241,10 +241,10 @@ including unwanted line numbers.
 % % \sbox{\ttt}{\hbox{abc def}}
 % % \showbox\ttt
 
-\hskip1em 0123456789
+% % \hskip1em 0123456789
 
-\noindent\hskip2em
-\chartopath[fill=teal]{lmm}{0123456789}
+%% \noindent\hskip2em
+%% \chartopath[fill = teal] {lmm} {0123456789}
 
 \subsection{Use in text}
 
@@ -289,11 +289,13 @@ is shown in the following figure.
 \section{Todo list}
 
 \begin{itemize}
-  \item [\textcolor{red}{\textsf{Bug, Enhanced}}] Input several special chars:
-  "%#\{}"
   \item [\textcolor{green}{\textsf{Detail}}] Baselines of several characters need to optimize.
-  \item [\textcolor{red}{\textsf{Enhanced, Detail}}] The "mono font" doesn't
-  appears mono: a fixed box should be applied.
+  \item [\textcolor{red}{\textsf{Bug}}] Reading characters from a control sequence ("o-/e-"expand) \textcolor{red}{IS NOT STEABLE!}.
+  \item [\textcolor{red}{\textsf{Bug}}] Several special characters:
+  Simplify user interface's input (problem of "rescan tokens").
+  \item [\textcolor{blue}{\textsf{Function}}] Support function like
+  "\chartopath[]{\sffamily abc}", or \linebreak
+  "\chartopath[]{\usefont{T1}{cmr}{m}{sc} abc}".
 \end{itemize}
 
 \end{documentation}
