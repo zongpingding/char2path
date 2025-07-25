@@ -109,19 +109,8 @@ and the converted paths will be scaled to the corresponding factors.
     \item [\key{scale}] \val{fp num} can set the scale of the string
     (Default: |1|).
     \item [\key{path fading}] \val{direction} can set the direction of
-    fading of the string.
-  \end{keyval}
-\end{function}
-
-\begin{function}{\charfading}
-  \begin{syntax}
-    \cs{chartopath} \oarg{key-vals} \marg{string}
-  \end{syntax}
-  The mandatory argument accepts the required input string, and the optional
-  argument accepts the following keys to set the style how the string converts
-  to path.
-  \begin{keyval}
-    \item [\key{fading}] \val{clist} can set the two colors and one direction for fading.
+    fading of each string.
+    \item [\key{fading}] \val{clist} can set the two colors and one direction for fading the whole string.
   \end{keyval}
 \end{function}
 
@@ -172,8 +161,33 @@ Just like the keys in \pkg{Ti\textit k\/Z}
 Fading is also supported
 
 \begin{example}
-  \chartopath[draw = none, path fading = south,
-              scale = 2, fill = teal] {0123456789}
+  \chartopath [fading = {red, green, horizontal}
+              ] {0123456789}
+\end{example}
+
+\begin{example}
+  \chartopath [fading = {violet, blue, horizontal}
+              ] {0123456789}
+\end{example}
+
+\begin{example}
+  \chartopath [fading = {green, red, horizontal}
+              ] {0123456789}
+\end{example}
+
+\begin{example}
+  \chartopath [fading = {blue, violet, horizontal}
+              ] {0123456789}
+\end{example}
+
+\begin{example}
+  \chartopath [fading = {teal, violet, vertical}
+              ] {0123456789}
+\end{example}
+
+\begin{example}
+  \chartopath [fading = {violet, teal, vertical}
+              ] {0123456789}
 \end{example}
 \begin{texnote}
   Fading will cost too much time!!!
@@ -272,72 +286,26 @@ is shown in the following figure.
   \end{tikzpicture}
 \end{center}
 
-\subsection{Fading string}
-
-If the users directly use
-
-\begin{example}
-  \chartopath[path fading = east,
-              fill = red] {0123456789}
-\end{example}
-
-\begin{example}
-  \chartopath[path fading = west,
-              fill = blue] {0123456789}
-\end{example}
-they will found that every character fading discretely.
-If they want to fading the whole strings, not fading one by one,
-then use this module
-
-\begin{example}
-  \charfading[fading = {red, green, horizontal}]
-    {0123456789}
-\end{example}
-
-\begin{example}
-  \charfading[fading = {violet, blue, horizontal}]
-    {0123456789}
-\end{example}
-
-\begin{example}
-  \charfading[fading = {green, red, horizontal}]
-    {0123456789}
-\end{example}
-
-\begin{example}
-  \charfading[fading = {blue, violet, horizontal}]
-    {0123456789}
-\end{example}
-
-\begin{example}
-  \charfading[fading = {teal, violet, vertical}]
-    {0123456789}
-\end{example}
-
-\begin{example}
-  \charfading[fading = {violet, teal, vertical}]
-    {0123456789}
-\end{example}
-
 \section{Todo list}
 
 \begin{itemize}
+  \item [\textcolor{red}{\textsf{Bug, Enhanced}}] Input some special chars:
+  "&^%$#\"
   \item [\textcolor{red}{\textsf{Enhanced}}] Baselines of some characters need to optimize.
   \item [\textcolor{red}{\textsf{Enhanced, Detail}}] The "mono font" doesn't
   appears mono: a fixed box should be applied.
   \item [\textcolor{red}{\textsf{Enhanced, Detail}}] Function: ``Use in text'' needs to optimize: reduce the deviation.
   Is |.054pt|, |\f@size/8.4| ... the best practice? Or should we use |minimum width|?
   \begin{verbatim}
-  \cs_new_protected:Npn \@@_draw:nn #1#2
+  \cs_new_protected:Npn \@@_draw:nnnn #1#2#3#4
     {
-      \tikz \node
-        [ inner~sep = .054pt * \f@size ]%minimum~width = .7*\f@size (or 1ex?),
+      \tikz [ baseline = #1 ] \node
+        [ above, inner~sep = .054pt * \f@size ]%minimum~width=.7*\f@size(or 1ex?)
         { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
-                          \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp }
-                ] \path [#1] #2;};
+                          \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
+                ] \path [#2] #3; };
     }
   \end{verbatim}
-  \item [\textcolor{green}{\textsf{Function}}] Merge the ``Fading string'' module (commmand) into \cs{chartopath}.
 \end{itemize}
 
 \end{documentation}
