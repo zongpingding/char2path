@@ -45,10 +45,6 @@
     16pt = 1.311,
   }
 
-\DeclareDocumentCommand \CTPSyntaxOn {}
-  { \catcode`\~11\relax \catcode`\#11\relax }
-\DeclareDocumentCommand \CTPSyntaxOff {}
-  { \catcode`\~10\relax \catcode`\#6\relax }
 \tl_new:N \l_@@_tikz_data_merge_tl
 \cs_new_protected_nopar:Npn \@@_load_font_data:nnn #1#2#3
   {
@@ -64,13 +60,13 @@
       { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
     \tl_set:cn { l_@@_font_#2_type_tl } {#1}
   }
-
-\CTPSyntaxOn
+\protected\def\ctpbackslash {\textbackslash}
+\protected\def\ctpdollar    {\$}
+\protected\def\ctptilde     {\textasciitilde}
 \@@_load_font_data:nnn { serif } { lmr }
   { arabic, alpha-small, alpha-caps, others, }
 \@@_load_font_data:nnn { mono } { lmm }
   { arabic, alpha-small, alpha-caps, others, }
-\CTPSyntaxOff
 
 \box_new:N \l_@@_glyph_box
 \clist_new:N \l_@@_continous_color_left_clist
@@ -100,6 +96,7 @@
         { \l_keys_key_str = \exp_not:n {#1} }
     }
   }
+
 \NewDocumentCommand \chartopath { O{} m m }
   {
     \group_begin:
@@ -137,9 +134,7 @@
                   { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
                 \tl_set:Nn \l_@@_continous_color_tmpb_tl
                   { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
-                \tl_set:Nn \l_@@_continous_color_tmpd_tl
-                  { \str_item:nn {#3} {##1} }
-                \@@_aux:nenn
+                \exp_args:Nne \@@_aux:nnnn
                   {
                     draw        = \l_@@_draw_tl,
                     line~width  = \l_@@_outlint_tl,
@@ -152,7 +147,8 @@
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                       \l_@@_color_i_tl,
                     \clist_use:Nn \l_@@_options_clist {,}
-                  } { \str_item:nn {#3} {##1} } {#2} { \l_@@_scale_fp }
+                  } { \tl_item:nn {#3} {##1} }
+                  {#2} { \l_@@_scale_fp }
               }
           }
         \str_case_e:nnF { \l_@@_direction_tl }
@@ -163,9 +159,10 @@
     \clist_gclear:N \l_@@_options_clist
   }
 
+\prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
 \cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
   {
-    \str_map_inline:nn {#2}
+    \tl_map_inline:nn {#2}
       {
         \tl_if_eq:cnT { l_@@_font_#3_type_tl } { serif }
           { \setbox \l_@@_glyph_box \hbox { \rmfamily ##1 } }
@@ -175,9 +172,11 @@
           { \setbox \l_@@_glyph_box \hbox { \ttfamily ##1 } }
         \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
           {#1} { \@@_data:ne {#3} {##1} } {#4}
+        \str_case:vnF { l_@@_font_#3_type_tl }
+          { { serif } {} { sans } {} { mono } {} }
+          { \setbox \l_@@_glyph_box \hbox { ##1 } }
       }
   }
-\cs_generate_variant:Nn \@@_aux:nnnn { nenn }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \cs_new_protected:Npn \@@_draw:nnnn #1#2#3#4
   {
@@ -194,8 +193,7 @@
     \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
       { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
-    % \file_if_exist_input:n
-    %   { \c_@@_tikz_folder_tl/lmm_#2.tikz }
+    % \file_if_exist_input:n { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
 \cs_generate_variant:Nn \@@_data:nn { ne, ee }
 
