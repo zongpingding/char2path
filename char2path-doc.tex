@@ -121,8 +121,7 @@ and the converted paths will be scaled to the corresponding factors.
   argument accepts the following keys to set the style how the string converts
   to path.
   \begin{keyval}
-    \item [\key{colorset}] \val{clist} can set the two colors for fading
-    \item [\key{direction}] \val{direction} can set the direction of fading
+    \item [\key{fading}] \val{clist} can set the two colors and one direction for fading.
   \end{keyval}
 \end{function}
 
@@ -184,14 +183,14 @@ as well as pattern
 
 \begin{example}
   \chartopath[pattern = north west lines,
-              draw = black, scale = 2.5] {0123456789}
+              draw, scale = 2.5] {0123456789}
 \end{example}
 
 FakeSlant is also supported
 
 \begin{example}
-  \chartopath[draw = red, fill = green, xslant = .15,
-              scale = 2.5] {0123456789} [lmm]
+  \chartopath[draw, fill = green, xslant = .15,
+              scale = 2.5] {0123456789}
 \end{example}
 
 \subsection{Use in \pkg{listings}}
@@ -293,33 +292,33 @@ If they want to fading the whole strings, not fading one by one,
 then use this module
 
 \begin{example}
-  \charfading[colorset = {red, green},
-              direction = horizontal] {0123456789}
+  \charfading[fading = {red, green, horizontal}]
+    {0123456789}
 \end{example}
 
 \begin{example}
-  \charfading[colorset = {violet, blue},
-              direction = horizontal] {0123456789}
+  \charfading[fading = {violet, blue, horizontal}]
+    {0123456789}
 \end{example}
 
 \begin{example}
-  \charfading[colorset = {green, red},
-              direction = horizontal] {0123456789}
+  \charfading[fading = {green, red, horizontal}]
+    {0123456789}
 \end{example}
 
 \begin{example}
-  \charfading[colorset = {blue, violet},
-              direction = horizontal] {0123456789}
+  \charfading[fading = {blue, violet, horizontal}]
+    {0123456789}
 \end{example}
 
 \begin{example}
-  \charfading[colorset = {teal, violet},
-              direction = vertical] {0123456789}
+  \charfading[fading = {teal, violet, vertical}]
+    {0123456789}
 \end{example}
 
 \begin{example}
-  \charfading[colorset = {violet, teal},
-              direction = vertical] {0123456789}
+  \charfading[fading = {violet, teal, vertical}]
+    {0123456789}
 \end{example}
 
 \section{Todo list}
@@ -349,6 +348,6 @@ then use this module
 
 \end{implementation}
 
-\PrintIndex
+% \PrintIndex
 
 \end{document}
