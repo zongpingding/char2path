@@ -8,8 +8,8 @@
 
 \keys_define:nn { char2path }
   {
-    scale .tl_gset:N = \g_@@_scale_tl,
-    scale .initial:n = { 10pt },
+    scale   .tl_gset:N = \g_@@_scale_tl,
+      scale .initial:n = { 10pt },
   }
 \ProcessKeyOptions [ char2path ]
 
@@ -33,7 +33,6 @@
 \@@_msg_new:nn { path ~ fading } { Unsupported ~ fading ~ direction }
 \@@_msg_new:nn { kernel } { file not found }
 
-\tl_const:Nn \c_@@_tikz_folder_tl { lmm_nums_tikz }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
     10pt = 0.820, % basic scale factor
@@ -83,18 +82,16 @@
     fading    .clist_set:N  = \l_@@_fading_clist,
     scale     .fp_set:N     = \l_@@_scale_fp,
       scale   .initial:n    = {1},
-    unknown   .code:n       = \@@_parse_unknown_option:n { #1 }
+    unknown   .code:n       = \@@_parse_unknown_option:n {#1}
   }
 \cs_new_protected_nopar:Npn \@@_parse_unknown_option:n #1
   {
-    \tl_if_empty:nTF { #1 }
-    {
-      \clist_put_right:NV \l_@@_options_clist \l_keys_key_str
-    }
-    {
-      \exp_args:NNx \clist_gput_right:Nn \l_@@_options_clist
-        { \l_keys_key_str = \exp_not:n {#1} }
-    }
+    \tl_if_empty:nTF {#1}
+      { \clist_put_right:NV \l_@@_options_clist \l_keys_key_str }
+      {
+        \exp_args:NNx \clist_gput_right:Nn \l_@@_options_clist
+          { \l_keys_key_str = \exp_not:n {#1} }
+      }
   }
 
 \NewDocumentCommand \chartopath { O{} m m }
@@ -128,7 +125,7 @@
             \@@_continous_color_aux:nNN {#3}
               \l_@@_continous_color_left_clist
               \l_@@_continous_color_right_clist
-            \int_step_inline:nn { \tl_count:n {#3} }
+            \int_step_inline:nn { \str_count:n {#3} }
               {
                 \tl_set:Nn \l_@@_continous_color_tmpa_tl
                   { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
@@ -162,19 +159,19 @@
 \prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
 \cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
   {
-    \tl_map_inline:nn {#2}
+    \exp_args:Nf \tl_map_inline:nn {#2}
       {
         \tl_if_eq:cnT { l_@@_font_#3_type_tl } { serif }
-          { \setbox \l_@@_glyph_box \hbox { \rmfamily ##1 } }
+          { \hbox_set:Nn \l_@@_glyph_box { \rmfamily ##1 } }
         \tl_if_eq:cnT { l_@@_font_#3_type_tl } { sans }
-          { \setbox \l_@@_glyph_box \hbox { \sffamily ##1 } }
+          { \hbox_set:Nn \l_@@_glyph_box { \sffamily ##1 } }
         \tl_if_eq:cnT { l_@@_font_#3_type_tl } { mono }
-          { \setbox \l_@@_glyph_box \hbox { \ttfamily ##1 } }
+          { \hbox_set:Nn \l_@@_glyph_box { \ttfamily ##1 } }
         \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
           {#1} { \@@_data:ne {#3} {##1} } {#4}
         \str_case:vnF { l_@@_font_#3_type_tl }
           { { serif } {} { sans } {} { mono } {} }
-          { \setbox \l_@@_glyph_box \hbox { ##1 } }
+          { \hbox_set:Nn \l_@@_glyph_box {##1} }
       }
   }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
@@ -188,14 +185,15 @@
               ] \path [#2] #3; };
   }
 \cs_generate_variant:Nn \@@_draw:nnnn { neen }
+\tl_const:Nn \c_@@_tikz_folder_tl { lmm_nums_tikz }
 \cs_new:Npn \@@_data:nn #1#2
   {
-    \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
-      { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
+    \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } {#2}
+      { \prop_item:cn { c_@@_tikz_#1_data_prop } {#2} }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n { \c_@@_tikz_folder_tl/lmm_#2.tikz }
   }
-\cs_generate_variant:Nn \@@_data:nn { ne, ee }
+\cs_generate_variant:Nn \@@_data:nn { ne }
 
 \cs_new_protected:Npn \@@_continous_fading_parse_aux:NNNN #1#2#3#4
   {
