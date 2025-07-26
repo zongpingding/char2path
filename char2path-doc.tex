@@ -54,7 +54,7 @@
 }
 \author{^^A
   Eureka\thanks{^^A
-    \href{mailto:<email>@<domain>}{\texttt{<email>@<domain>}}},~
+    \href{mailto:zongpingding5@outlook.com}{\texttt{zongpingding5@outlook.com}}},~
   Mingyu Xia\thanks{^^A
     \href{mailto:xiamingyu@westlake.edu.cn}{\texttt{xiamingyu@westlake.edu.cn}}^^A
   }^^A
@@ -114,24 +114,50 @@ and the converted paths will be scaled to the corresponding factors.
   \end{keyval}
 \end{function}
 
+
+\begin{function}[added=2025-07-26]{\charpathclip}
+  \begin{syntax}
+    \cs{charpathclip} \oarg{key-vals} \marg{char}
+  \end{syntax}
+  The mandatory argument accepts a single character, and the optional
+  argument accepts the following keys to set the style how the character clip
+  the image.
+  \begin{keyval}
+    \item [\key{font}] \val{lmm/lmr} font name.
+    \item [\key{image}] \val{image} image name.
+    \item [\key{scale}] \val{fp num} font scale factor.
+    \item [\key{anchor}] \val{tikz anchor} image anchor.
+    \item [\key{offset}] \val{(x, y)} imgae anchor offset.
+    \item [\key{height}] \val{dim} image height.
+  \end{keyval}
+\end{function}
+
+
 \section{Examples}
 
+\subsection{Clip image}
+\begin{example}
+\charpathclip[font=lmr, scale=2.5, offset={(1, 2cm)}]{H}
+\end{example}
+
+
+\subsection{Char to path}
 This package could convert the following characters to path:
 including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
 
 \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
 \begin{example}
-\chartopath{lmm}{!\#\ctpdollar"\%\&'()*+,-./01234567}
+\chartopath{lmm}{!\#$"\%&'()*+,-./01234567}
 \chartopath{lmm}{89:;<=>?@ABCDEFGHIJKLMNO}
 \chartopath{lmm}{PQRSTUVWXYZ[\ctpbackslash]^_`abcdefg}
-\chartopath{lmm}{hijklmnopqrstuvwxyz\{|\}\ctptilde}
+\chartopath{lmm}{hijklmnopqrstuvwxyz\{|\}~}
 \end{example}
 
 \begin{example}
-\chartopath{lmr}{!\#\ctpdollar"\%\&'()*+,-./01234567}
+\chartopath{lmr}{!\#$"\%&'()*+,-./01234567}
 \chartopath{lmr}{89:;<=>?@ABCDEFGHIJKLMNO}
 \chartopath{lmr}{PQRSTUVWXYZ[\ctpbackslash]^_`abcdefg}
-\chartopath{lmr}{hijklmnopqrstuvwxyz\{|\}\ctptilde}
+\chartopath{lmr}{hijklmnopqrstuvwxyz\{|\}~}
 \end{example}
 \MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
 
@@ -214,16 +240,14 @@ directly copy and paste the source code from |.pdf| file without worry about
 including unwanted line numbers.
 
 \let\orithelstnumber\thelstnumber
-  \def\thelstnumber{%
-    \chartopath[path fading = east, fill = blue]
-      {lmm} {\orithelstnumber}
-  }
+\def\thelstnumber{%
+  \chartopath[rescan=false, path fading = east, fill = blue]
+      {lmm} {\orithelstnumber}}
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
-    \chartopath[path fading = east, fill = blue]
-       {lmm} {\orithelstnumber}
-  }
+    \chartopath[rescan=false, path fading = east, fill = blue]
+       {lmm} {\orithelstnumber}}
 \end{verbatim}
 
 \begin{example}
@@ -290,12 +314,11 @@ is shown in the following figure.
 
 \begin{itemize}
   \item [\textcolor{green}{\textsf{Detail}}] Baselines of several characters need to optimize.
-  \item [\textcolor{red}{\textsf{Bug}}] Reading characters from a control sequence ("o-/e-"expand) \textcolor{red}{IS NOT STEABLE!}.
-  \item [\textcolor{red}{\textsf{Bug}}] Several special characters:
-  Simplify user interface's input (problem of "rescan tokens").
-  \item [\textcolor{blue}{\textsf{Function}}] Support function like
-  "\chartopath[]{\sffamily abc}", or \linebreak
-  "\chartopath[]{\usefont{T1}{cmr}{m}{sc} abc}".
+  \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning: Font shape \texttt{OMS/cmtt/m/n} 
+  undefined for \texttt{textbackslash}.
+  \item [\textcolor{blue}{\textsf{Function}}] Support syntax:
+  "\chartopath[]{\usefont{T1}{cmr}{m}{sc} abc}". or \linebreak
+  "\chartopath[]{\sffamily abc}", 
 \end{itemize}
 
 \end{documentation}

@@ -22,7 +22,7 @@
     \input #1
     \@popfilename
   }{}{}
-\usetikzlibrary{patterns, fadings}
+\usetikzlibrary{patterns, fadings, calc}
 
 \cs_new_protected:Npn \@@_msg_new:nn #1#2
   { \msg_new:nnn { char2path } {#1} {#2} }
@@ -33,7 +33,8 @@
 \@@_msg_new:nn { path ~ fading } { Unsupported ~ fading ~ direction }
 \@@_msg_new:nn { kernel } { file not found }
 
-\tl_const:Nn \c_@@_tikz_folder_tl { lmm_nums_tikz }
+\tl_const:Nn \c_@@_tikz_folder_tl  { font_glyph } % for future use
+\fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
     10pt = 0.820, % basic scale factor
@@ -50,7 +51,9 @@
   {
     \clist_map_inline:nn {#3}
       {
-        \file_get:nnNTF { ctp-#2-##1.data.tex } {} \l_@@_tikz_data_single_tl
+        \file_get:nnNTF { ctp-#2-##1.data.tex } 
+          { \char_set_catcode:nn {126}{12} } 
+          \l_@@_tikz_data_single_tl
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
               \l_@@_tikz_data_single_tl
@@ -60,9 +63,12 @@
       { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
     \tl_set:cn { l_@@_font_#2_type_tl } {#1}
   }
-\protected\def\ctpbackslash {\textbackslash}
-\protected\def\ctpdollar    {\$}
-\protected\def\ctptilde     {\textasciitilde}
+
+\cs_new:Npn \__@@_protected_char:nn #1#2
+  {
+    \cs_new_protected:cpn { #1 }{ \exp_not:n {#2} }
+  }
+\__@@_protected_char:nn { ctpbackslash }{ \textbackslash }
 \@@_load_font_data:nnn { serif } { lmr }
   { arabic, alpha-small, alpha-caps, others, }
 \@@_load_font_data:nnn { mono } { lmm }
@@ -75,6 +81,8 @@
 \tl_new:N \l_@@_unknown_tl
 \keys_define:nn { char2path / chartopath }
   {
+    rescan    .bool_set:N   = \l_@@_rescan_bool,
+      rescan    .initial:n  = { true },
     draw      .tl_set:N     = \l_@@_draw_tl,
       draw    .initial:n    = {none},
     fill      .tl_set:N     = \l_@@_fill_tl,
@@ -97,19 +105,32 @@
     }
   }
 
+\tl_new:N \l_@@_tmpa_tl
+\tl_new:N \l_@@_tmpb_tl
 \NewDocumentCommand \chartopath { O{} m m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartopath } {#1}
     \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
+    \bool_if:NTF \l_@@_rescan_bool
+      {
+        \tl_set_rescan:Nnn \l_@@_tmpa_tl 
+          {
+            \char_set_catcode:nn {36}{12}   % '$'
+            \char_set_catcode:nn {38}{12}   % '&'
+            \char_set_catcode:nn {126}{12}  % '~'
+          }{ #3 }
+      }{
+        \tl_set:Nn \l_@@_tmpa_tl { #3 }
+      }
     \clist_if_empty:NTF \l_@@_fading_clist
       {
-        \@@_aux:nnnn
+        \exp_args:Nno \@@_aux:nnnn
           {
             draw        = \l_@@_draw_tl,  line~width  = \l_@@_outlint_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
             \clist_use:Nn \l_@@_options_clist {,}
-          } {#3} {#2} { \l_@@_scale_fp }
+          } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp }
       }
       {
         \@@_continous_fading_parse_aux:NNNN \l_@@_fading_clist
@@ -162,22 +183,24 @@
 \prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
 \cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
   {
-    \tl_map_inline:nn {#2}
+    \exp_args:Ne \tl_map_inline:nn {#2}
       {
-        \tl_if_eq:cnT { l_@@_font_#3_type_tl } { serif }
-          { \setbox \l_@@_glyph_box \hbox { \rmfamily ##1 } }
-        \tl_if_eq:cnT { l_@@_font_#3_type_tl } { sans }
-          { \setbox \l_@@_glyph_box \hbox { \sffamily ##1 } }
-        \tl_if_eq:cnT { l_@@_font_#3_type_tl } { mono }
-          { \setbox \l_@@_glyph_box \hbox { \ttfamily ##1 } }
-        \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
-          {#1} { \@@_data:ne {#3} {##1} } {#4}
         \str_case:vnF { l_@@_font_#3_type_tl }
-          { { serif } {} { sans } {} { mono } {} }
+          {
+            { serif }{ \setbox \l_@@_glyph_box \hbox { \rmfamily ##1 } } 
+            { sans  }{ \setbox \l_@@_glyph_box \hbox { \sffamily ##1 } } 
+            { mono  }{ \setbox \l_@@_glyph_box \hbox { \ttfamily ##1 } } 
+          }
           { \setbox \l_@@_glyph_box \hbox { ##1 } }
+        \@@_draw:neen 
+          { \int_use:N \box_dp:N \l_@@_glyph_box }
+          { #1 } 
+          { \@@_data:nn {#3} {##1} } 
+          { #4 }
       }
   }
-\fp_const:Nn \c_@@_global_scale_fp { .0135 }
+% TODO: Avoid nesting '\tikz' command; use the character's 
+%       natural dimensions instead.
 \cs_new_protected:Npn \@@_draw:nnnn #1#2#3#4
   {
     \tikz [ baseline = #1 ] \node
@@ -193,7 +216,7 @@
     \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
       { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
-    % \file_if_exist_input:n { \c_@@_tikz_folder_tl/lmm_#2.tikz }
+    % \file_if_exist_input:n { \c_@@_tikz_folder_tl/#2.pgf.coor }
   }
 \cs_generate_variant:Nn \@@_data:nn { ne, ee }
 
@@ -218,5 +241,60 @@
       }
   }
 
+
+% image clip
+% TODO: change 'height' to the height of char
+\keys_define:nn { char2path / charclippath }
+  {
+    font      .tl_set:N  = \l__@@_char_clip_font,
+      font    .initial:n = { lmm },
+    image     .tl_set:N  = \l__@@_image_tl,
+      image   .initial:n = { example-image-a },
+    scale     .fp_set:N  = \l__@@_char_clip_scale_fp,
+      scale   .initial:n = { 1 },
+    anchor    .tl_set:N  = \l__@@_image_anchor_tl,
+      anchor  .initial:n = { center },
+    offset    .tl_set:N  = \l__@@_image_anchor_offset_tl,
+      offset  .initial:n = { (0pt, 0pt) },
+    height    .dim_set:N = \l__@@_image_height_dim,
+      height  .initial:n = { 3cm },
+  }
+\NewDocumentCommand{\charpathclip}{O{}m}
+  {
+    \group_begin:
+    \keys_set:nn { char2path / charclippath }{ #1 }
+    \exp_args:Nee \__@@_image_clip:nnnnnn
+      { \prop_item:cn { c_@@_tikz_ \l__@@_char_clip_font _data_prop } { #2 } }
+      { \l__@@_image_anchor_offset_tl }
+      { \l__@@_image_tl               }
+      { \l__@@_image_height_dim       }
+      { \l__@@_char_clip_scale_fp     }
+      { \l__@@_image_anchor_tl        }
+    \group_end:
+  }
+\cs_new:Npn \__@@_image_clip:nnnnnn #1#2#3#4#5#6 
+  {% #1:path data;    #2:anchor offset;  #3:image; 
+   % #4:image height; #5:scale;          #6:anchor
+    \tikz[scale=\fp_eval:n {\c_@@_global_scale_fp*#5}]
+      \path[
+        path~picture =
+          {
+            \node at ($ (path~picture~bounding~box.#6) + #2 $)
+              { \includegraphics[height=#4]{#3} };
+          }
+      ] #1;
+  }
+% \tikzset
+%   {
+%     path~image/.style = 
+%       {
+%         path~picture =
+%           {
+%             \node at (path~picture~bounding~box.center) 
+%               { \includegraphics[height=3cm]{#1} };
+%             % TODO: change 'height' to the height of char
+%           }
+%       }
+%   }
 \file_input_stop:
 % </sty>
