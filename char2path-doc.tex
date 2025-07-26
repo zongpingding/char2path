@@ -27,13 +27,12 @@
 \long\def\example@end{\immediate\closeout\example@out\@esphack\endgroup
   \trivlist\item[]\relax
     \leavevmode\hbox to \z@{^^A
-      \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip10pt}^^A
-      \hskip16pt
-      \begin{minipage}[c]{.68\textwidth}^^A
+      \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
+      \begin{minipage}[c]{.72\textwidth}^^A
         \small\verbatiminput \example@name^^A
       \end{minipage}^^A
       \fbox{^^A
-        \begin{minipage}[c]{.32\textwidth}^^A
+        \begin{minipage}[c]{.26\textwidth}^^A
           \normalsize\input \example@name^^A
         \end{minipage}^^A
       }^^A
@@ -104,7 +103,7 @@ and the converted paths will be scaled to the corresponding factors.
   argument accepts the following keys to set the style how the string converts
   to path.
   \begin{keyval}
-    \item [\key{draw,fill}] \val{color} can set the color of the outline/fill of string
+    \item [\key{draw, fill}] \val{color} can set the color of the outline/fill of string
     (Default: |black|).
     \item [\key{outline}] \val{dim} can set the outline of the string
     (Default: |1|).
@@ -116,8 +115,10 @@ and the converted paths will be scaled to the corresponding factors.
 
 \section{Examples}
 
-This package can convert the following characters to path:
-including \texttt{Latin Modern Mono} and \textrm{Latin Modern Roman}.
+This package can convert the following characters to path by default:
+including \textrm{Latin Modern Roman},
+\textrm{Latin Modern Sans} (will be supported soon)
+and \texttt{Latin Modern Mono}.
 
 \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
 \begin{center}
@@ -158,20 +159,18 @@ Just like the keys in \pkg{Ti\textit k\/Z}
 \end{example}
 
 \begin{example}
-  \chartopath[draw = blue, fill = red, scale = 1.25]
-    {lmm}\0
+  \chartopath[draw = blue, fill = red, scale = 1.2]{lmm}\0
 \end{example}
 
 Fading is also supported
 
 \begin{example}
-  \chartopath[fading = {red, green, horizontal}
-             ] {lmm} {0123456789ABCabc./*}
+  \chartopath[fading = {red, green, horizontal}]
+    {lmm} {0123456789ABCabc./*}
 \end{example}
 
 \begin{example}
-  \chartopath[fading = {blue, violet, horizontal}
-             ] {lmm}\0
+  \chartopath[fading = {blue, violet, horizontal}]{lmm}\0
 \end{example}
 
 \begin{example}
@@ -186,14 +185,14 @@ as well as pattern
 
 \begin{example}
   \chartopath[pattern = north west lines,
-              draw, scale = 1.25] {lmm}\0
+              draw, scale = 1.2] {lmm}\0
 \end{example}
 
 FakeSlant is also supported
 
 \begin{example}
   \chartopath[draw, fill = green, xslant = .15,
-              scale = 1.25] {lmm}\0
+              scale = 1.2] {lmm}\0
 \end{example}
 
 \subsection{Use in text}
