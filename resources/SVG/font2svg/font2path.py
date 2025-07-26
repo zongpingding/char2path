@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 from pathlib import Path
 # font table data
@@ -7,9 +8,9 @@ from fonttable import *
 
 
 #####  bool control  #####
-EXTRACT_SVG_FROM_FONT = True 
+EXTRACT_SVG_FROM_FONT = False 
 EXTRACT_SVG = False
-EXTRACT_COOR = False
+EXTRACT_COOR = True
 
 
 #####    assign font     #####
@@ -78,8 +79,19 @@ if EXTRACT_SVG:
 
 
 #####   generate pgf from svg   #####
-# svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_export_8.tikz
-# sed -n 's/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p' eight.pgf > output.txt 
+# svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_8.pgf
+# sed -n 's/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p' eight.pgf > eight.pgf.coor
+def extract_tikz_path(char_name:str, input_file:str, output_file:str) -> None:
+    with open(input_file, 'r', encoding='utf-8') as infile, \
+        open(output_file, 'w', encoding='utf-8') as outfile:
+
+        pattern = re.compile(r'^\s*\\path\[fill=black\]\s*(.*);\s*$')
+        for line in infile:
+            match = pattern.match(line)
+            if match:
+                content = match.group(1)
+                outfile.write(f'{char_name} = {{{content}}},\n')
+
 if EXTRACT_COOR:
     for dir in FONTABLE_SVG_DIR:
         for f in dir.iterdir():
@@ -95,12 +107,6 @@ if EXTRACT_COOR:
                 ], check=True)
                 print(f.name, "->", target_file)
                 # 2. extract pgf path coordinates
-                with open(str(target_file) + '.coor', 'w') as out_file:
-                    subprocess.run([
-                        "sed",
-                        "-n",
-                        r"s/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p",
-                        target_file
-                    ], stdout=out_file, check=True)
-                    print(target_file, "->", target_file+'.coor')
-
+                extract_tikz_path(f_no_ext, str(target_file), str(target_file) + '.coor')
+                # extract_tikz_path(f_no_ext, str(target_file), 'small.tex') # output_file with 'a'
+                print(target_file, "->", target_file+'.coor')

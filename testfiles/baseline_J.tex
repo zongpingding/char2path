@@ -1,0 +1,25 @@
+\makeatletter
+\def\input@path{{../}}
+\makeatother
+\documentclass{article}
+\usepackage{char2path}
+\parindent0pt
+
+\begin{document}
+\section{Test J dp}
+\setbox0=\hbox{J}
+\the\dp0
+
+
+\section{test chartopath command - J}
+HJ \chartopath[font=lmr, fill=red]{J} HJ
+
+HJ \chartopath[font=lmr, draw]{J} HJ
+
+\chartopath[font = lmr, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
+
+
+\section{test J data}
+HJ \tikz\draw[fill=red, scale=.0135, draw=none] (12.3031, 17.2508) -- (12.3031, 18.071) -- (8.89, 17.9917).. controls (7.7788, 17.9917) and (5.4504, 17.9917) .. (4.445, 18.071) -- (4.445, 17.2508) -- (5.3975, 17.2508).. controls (7.9904, 17.2508) and (7.9904, 16.9069) .. (7.9904, 15.9808) -- (7.9904, 3.9158).. controls (7.9904, 1.4817) and (6.6675, 0.0) .. (5.2652, 0.0).. controls (5.1065, 0.0) and (3.3073, 0.0) .. (2.3548, 1.5346).. controls (3.7306, 1.5346) and (4.0481, 2.3283) .. (4.0481, 3.0163).. controls (4.0481, 3.9688) and (3.3073, 4.4979) .. (2.5665, 4.4979).. controls (1.9844, 4.4979) and (1.0848, 4.1275) .. (1.0848, 2.9633).. controls (1.0848, 1.0054) and (2.9633, -0.5821) .. (5.3181, -0.5821).. controls (8.0169, -0.5821) and (9.9483, 1.27) .. (10.2394, 3.2544).. controls (10.2658, 3.466) and (10.2658, 3.519) .. (10.2658, 4.4185) -- (10.2658, 16.166).. controls (10.2658, 17.2508) and (10.6363, 17.2508) .. (12.3031, 17.2508) -- cycle;%
+HJ
+\end{document}

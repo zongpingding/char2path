@@ -8,12 +8,12 @@
 
 \keys_define:nn { char2path }
   {
-    scale .tl_gset:N = \g_@@_scale_tl,
-    scale .initial:n = { 10pt },
+    scale   .tl_gset:N = \g_@@_scale_tl,
+      scale .initial:n = { 10pt },
   }
 \ProcessKeyOptions [ char2path ]
 
-\RequirePackage{l3draw, tikz, etoolbox}
+\RequirePackage{tikz, etoolbox}
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
   {
@@ -26,14 +26,14 @@
 
 \cs_new_protected:Npn \@@_msg_new:nn #1#2
   { \msg_new:nnn { char2path } {#1} {#2} }
-\cs_new_protected:Npn \@@_msg_warning:nn #1#2
-  { \msg_warning:nne { char2path } {#1} {#2} }
+\cs_new_protected:Npn \@@_msg_warning:n #1
+  { \msg_warning:nn { char2path } {#1} }
 \cs_new_protected:Npn \@@_msg_error:nn #1#2
   { \msg_error:nne { char2path } {#1} {#2} }
-\@@_msg_new:nn { path ~ fading } { Unsupported ~ fading ~ direction }
-\@@_msg_new:nn { kernel } { file not found }
+\@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
+\@@_msg_new:nn { kernel } { file ~ not ~ found }
 
-\tl_const:Nn \c_@@_tikz_folder_tl  { font_glyph } % for future use
+\tl_const:Nn \c_@@_tikz_folder_tl { font_glyph } % for future use
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
@@ -51,8 +51,8 @@
   {
     \clist_map_inline:nn {#3}
       {
-        \file_get:nnNTF { ctp-#2-##1.data.tex } 
-          { \char_set_catcode:nn {126}{12} } 
+        \file_get:nnNTF
+          { ctp-#2-##1.data.tex } { \char_set_catcode:nn { 126 } { 12 } }
           \l_@@_tikz_data_single_tl
           {
             \tl_gput_right:NV \l_@@_tikz_data_merge_tl
@@ -64,11 +64,9 @@
     \tl_set:cn { l_@@_font_#2_type_tl } {#1}
   }
 
-\cs_new:Npn \__@@_protected_char:nn #1#2
-  {
-    \cs_new_protected:cpn { #1 }{ \exp_not:n {#2} }
-  }
-\__@@_protected_char:nn { ctpbackslash }{ \textbackslash }
+\cs_new:Npn \@@_protected_char:nn #1#2
+  { \cs_new_protected:cpn {#1} { \exp_not:n {#2} } }
+\@@_protected_char:nn { ctpbackslash }{ \textbackslash }
 \@@_load_font_data:nnn { serif } { lmr }
   { arabic, alpha-small, alpha-caps, others, }
 \@@_load_font_data:nnn { mono } { lmm }
@@ -81,33 +79,34 @@
 \tl_new:N \l_@@_unknown_tl
 \keys_define:nn { char2path / chartopath }
   {
+    font      .tl_set:N     = \l_@@_char_clip_font,
+      font    .initial:n    = { lmm },
     rescan    .bool_set:N   = \l_@@_rescan_bool,
-      rescan    .initial:n  = { true },
+      rescan  .initial:n    = { true },
     draw      .tl_set:N     = \l_@@_draw_tl,
-      draw    .initial:n    = {none},
+      draw    .initial:n    = { none },
     fill      .tl_set:N     = \l_@@_fill_tl,
     outline   .dim_set:N    = \l_@@_outlint_tl,
-      outline .initial:n    = {0pt},
-    fading    .clist_set:N  = \l_@@_fading_clist,
+      outline .initial:n    = { 0pt },
+    hfading   .clist_set:N  = \l_@@_hfading_clist,
+    vfading   .clist_set:N  = \l_@@_vfading_clist,
     scale     .fp_set:N     = \l_@@_scale_fp,
-      scale   .initial:n    = {1},
-    unknown   .code:n       = \@@_parse_unknown_option:n { #1 }
+      scale   .initial:n    = { 1 },
+    unknown   .code:n       = \@@_parse_unknown_option:n {#1}
   }
 \cs_new_protected_nopar:Npn \@@_parse_unknown_option:n #1
   {
-    \tl_if_empty:nTF { #1 }
-    {
-      \clist_put_right:NV \l_@@_options_clist \l_keys_key_str
-    }
-    {
-      \exp_args:NNx \clist_gput_right:Nn \l_@@_options_clist
-        { \l_keys_key_str = \exp_not:n {#1} }
-    }
+    \tl_if_empty:nTF {#1}
+      { \clist_put_right:NV \l_@@_options_clist \l_keys_key_str }
+      {
+        \exp_args:NNx \clist_gput_right:Nn \l_@@_options_clist
+          { \l_keys_key_str = \exp_not:n {#1} }
+      }
   }
 
 \tl_new:N \l_@@_tmpa_tl
 \tl_new:N \l_@@_tmpb_tl
-\NewDocumentCommand \chartopath { O{} m m }
+\NewDocumentCommand \chartopath { O{} m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartopath } {#1}
@@ -116,36 +115,48 @@
       {
         \tl_set_rescan:Nnn \l_@@_tmpa_tl 
           {
-            \char_set_catcode:nn {36}{12}   % '$'
-            \char_set_catcode:nn {38}{12}   % '&'
-            \char_set_catcode:nn {126}{12}  % '~'
-          }{ #3 }
-      }{
-        \tl_set:Nn \l_@@_tmpa_tl { #3 }
+            \char_set_catcode:nn {  36 } { 12 }  % '$'
+            \char_set_catcode:nn {  38 } { 12 }  % '&'
+            \char_set_catcode:nn { 126 } { 12 }  % '~'
+          } {#2}
+      } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
+    \bool_lazy_and:nnT
+      { !\clist_if_empty_p:N \l_@@_hfading_clist }
+      { !\clist_if_empty_p:N \l_@@_vfading_clist }
+      { \@@_msg_warning:n { fading } }
+    \bool_lazy_or:nnTF
+      {
+        \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist } 
+                            { \clist_if_empty_p:N \l_@@_vfading_clist }
       }
-    \clist_if_empty:NTF \l_@@_fading_clist
+      {
+        \bool_lazy_and_p:nn { !\clist_if_empty_p:N \l_@@_hfading_clist }
+                            { !\clist_if_empty_p:N \l_@@_vfading_clist }
+      }
       {
         \exp_args:Nno \@@_aux:nnnn
           {
             draw        = \l_@@_draw_tl,  line~width  = \l_@@_outlint_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
-            \clist_use:Nn \l_@@_options_clist {,}
-          } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp }
+            \clist_use:Nn \l_@@_options_clist { , }
+          } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
       }
       {
-        \@@_continous_fading_parse_aux:NNNN \l_@@_fading_clist
-          \l_@@_color_i_tl \l_@@_color_ii_tl \l_@@_direction_tl
-        \str_if_eq:eeT { \l_@@_direction_tl } { vertical }
+        \clist_if_empty:NF \l_@@_vfading_clist
           {
-            \exp_args:Nno \@@_aux:nnnn
+            \@@_continous_fading_parse_aux:NNN \l_@@_vfading_clist
+              \l_@@_color_i_tl \l_@@_color_ii_tl
+            \@@_aux:nnnn
               {
                 draw        = \l_@@_draw_tl,  bottom~color  = \l_@@_color_ii_tl,
                 top~color   = \l_@@_color_i_tl, line~width  = \l_@@_outlint_tl,
                 \clist_use:Nn \l_@@_options_clist {,}
-              } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp }
+              } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
           }
-        \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
+        \clist_if_empty:NF \l_@@_hfading_clist
           {
+            \@@_continous_fading_parse_aux:NNN \l_@@_hfading_clist
+              \l_@@_color_i_tl \l_@@_color_ii_tl
             \exp_args:Ne \@@_continous_color_aux:nNN { \l_@@_tmpa_tl }
               \l_@@_continous_color_left_clist
               \l_@@_continous_color_right_clist
@@ -167,14 +178,11 @@
                       \l_@@_color_ii_tl!
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                       \l_@@_color_i_tl,
-                    \clist_use:Nn \l_@@_options_clist {,}
+                    \clist_use:Nn \l_@@_options_clist { , }
                   } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                  {#2} { \l_@@_scale_fp }
+                  { \l_@@_char_clip_font } { \l_@@_scale_fp }
               }
           }
-        \str_case_e:nnF { \l_@@_direction_tl }
-          { { horizontal } {} { vertical } {} }
-          { \@@_msg_warning:nn { fading } { \l_@@_direction_tl } }
       }
     \group_end:
     \clist_gclear:N \l_@@_options_clist
@@ -187,16 +195,12 @@
       {
         \str_case:vnF { l_@@_font_#3_type_tl }
           {
-            { serif }{ \setbox \l_@@_glyph_box \hbox { \rmfamily ##1 } } 
-            { sans  }{ \setbox \l_@@_glyph_box \hbox { \sffamily ##1 } } 
-            { mono  }{ \setbox \l_@@_glyph_box \hbox { \ttfamily ##1 } } 
-          }
-          { \setbox \l_@@_glyph_box \hbox { ##1 } }
-        \@@_draw:neen 
-          { \int_use:N \box_dp:N \l_@@_glyph_box }
-          { #1 } 
-          { \@@_data:nn {#3} {##1} } 
-          { #4 }
+            { serif } { \hbox_set:Nn \l_@@_glyph_box { \rmfamily ##1 } }
+            { sans }  { \hbox_set:Nn \l_@@_glyph_box { \sffamily ##1 } }
+            { mono }  { \hbox_set:Nn \l_@@_glyph_box { \ttfamily ##1 } }
+          } { \hbox_set:Nn \l_@@_glyph_box {##1} }
+        \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
+          {#1} { \@@_data:nn {#3} {##1} } {#4}
       }
   }
 % TODO: Avoid nesting '\tikz' command; use the character's 
@@ -213,21 +217,19 @@
 \cs_generate_variant:Nn \@@_draw:nnnn { neen }
 \cs_new:Npn \@@_data:nn #1#2
   {
-    \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } { #2 }
-      { \prop_item:cn { c_@@_tikz_#1_data_prop } { #2 } }
+    \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } {#2}
+      { \prop_item:cn { c_@@_tikz_#1_data_prop } {#2} }
       { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
     % \file_if_exist_input:n { \c_@@_tikz_folder_tl/#2.pgf.coor }
   }
 \cs_generate_variant:Nn \@@_data:nn { ne, ee }
 
-\cs_new_protected:Npn \@@_continous_fading_parse_aux:NNNN #1#2#3#4
+\cs_new_protected:Npn \@@_continous_fading_parse_aux:NNN #1#2#3
   {
     \group_begin: \exp_args:NNNe \group_end:
     \tl_set:Nn #2 { \clist_item:Nn #1 { 1 } }
     \group_begin: \exp_args:NNNe \group_end:
     \tl_set:Nn #3 { \clist_item:Nn #1 { 2 } }
-    \group_begin: \exp_args:NNNe \group_end:
-    \tl_set:Nn #4 { \clist_item:Nn #1 { 3 } }
   }
 
 \cs_new_protected:Npn \@@_continous_color_aux:nNN #1#2#3
@@ -235,86 +237,55 @@
     \int_step_inline:nn { \tl_count:n {#1} }
       {
         \clist_put_right:Ne #2
-          { \fp_eval:n { 100 - (##1 - 1) * 100 / \tl_count:n {#1} } }
+          {
+            \fp_eval:n
+              { 100 - (##1 - 1) * 100 / \tl_count:n {#1} }
+          }
         \clist_put_right:Ne #3
           { \fp_eval:n { 100 - ##1 * 100 / \tl_count:n {#1} } }
       }
   }
 
-
 % image clip
 % TODO: change 'height' to the height of char
 \keys_define:nn { char2path / charclippath }
   {
-    font      .tl_set:N  = \l__@@_char_clip_font,
+    font      .tl_set:N  = \l_@@_char_clip_font,
       font    .initial:n = { lmm },
-    image     .tl_set:N  = \l__@@_image_tl,
-      image   .initial:n = { example-image-a },
-    scale     .fp_set:N  = \l__@@_char_clip_scale_fp,
+    image     .tl_set:N  = \l_@@_image_tl,
+      image   .initial:n = { example-image },
+    scale     .fp_set:N  = \l_@@_char_clip_scale_fp,
       scale   .initial:n = { 1 },
-    anchor    .tl_set:N  = \l__@@_image_anchor_tl,
+    anchor    .tl_set:N  = \l_@@_image_anchor_tl,
       anchor  .initial:n = { center },
-    offset    .tl_set:N  = \l__@@_image_anchor_offset_tl,
+    offset    .tl_set:N  = \l_@@_image_anchor_offset_tl,
       offset  .initial:n = { (0pt, 0pt) },
-    height    .dim_set:N = \l__@@_image_height_dim,
+    height    .dim_set:N = \l_@@_image_height_dim,
       height  .initial:n = { 3cm },
   }
-\NewDocumentCommand{\charpathclip}{O{}m}
+\NewDocumentCommand \charpathclip { O{} m }
   {
     \group_begin:
-    \keys_set:nn { char2path / charclippath }{ #1 }
+    \keys_set:nn { char2path / charclippath }{#1}
     \exp_args:Nee \__@@_image_clip:nnnnnn
-      { \prop_item:ce { c_@@_tikz_ \l__@@_char_clip_font _data_prop } { #2 } }
-      { \l__@@_image_anchor_offset_tl }
-      { \l__@@_image_tl               }
-      { \l__@@_image_height_dim       }
-      { \l__@@_char_clip_scale_fp     }
-      { \l__@@_image_anchor_tl        }
+      { \prop_item:ce { c_@@_tikz_ \l_@@_char_clip_font _data_prop } { #2 } }
+      { \l_@@_image_anchor_offset_tl }
+      { \l_@@_image_tl               }
+      { \l_@@_image_height_dim       }
+      { \l_@@_char_clip_scale_fp     }
+      { \l_@@_image_anchor_tl        }
     \group_end:
   }
 \cs_new:Npn \__@@_image_clip:nnnnnn #1#2#3#4#5#6 
   {% #1:path data;    #2:anchor offset;  #3:image; 
    % #4:image height; #5:scale;          #6:anchor
-    \tikz[scale=\fp_eval:n {\c_@@_global_scale_fp*#5}]
-      \path[
-        path~picture =
-          {
-            \node at ($ (path~picture~bounding~box.#6) + #2 $)
-              { \includegraphics[height=#4]{#3} };
-          }
-      ] #1;
+    \tikz [ scale = \fp_eval:n { \c_@@_global_scale_fp*#5 } ]
+      \path [ path~picture = {
+              \node at ($ (path~picture~bounding~box.#6) + #2 $)
+                { \includegraphics [ height = #4 ] {#3} };
+          } ] #1;
   }
-% ctp (La)TeX log
-\tl_new:N \g_@@_logo_font_tl
-\tl_new:N \g_@@_logo_image_tl
-\tl_set:Nn \g_@@_logo_font_tl  { lmr }
-\tl_set:Nn \g_@@_logo_image_tl { example-image-a }
-\NewDocumentCommand{\ctplogofont}{m}
-  {
-    \tl_set:Nn \g_@@_logo_font_tl { #1 }
-  }
-\NewDocumentCommand{\ctplogoimage}{m}
-  {
-    \tl_set:Nn \g_@@_logo_image_tl { #1 }
-  }
-\def\@@logo@L{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{L}}
-\def\@@logo@A{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{A}}
-\def\@@logo@T{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{T}}
-\def\@@logo@E{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{E}}
-\def\@@logo@X{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{X}}
-\protected\def\ctpTeX{\@@logo@T\kern-.1667em \lower.5ex\hbox{\@@logo@E}\kern-.125em \@@logo@X}
-\protected\def\ctpLaTeX
-  {
-    \@@logo@L\kern-.36em
-    {\sbox\z@ T
-      \vbox to\ht\z@ {
-        \vskip-.021em
-        \hbox{\kern0.083em
-        \scalebox{.7}{\@@logo@A}}
-        \vss
-      }
-    }
-    \kern-.1em\ctpTeX
-  }
+
+
 \file_input_stop:
 % </sty>
