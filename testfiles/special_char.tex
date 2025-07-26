@@ -1,0 +1,55 @@
+\makeatletter
+\def\input@path{{../}}
+\makeatother
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{char2path}
+\usepackage{listings}
+\lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
+\parindent0pt
+
+
+\begin{document}
+\section{TEST SPECIAL CHAR}
+% NOTE: '\~' is a accent cmd
+% ABC \~ DEF; ABC \textasciitilde DEF; ABC \ctptilde DEF
+
+\def\XXX{XyQ"}
+\texttt{XyQ"}\par
+\chartopath[fill=red]{lmm}{\XXX}
+
+
+original: \verb|#,&,$,~,\,|\par
+xample: \chartopath[fill=red]{lmm}{\#},
+\chartopath[fill=blue]{lmm}{&},
+\chartopath[fill=red]{lmm}{$},
+\chartopath[fill=red]{lmm}{~},
+\chartopath[fill=red]{lmm}{\ctpbackslash},
+
+
+
+\let\orithelstnumber\thelstnumber
+\def\thelstnumber{%
+  \chartopath[rescan=false, path fading = east, fill = blue]
+    {lmm}{\orithelstnumber}}
+% \begin{example}
+% \lstset{numberstyle={\chartopath{lmm}}}
+\begin{lstlisting}[language = {[LaTeX]TeX}]
+\documentclass{article}
+\begin{document}
+  Hello, \LaTeX!
+\end{document}
+\end{lstlisting}
+% \end{example}
+
+\ExplSyntaxOn
+% % \edef\TTT{\ctptilde} % no expand
+% % \exp_args:NNo \def\TTT{\ctptilde}
+% % \show\TTT  % --> \asciitilde, fails
+% \tl_set:Nn \l_tmpa_tl {$&_^}
+% \tl_map_inline:Nn \l_tmpa_tl 
+%   {
+%     \tl_to_str:n {#1}
+%   }
+\ExplSyntaxOff
+\end{document}
