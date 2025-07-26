@@ -96,7 +96,7 @@ and the converted paths will be scaled to the corresponding factors.
   \end{tabular}
 \end{center}
 
-\begin{function}{\chartopath}
+\begin{function}[updated=2025-07-26]{\chartopath}
   \begin{syntax}
     \cs{chartopath} \oarg{key-vals} \marg{string}
   \end{syntax}
@@ -104,6 +104,8 @@ and the converted paths will be scaled to the corresponding factors.
   argument accepts the following keys to set the style how the string converts
   to path.
   \begin{keyval}
+    \item [\key{rescan}] \val{bool} Rescan tokens \verb|$|, \verb|&|, and \verb|~| with catcode 12 (other). 
+    (Default: |true|).
     \item [\key{draw,fill}] \val{color} can set the color of the outline/fill of string
     (Default: |black|).
     \item [\key{scale}] \val{fp num} can set the scale of the string
@@ -133,11 +135,53 @@ and the converted paths will be scaled to the corresponding factors.
 \end{function}
 
 
+\begin{function}[added=2025-07-26]{\ctpTeX, \ctpLaTeX}
+  Generate the \TeX{} and \LaTeX{} logos with options to customize the font and background image.
+\end{function}
+
+
+\begin{function}[added=2025-07-26]{\ctplogoimage, \ctplogofont}
+  \begin{syntax}
+    \cs{ctplogoimage}\marg{image}
+    \cs{ctplogofont}\marg{font}
+  \end{syntax}
+  Customize the font and background image used by \cs{ctpTeX} and \cs{ctpLaTeX}.
+\end{function}
+
+
 \section{Examples}
+
+\subsection{Logo}
+\begin{example}
+\ctpTeX\\
+\ctpLaTeX
+\end{example}
 
 \subsection{Clip image}
 \begin{example}
-\charpathclip[font=lmr, scale=2.5, offset={(1, 2cm)}]{H}
+\charpathclip[font=lmr, scale=2.5, 
+              offset={(1, 2cm)}]{H}
+\end{example}
+
+You can also define a command, \verb|\strpathclip|, that accepts a string instead 
+of a single character:
+\begin{example}
+\ExplSyntaxOn
+\NewDocumentCommand{\strpathclip}{O{}m}
+  {
+    \int_step_inline:nn 
+      { \exp_args:Ne \tl_count:n {#2} }
+      {
+        \charpathclip[
+          #1,
+          offset = {(##1*1, 0pt)},
+        ]{\tl_item:nn {#2}{##1}}
+        \kern2pt
+      }
+  }
+\ExplSyntaxOff
+\strpathclip[scale=2.5, font=lmm]{AAAA}\\
+\strpathclip[scale=2.5, font=lmr]{Hello}
 \end{example}
 
 

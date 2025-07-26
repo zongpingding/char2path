@@ -21,45 +21,16 @@ to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
-Usage
------
 
-### Generate `.svg` from font
-
-#### Use `Inkscape`
-
-1. Set text font to latin modern mono
-2. Click `Object` -> `Object to path`
-3. Save as `Plain SVG`
-
-> Note: The default unit in Inkscape is millimeters (`mm`), while in svg2tikz it is centimeters (`cm`).
-
-#### Use `fonts2svg`
-
-### Generate `svg` from Open True Type font (use package `opentypesvg`):
-
+Generate `*.pgf.coor` from font
+---
 ```shell
-fonts2svg lmmonolt10-regular.otf -av
+cd resources/SVG/font2svg
+pip install -r requirements.txt
+python font2path.py
 ```
 
-Convert the generated SVG files to TikZ files, and
 
-```tex
-\def\globalscale{0.01350000}
-```
-
-### Generate `pgf` from `svg`
-
-```shell
-# full mwe
-svg2tikz lmm_8.svg --output lmm_export_8.tikz
-
-# just `scope' env
-svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_export_8.tikz
-
-# batch mode (powershell)
-for ($i=0; $i -le 9; $i++) {svg2tikz --codeoutput=codeonly lmm_$i.svg --output lmm_export_$i.tikz}
-```
 
 Issues
 ------

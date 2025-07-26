@@ -137,19 +137,19 @@
           \l_@@_color_i_tl \l_@@_color_ii_tl \l_@@_direction_tl
         \str_if_eq:eeT { \l_@@_direction_tl } { vertical }
           {
-            \@@_aux:nnnn
+            \exp_args:Nno \@@_aux:nnnn
               {
                 draw        = \l_@@_draw_tl,  bottom~color  = \l_@@_color_ii_tl,
                 top~color   = \l_@@_color_i_tl, line~width  = \l_@@_outlint_tl,
                 \clist_use:Nn \l_@@_options_clist {,}
-              } {#3} {#2} { \l_@@_scale_fp }
+              } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp }
           }
         \str_if_eq:eeT { \l_@@_direction_tl } { horizontal }
           {
-            \@@_continous_color_aux:nNN {#3}
+            \exp_args:Ne \@@_continous_color_aux:nNN { \l_@@_tmpa_tl }
               \l_@@_continous_color_left_clist
               \l_@@_continous_color_right_clist
-            \int_step_inline:nn { \tl_count:n {#3} }
+            \int_step_inline:nn { \exp_args:Ne \tl_count:n { \l_@@_tmpa_tl } }
               {
                 \tl_set:Nn \l_@@_continous_color_tmpa_tl
                   { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
@@ -168,7 +168,7 @@
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                       \l_@@_color_i_tl,
                     \clist_use:Nn \l_@@_options_clist {,}
-                  } { \tl_item:nn {#3} {##1} }
+                  } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
                   {#2} { \l_@@_scale_fp }
               }
           }
@@ -264,7 +264,7 @@
     \group_begin:
     \keys_set:nn { char2path / charclippath }{ #1 }
     \exp_args:Nee \__@@_image_clip:nnnnnn
-      { \prop_item:cn { c_@@_tikz_ \l__@@_char_clip_font _data_prop } { #2 } }
+      { \prop_item:ce { c_@@_tikz_ \l__@@_char_clip_font _data_prop } { #2 } }
       { \l__@@_image_anchor_offset_tl }
       { \l__@@_image_tl               }
       { \l__@@_image_height_dim       }
@@ -284,17 +284,37 @@
           }
       ] #1;
   }
-% \tikzset
-%   {
-%     path~image/.style = 
-%       {
-%         path~picture =
-%           {
-%             \node at (path~picture~bounding~box.center) 
-%               { \includegraphics[height=3cm]{#1} };
-%             % TODO: change 'height' to the height of char
-%           }
-%       }
-%   }
+% ctp (La)TeX log
+\tl_new:N \g_@@_logo_font_tl
+\tl_new:N \g_@@_logo_image_tl
+\tl_set:Nn \g_@@_logo_font_tl  { lmr }
+\tl_set:Nn \g_@@_logo_image_tl { example-image-a }
+\NewDocumentCommand{\ctplogofont}{m}
+  {
+    \tl_set:Nn \g_@@_logo_font_tl { #1 }
+  }
+\NewDocumentCommand{\ctplogoimage}{m}
+  {
+    \tl_set:Nn \g_@@_logo_image_tl { #1 }
+  }
+\def\@@logo@L{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{L}}
+\def\@@logo@A{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{A}}
+\def\@@logo@T{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{T}}
+\def\@@logo@E{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{E}}
+\def\@@logo@X{\charpathclip[font=\g_@@_logo_font_tl, image=\g_@@_logo_image_tl]{X}}
+\protected\def\ctpTeX{\@@logo@T\kern-.1667em \lower.5ex\hbox{\@@logo@E}\kern-.125em \@@logo@X}
+\protected\def\ctpLaTeX
+  {
+    \@@logo@L\kern-.36em
+    {\sbox\z@ T
+      \vbox to\ht\z@ {
+        \vskip-.021em
+        \hbox{\kern0.083em
+        \scalebox{.7}{\@@logo@A}}
+        \vss
+      }
+    }
+    \kern-.1em\ctpTeX
+  }
 \file_input_stop:
 % </sty>
