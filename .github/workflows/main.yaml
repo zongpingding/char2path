@@ -10,7 +10,7 @@ jobs:
   l3build:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -20,5 +20,4 @@ jobs:
         with:
           package_file: .github/tl_packages
       - name: Run l3build
-        # run: l3build ctan -q -H
-        run: l3build doc -q -H
+        run: l3build ctan -q -H
