@@ -84,7 +84,7 @@ if EXTRACT_SVG:
 def extract_tikz_path(char_name:str, input_file:str, output_file:str) -> None:
     with open(input_file, 'r', encoding='utf-8') as infile, \
         open(output_file, 'w', encoding='utf-8') as outfile:
-        
+
         pattern = re.compile(r'^\s*\\path\[fill=black\]\s*(.*);\s*$')
         for line in infile:
             match = pattern.match(line)
@@ -93,8 +93,7 @@ def extract_tikz_path(char_name:str, input_file:str, output_file:str) -> None:
                 outfile.write(f'{char_name} = {{{content}}},\n')
 
 if EXTRACT_COOR:
-    # for dir in FONTABLE_SVG_DIR:
-    for dir in [SMALL_DIR]:
+    for dir in FONTABLE_SVG_DIR:
         for f in dir.iterdir():
             if f.suffix == '.svg':
                 f_no_ext = f.name[:-4]  # remove .svg extension
@@ -109,4 +108,5 @@ if EXTRACT_COOR:
                 print(f.name, "->", target_file)
                 # 2. extract pgf path coordinates
                 extract_tikz_path(f_no_ext, str(target_file), str(target_file) + '.coor')
+                # extract_tikz_path(f_no_ext, str(target_file), 'small.tex') # output_file with 'a'
                 print(target_file, "->", target_file+'.coor')
