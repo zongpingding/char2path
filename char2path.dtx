@@ -1,0 +1,881 @@
+% \iffalse meta-comment
+%
+% File: char2path.dtx
+% -----------------------------------------------------------------------
+%   Copyright (C) 2025 by Eureka <zongpingding5@outlook.com> and        *
+%                         Mingyu Xia <myhsia@outlook.com>               *
+%                                                                       *
+%   This work may be distributed and/or modified under the conditions   *
+%   of the LaTeX Project Public License (LPPL), either version 1.3c of  *
+%   this license or (at your option) any later version.                 *
+%   The latest version of this license is in                            *
+%                                                                       *
+%       http://www.latex-project.org/lppl.txt                           *
+%                                                                       *
+%   and version 1.3c or later is part of all distributions of LaTeX     *
+%   version 2008 or later.                                              *
+%                                                                       *
+%   This work has the LPPL maintenance status `maintained'.             *
+%                                                                       *
+%   The Current Maintainer of this work is Eureka and Mingyu Xia.       *
+%                                                                       *
+%   This work consists of the files char2path.dtx,                      *
+%                                   ctp-lmdata.dtx,                     *
+%                                   char2path.ins,                      *
+%                 the derived files char2path.sty,                      *
+%                                   ctp-lmr-arabic.data.tex,            *
+%                                   ctp-lmr-alpha-small.data.tex,       *
+%                                   ctp-lmr-alpha-caps.data.tex,        *
+%                                   ctp-lmr-others.data.tex,            *
+%                                   ctp-lms-arabic.data.tex,            *
+%                                   ctp-lms-alpha-small.data.tex,       *
+%                                   ctp-lms-alpha-caps.data.tex,        *
+%                                   ctp-lms-others.data.tex,            *
+%                                   ctp-lmm-arabic.data.tex,            *
+%                                   ctp-lmm-alpha-small.data.tex,       *
+%                                   ctp-lmm-alpha-caps.data.tex,        *
+%                                   ctp-lmm-others.data.tex,            *
+%           the documentation files char2path.pdf,                      *
+%                               and README.md.                          *
+% -----------------------------------------------------------------------
+%
+%   Any modification of this file should ensure that the copyright and
+%   license information is placed in the derived files.
+%
+% -----------------------------------------------------------------------
+%
+%<*internal>
+\iffalse
+%</internal>
+%
+%<*readme>
+[![CTAN Version](https://img.shields.io/ctan/v/char2path)](https://ctan.org/pkg/char2path)
+[![GitHub Release](https://img.shields.io/github/v/release/zongpingding/char2path)](https://github.com/zongpingding/char2path/releases/latest)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/zongpingding/char2path)](https://github.com/zongpingding/char2path/commits)
+[![Actions Status](https://github.com/zongpingding/char2path/actions/workflows/main.yaml/badge.svg?branch=main)](https://github.com/zongpingding/char2path/actions)
+[![GitHub Repo stars](https://img.shields.io/github/stars/zongpingding/char2path)](https://github.com/zongpingding/char2path)
+
+The `char2path` Package
+=======================
+
+The `char2path` package provides a LaTeX package for converting characters into TikZ paths.
+
+Overview
+--------
+
+The package provides the `\chartopath` and `\chartoclip` macro
+
+    \chartopath [<keys>] {<string>}
+    \chartoclip [<keys>] {<string>}
+
+to print Ti*k*Z paths for characters in a string.
+
+See `char2path.pdf` for more. Happy TeXing!
+
+
+Generate `tikz path` from font
+---
+First, install the dependencies:
+```shell
+cd resources/SVG/font2svg
+pip install -r requirements.txt
+```
+
+Next, define the following constants:
+```python
+FONT_FOLDER = "../../Fonts/"
+FONT_NAME = "lmmono10-regular.otf"
+FONT_ALIAS = 'lmm'
+```
+
+Finally, run the Python script below:
+``` shell
+python font2path.py
+```
+
+Issues
+------
+
+The issue tracker for `char2path` is currently located
+[on GitHub](https://github.com/zongpingding/char2path/issues).
+
+Build status
+------------
+
+This project uses [GitHub Actions](https://github.com/features/actions)
+as a hosted continuous integration service. For each commit, the build status
+is tested using the current release of TeX Live.
+
+_Current build status:_ ![build status](https://github.com/zongpingding/char2path/actions/workflows/main.yaml/badge.svg?branch=main)
+
+References
+----------
+
+\[1\] https://www.gust.org.pl/projects/e-foundry/latin-modern/download
+
+\[2\] https://www.unicode.org/standard/standard.html
+
+Copyright and License
+---------------------
+
+Copyright (C) 2023-2025 by Eureka <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
+
+This work may be distributed and/or modified under the conditions
+of the LaTeX Project Public License (LPPL), either version 1.3c of
+this license or (at your option) any later version.
+The latest version of this license is in
+
+    http://www.latex-project.org/lppl.txt
+
+and version 1.3c or later is part of all distributions of LaTeX
+version 2008 or later.
+
+This work has the LPPL maintenance status `maintained'.
+
+The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
+%</readme>
+%
+%<*internal>
+\fi
+%</internal>
+%
+%<*driver>
+\documentclass{l3doc}
+\usepackage[scale = 10pt]{char2path}
+\usepackage{listings}
+\lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
+\AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
+\makeatletter
+\def \@key  #1{\textcolor{red}{\textbf{\texttt{#1}}}\:\texttt{=}\:}
+\def \s@key #1{\textcolor{red}{\textbf{\texttt{#1}}}}
+\DeclareDocumentCommand \key s {\IfBooleanTF{#1}\s@key\@key}
+\DeclareCommandCopy \val \meta
+\def \TFF {true\textup{\textbar\textbf{false}}}
+\def \TTF {\textup{\textbf{true}\textbar}false}
+\def \HoLogo@ApLaTeX #1{^^A
+  \HOLOGO@mbox {A\kern -.05em p\kern -.05em \hologo{LaTeX}}}
+\newcounter{example}[subsection]
+\renewcommand\theexample{\thesubsection.\arabic{example}}
+\newwrite\example@out
+\def\example@name{\jobname.example.aux}
+\long\def\example@start{\begingroup\@bsphack
+  \immediate\openout\example@out=\example@name
+  \let\do\@makeother\dospecials\catcode`\^^M\active
+  \def\verbatim@processline{\immediate\write\example@out{\the\verbatim@line}}^^A
+  \verbatim@start}
+\long\def\example@end{\immediate\closeout\example@out\@esphack\endgroup
+  \trivlist\item[]\relax
+    \leavevmode\hbox to \z@{^^A
+      \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
+      \begin{minipage}[c]{.72\textwidth}^^A
+        \small\VerbatimInput[gobble=2] \example@name^^A
+      \end{minipage}^^A
+      \fbox{^^A
+        \begin{minipage}[c]{.26\textwidth}^^A
+          \normalsize\input \example@name^^A
+        \end{minipage}^^A
+      }^^A
+    \hss}^^A
+  \endtrivlist}
+\long\def\s@example@end{\immediate\closeout\example@out\@esphack\endgroup
+  \trivlist\item[]\relax
+    \leavevmode\hbox to \z@{^^A
+      \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}\vbox{\noindent
+      \hskip-4pt
+      \begin{minipage}{\textwidth}^^A
+        \small\VerbatimInput[gobble=2]{\example@name}^^A
+      \end{minipage}\par\medskip\noindent
+      \fbox{^^A
+        \begin{minipage}{\textwidth}^^A
+          \normalsize\input \example@name^^A
+        \end{minipage}^^A
+      }}^^A
+    \hss}^^A
+  \endtrivlist}
+\newenvironment{example}
+  {\stepcounter{example}\example@start}{\example@end}
+\newenvironment{example*}
+  {\stepcounter{example}\example@start}{\s@example@end}
+\makeatother
+\newlist{keyval}{itemize}{10}
+\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
+\makeindex
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+% \title{^^A
+%   The \texorpdfstring{^^A
+%     \chartopath[hfading = {teal, purple}, font = lms]{char2path}^^A
+%   }{char2path} Package\thanks{^^A
+%     \url{https://ctan.org/pkg/char2path},
+%     \url{https://github.com/zongpingding/char2path}^^A
+%   }^^A
+% }
+% \author{^^A
+%   Eureka\thanks{^^A
+%     \href{mailto:zongpingding5@outlook.com}{\texttt{zongpingding5@outlook.com}}},~
+%   Mingyu Xia\thanks{^^A
+%     \href{mailto:xiamingyu@westlake.edu.cn}{\texttt{xiamingyu@westlake.edu.cn}}^^A
+%   }^^A
+% }
+% \date{Released 2025-08-01\quad \texttt{v1.0.0}}
+%
+% \maketitle
+%
+% \begin{documentation}
+%
+% \section{Introduction}
+%
+% The \pkg{char2path} package provides a \LaTeX\ package for converting
+% characters into Ti\textit k\/Z paths.
+% It supports compilation methods including \hologo{pdfLaTeX},
+% \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+%
+% \section{Usage}
+%
+% \noindent
+% \begin{minipage}{.55\linewidth}
+%   To load this package, write the line
+%   \begin{Verbatim}[commandchars = \|\{\}]
+%   \usepackage[scale = |meta{choice}]|{char2path|}
+%   \end{Verbatim}
+%   The supported right listed \meta{choice} can
+%   scale the converted paths with corresponding factors.
+% \end{minipage}
+% \hspace*\fill
+% \begin{minipage}{.43\linewidth}
+%   \begin{tabular}{*5{>{\small}c}}
+%     \toprule
+%     Choice  & |10pt| & |11pt| & |12pt| & |13pt|\\
+%     Factor  & |0.82| & |0.90| & |0.98| & |1.07|\\
+%     \midrule
+%     Choice  & |14pt| & |15pt| & |16pt| & ...   \\
+%     Factor  & |1.15| & |1.23| & |1.31| & ...   \\
+%     \bottomrule
+%   \end{tabular}
+% \end{minipage}
+%
+% \begin{function}[updated = 2025-07-27]{\chartopath}
+%   \begin{syntax}
+%     \cs{chartopath} \oarg{key-vals} \marg{string}
+%   \end{syntax}
+%   The \oarg{key-vals} accepts the listed keys to set how the \marg{string}
+%   converts to path.
+%   \begin{keyval}
+%     \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
+%     choose char's font.
+%     \item [\key{draw, fill}] \val{color} set the color of
+%     the outline/fill of string (Default: |black|).
+%     \item [\key{outline}] \val{dim} set the outline of the string
+%     to achieve the ``Fake Bold'' effect (Default: |0pt|).
+%     \item [\key{scale}] \val{fp num} set font's scale factor
+%     (Default: |1|).
+%     \item [\key{hfading, vfading}] \val{color clist} set the two colors for horizontally/vertically fading the whole string.
+%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other). 
+%     (Default: |true|).
+%   \end{keyval}
+% \end{function}
+%
+% \begin{function}[updated = 2025-07-26]{\chartoclip}
+%   \begin{syntax}
+%     \cs{chartoclip} \oarg{key-vals} \marg{char}
+%   \end{syntax}
+%   The mandatory argument accepts a single character, and the optional
+%   argument accepts the following keys to set the style how the character clip
+%   the image.
+%   \par\medskip\noindent
+%   \begin{minipage}{.57\linewidth}
+%     \begin{keyval}
+%       \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
+%       choose char's font.
+%       \item [\key{image}] \val{image} set image to clip.
+%       \item [\key{scale}] \val{fp num} set font's scale factor
+%       (Default: |1|).
+%     \end{keyval}
+%   \end{minipage}
+%   \hspace*\fill
+%   \begin{minipage}{.39\linewidth}
+%     \begin{keyval}
+%       \item [\key{anchor}] \val{tikz anchor} set image's anchor.
+%       \item [\key{offset}] \val{(x, y)} set imgae anchor's offset.
+%       \item [\key{height}] \val{dim} image's height.
+%     \end{keyval}
+%   \end{minipage}
+% \end{function}
+%
+% \section{Examples}
+%
+% This package can convert the following characters to path by default:
+% including \textrm{Latin Modern Roman}, \textrm{Latin Modern Sans},
+% and \texttt{Latin Modern Mono}.
+%
+% \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
+% \begin{center}
+%   \begin{minipage}[t]{.32\linewidth}
+%     \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
+%       \scriptsize
+%       \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./012345678}\par
+%       \chartopath[font = lmr, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
+%       \chartopath[font = lmr, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
+%       \chartopath[font = lmr, draw]{ijklmnopqrstuvwxyz\{|\}~}
+%     }}
+%   \end{minipage}
+%   \hspace*\fill
+%   \begin{minipage}[t]{.32\linewidth}
+%     \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
+%       \scriptsize
+%       \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./012345678}\par
+%       \chartopath[font = lms, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
+%       \chartopath[font = lms, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
+%       \chartopath[font = lms, draw]{ijklmnopqrstuvwxyz\{|\}~}
+%     }}
+%   \end{minipage}
+%   \hspace*\fill
+%   \begin{minipage}[t]{.32\linewidth}
+%     \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
+%       \scriptsize
+%       \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./012345678}\par
+%       \chartopath[font = lmm, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
+%       \chartopath[font = lmm, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
+%       \chartopath[font = lmm, draw]{ijklmnopqrstuvwxyz\{|\}~}
+%     }}
+%   \end{minipage}
+% \end{center}
+% \MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
+%
+% \subsection{Basic usage}
+%
+% \noindent
+% \def\0{0123456789/ctp}
+% The basic usage only print the outline of the inputted string.
+% \begin{example}
+%   \def\0{0123456789/ctp}
+%   \chartopath\0
+% \end{example}
+% \noindent
+% Users can specific the color of outline and fill,
+% specific the fill-in pattern,
+% and specific the scale and slant of inputted characters.
+% Just like the keys in Ti\textit k\/Z.
+% \begin{example}
+%   \chartopath[draw = none, fill = blue]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[draw = blue, fill = red, scale = 1.2]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[pattern = north west lines,
+%               draw, scale = 1.2] \0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[draw, fill = green,
+%               xslant = .15, scale = 1.2] \0
+% \end{example}
+% Commands like \cs[no-index]{small} can be directly applied to \cs{chartopath}.
+% A comparison of the text and the converted path under 4 different font size
+% is shown in the following figure.
+%
+% \begin{center}
+%   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
+%     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
+%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\cs{f@size}};
+%     \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
+%     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
+%     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
+%     \node [ above = 1ex ] at (.72\linewidth,0) {\LARGE      \0};
+%     \node [ below = 1ex ] at (.06\linewidth,0)
+%       {\small     \chartopath[fill = orange]\0};
+%     \node [ below  = 1ex] at (.24\linewidth,0)
+%       {\normalsize\chartopath[fill = green]\0};
+%     \node [ below = 1ex ] at (.45\linewidth,0)
+%       {\large     \chartopath[fill = blue]\0};
+%     \node [ below = 1ex ] at (.72\linewidth,0)
+%       {\LARGE     \chartopath[fill = purple]\0};
+%     \makeatletter
+%     \node at (.06\linewidth,0)
+%       {\small     \scalebox{\fpeval{8/\f@size}}
+%         {\small     \f@size pt (\cs[no-index]{small})}};
+%     \node at (.24\linewidth,0)
+%       {\normalsize\scalebox{\fpeval{8/\f@size}}
+%         {\normalsize\f@size pt (\cs[no-index]{normalsize})}};
+%     \node at (.45\linewidth,0)
+%       {\large     \scalebox{\fpeval{8/\f@size}}
+%         {\large     \f@size pt (\cs[no-index]{large})}};
+%     \node at (.72\linewidth,0)
+%       {\LARGE      \scalebox{\fpeval{8/\f@size}}
+%         {\LARGE      \f@size pt (\cs[no-index]{LARGE})}};
+%     \makeatother
+%   \end{tikzpicture}
+% \end{center}
+%
+% \subsection{Fading the path}
+%
+% \begin{example}
+%   \chartopath[hfading = {red, green}]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[hfading = {blue, -}]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[hfading = {-, violet}]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[vfading = {teal, purple}]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[vfading = {-, orange}]\0
+% \end{example}
+%
+% \begin{example}
+%   \chartopath[vfading = {violet, -}]\0
+% \end{example}
+%
+% \begin{texnote}
+%   Fading will cost too much time!!!
+% \end{texnote}
+%
+% \section{Advanced Examples}
+%
+% \subsection{Use in \pkg{listings}}
+%
+% This package can be used within \pkg{listings} or \pkg{minted},
+% then users could directly copy the source code from |.pdf| file
+% without worry about including unwanted line numbers.
+%
+% \let\orithelstnumber\thelstnumber
+%   \def\thelstnumber{^^A
+%     \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}^^A
+%   }
+% \begin{verbatim}
+%   \let\orithelstnumber\thelstnumber
+%   \def\thelstnumber{%
+%     \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}%
+%   }
+% \end{verbatim}
+%
+% \begin{example}
+% \begin{lstlisting}[language = {[LaTeX]TeX}, gobble = 2]
+% \documentclass{article}
+% \begin{document}
+%   Hello, \LaTeX!
+% \end{document}
+% \end{lstlisting}
+% \end{example}
+%
+% \subsection{String clip}
+% You can also define a command, \cs[no-index]{strpathclip},
+% that accepts a string instead of a single character:
+% \begin{example}
+% \ExplSyntaxOn
+% \NewDocumentCommand \strpathclip { O{} m }
+%   { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+%       { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
+%           { \tl_item:nn {#2}{##1}} \kern2pt } }
+% \ExplSyntaxOff
+% \strpathclip[scale = 2, font = lmr]{Hello} \strpathclip[scale = 2, font = lmm]{c2p}
+% \end{example}
+%
+%
+% \subsection{\hologo{(La)TeX} logo}
+% The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
+% \begin{example}
+% \def\ctp#1{\chartoclip[font = lmr, image = example-image]{#1}}
+% \protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
+%   \hbox{\ctp E}\kern-.125em \ctp X}
+% \protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
+%   {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{^^A
+%   \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
+% \scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
+% \end{example}
+%
+% \subsection{Get path data}
+%
+% \begin{example*}
+%   \def\0{\ctpdata{lmr}{-}} \ttfamily\detokenize\expandafter{\expanded{\0}}
+% \end{example*}
+%
+% \section{Todo List}
+%
+% \begin{itemize}
+%   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning: Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
+%   \item [\textcolor{blue}{\textsf{Function}}] Support function like
+%   "\chartopath{\usefont{T1}{cmr}{m}{sc} abc}", or\\
+%   "\chartopath{\sffamily abc}".
+% \end{itemize}
+%
+% \end{documentation}
+%
+% \begin{implementation}
+%
+% \section{The Source Code}
+%
+%    \begin{macrocode}
+%<*package>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%<@@=ctp>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\ProvidesExplPackage {char2path} {2025-08-01} {v1.0.0}
+  {A LaTeX package that converts characters into TikZ paths}
+
+\keys_define:nn { char2path }
+  {
+    scale   .tl_gset:N = \g_@@_scale_tl,
+      scale .initial:n = { 10pt },
+  }
+\ProcessKeyOptions [ char2path ]
+
+\RequirePackage{tikz, etoolbox}
+\patchcmd{\pgfutil@InputIfFileExists}
+  { \input #1 }
+  {
+    \@pushfilename
+    \xdef\@currname{#1}
+    \input #1
+    \@popfilename
+  }{}{}
+\usetikzlibrary{patterns, fadings, calc}
+
+\cs_new_protected:Npn \@@_msg_new:nn #1#2
+  { \msg_new:nnn { char2path } {#1} {#2} }
+\cs_new_protected:Npn \@@_msg_warning:n #1
+  { \msg_warning:nn { char2path } {#1} }
+\cs_new_protected:Npn \@@_msg_error:nn #1#2
+  { \msg_error:nne { char2path } {#1} {#2} }
+\@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
+\@@_msg_new:nn { kernel } { file ~ not ~ found }
+
+\tl_const:Nn \c_@@_tikz_folder_tl { font_glyph } % for future use
+\fp_const:Nn \c_@@_global_scale_fp { .0135 }
+\prop_const_from_keyval:Nn \c_@@_scale_prop
+  {
+    10pt = 0.820, 11pt = 0.902, 12pt = 0.984, 13pt = 1.066,
+    14pt = 1.148, 15pt = 1.230, 16pt = 1.311,
+  }
+
+\tl_new:N \l_@@_tikz_data_merge_tl
+\cs_new_protected_nopar:Npn \@@_load_font_data:nnn #1#2#3
+  {
+    \clist_map_inline:nn {#3}
+      {
+        \file_get:nnNTF
+          { ctp-#2-##1.data.tex } { \char_set_catcode:nn { 126 } { 12 } }
+          \l_@@_tikz_data_single_tl
+          {
+            \tl_gput_right:NV \l_@@_tikz_data_merge_tl
+              \l_@@_tikz_data_single_tl
+          } { \@@_msg_error:nn { kernel } { ctp-#2-##1.data.tex } }
+      }
+    \exp_args:NnV \prop_const_from_keyval:cn
+      { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
+    \tl_set:cn { l_@@_font_#2_type_tl } {#1}
+  }
+
+\cs_new:Npn \@@_protected_char:nn #1#2
+  { \cs_new_protected:cpn {#1} { \exp_not:n {#2} } }
+\@@_protected_char:nn { ctpbackslash }{ \textbackslash }
+\@@_load_font_data:nnn { serif } { lmr }
+  { arabic, alpha-small, alpha-caps, others, }
+\@@_load_font_data:nnn { mono } { lmm }
+  { arabic, alpha-small, alpha-caps, others, }
+\@@_load_font_data:nnn { sans } { lms }
+  { arabic, alpha-small, alpha-caps, others, }
+
+\box_new:N \l_@@_glyph_box
+\clist_new:N \l_@@_continous_color_left_clist
+\clist_new:N \l_@@_continous_color_right_clist
+\clist_new:N \l_@@_options_clist
+\tl_new:N \l_@@_unknown_tl
+\keys_define:nn { char2path / chartopath }
+  {
+    font      .tl_set:N     = \l_@@_char_clip_font,
+      font    .initial:n    = { lmm },
+    rescan    .bool_set:N   = \l_@@_rescan_bool,
+      rescan  .initial:n    = { true },
+    draw      .tl_set:N     = \l_@@_draw_tl,
+      draw    .initial:n    = { none },
+    fill      .tl_set:N     = \l_@@_fill_tl,
+    outline   .dim_set:N    = \l_@@_outline_tl,
+      outline .initial:n    = { 0pt },
+    hfading   .clist_set:N  = \l_@@_hfading_clist,
+    vfading   .clist_set:N  = \l_@@_vfading_clist,
+    scale     .fp_set:N     = \l_@@_scale_fp,
+      scale   .initial:n    = { 1 },
+    unknown   .code:n       = \@@_parse_unknown_option:n {#1}
+  }
+\cs_new_protected_nopar:Npn \@@_parse_unknown_option:n #1
+  {
+    \tl_if_empty:nTF {#1}
+      { \clist_put_right:NV \l_@@_options_clist \l_keys_key_str }
+      {
+        \exp_args:NNx \clist_gput_right:Nn \l_@@_options_clist
+          { \l_keys_key_str = \exp_not:n {#1} }
+      }
+  }
+
+\tl_new:N \l_@@_tmpa_tl
+\tl_new:N \l_@@_tmpb_tl
+\NewDocumentCommand \chartopath { O{} m }
+  {
+    \group_begin:
+    \keys_set:nn { char2path / chartopath } {#1}
+    \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
+    \bool_if:NTF \l_@@_rescan_bool
+      {
+        \tl_set_rescan:Nnn \l_@@_tmpa_tl 
+          {
+            \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 } % '$'
+            \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 } % '&'
+            \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 } % '~'
+          } {#2}
+      } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
+    \bool_lazy_and:nnT
+      { !\clist_if_empty_p:N \l_@@_hfading_clist }
+      { !\clist_if_empty_p:N \l_@@_vfading_clist }
+      { \@@_msg_warning:n { fading } }
+    \bool_lazy_or:nnTF
+      {
+        \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist } 
+                            { \clist_if_empty_p:N \l_@@_vfading_clist }
+      }
+      {
+        \bool_lazy_and_p:nn { !\clist_if_empty_p:N \l_@@_hfading_clist }
+                            { !\clist_if_empty_p:N \l_@@_vfading_clist }
+      }
+      {
+        \exp_args:Nno \@@_aux:nnnn
+          {
+            draw        = \l_@@_draw_tl,  line~width  = \l_@@_outline_tl,
+            \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
+            \clist_use:Nn \l_@@_options_clist { , }
+          } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
+      }
+      {
+        \clist_if_empty:NF \l_@@_vfading_clist
+          {
+            \@@_continous_fading_parse_aux:NNN \l_@@_vfading_clist
+              \l_@@_color_i_tl \l_@@_color_ii_tl
+            \str_case_e:nn { - }
+              {
+                { \l_@@_color_i_tl }
+                { \tl_set:Nn \l_@@_color_i_tl { transparent!0 } }
+                { \l_@@_color_ii_tl }
+                { \tl_set:Nn \l_@@_color_ii_tl { transparent!0 } }
+              }
+            \@@_aux:nnnn
+              {
+                top~color  = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl,
+                line~width = \l_@@_outline_tl, draw = \l_@@_draw_tl,
+                \clist_use:Nn \l_@@_options_clist { , }
+              } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
+          }
+        \clist_if_empty:NF \l_@@_hfading_clist
+          {
+            \@@_continous_fading_parse_aux:NNN \l_@@_hfading_clist
+              \l_@@_color_i_tl \l_@@_color_ii_tl
+            \exp_args:Ne \@@_continous_color_aux:nNN { \l_@@_tmpa_tl }
+              \l_@@_continous_color_left_clist
+              \l_@@_continous_color_right_clist
+            \int_step_inline:nn { \exp_args:Ne \tl_count:n { \l_@@_tmpa_tl } }
+              {
+                \tl_set:Nn \l_@@_continous_color_tmpa_tl
+                  { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
+                \tl_set:Nn \l_@@_continous_color_tmpb_tl
+                  { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
+                \str_case_e:nnF { - }
+                  {
+                    { \l_@@_color_i_tl }
+                    {
+                      \exp_args:Nne \@@_aux:nnnn
+                        {
+                          draw        = \l_@@_draw_tl,
+                          line~width  = \l_@@_outline_tl,
+                          left~color  =
+                            \l_@@_color_ii_tl!
+                            \fp_eval:n { 100 - \l_@@_continous_color_tmpa_tl },
+                          right~color =
+                            \l_@@_color_ii_tl!
+                            \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl },
+                          \clist_use:Nn \l_@@_options_clist { , }
+                        } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                        { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                    }
+                    { \l_@@_color_ii_tl }
+                    {
+                      \exp_args:Nne \@@_aux:nnnn
+                        {
+                          draw        = \l_@@_draw_tl,
+                          line~width  = \l_@@_outline_tl,
+                          left~color  =
+                            \l_@@_color_i_tl!\l_@@_continous_color_tmpa_tl,
+                          right~color =
+                            \l_@@_color_i_tl!\l_@@_continous_color_tmpb_tl,
+                          \clist_use:Nn \l_@@_options_clist { , }
+                        } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                        { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                    }
+                  }
+                  {
+                   \exp_args:Nne \@@_aux:nnnn
+                      {
+                        draw        = \l_@@_draw_tl,
+                        line~width  = \l_@@_outline_tl,
+                        left~color  =
+                          \l_@@_color_i_tl!
+                          \l_@@_continous_color_tmpa_tl!
+                          \l_@@_color_ii_tl,
+                        right~color =
+                          \l_@@_color_ii_tl!
+                          \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
+                          \l_@@_color_i_tl,
+                        \clist_use:Nn \l_@@_options_clist { , }
+                      } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                      { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                  }
+              }
+          }
+      }
+    \group_end:
+    \clist_gclear:N \l_@@_options_clist
+  }
+
+\prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
+\dim_new:N \l_@@_mono_width_dim
+\dim_new:N \l_@@_mono_sep_dim
+\cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
+  {
+    \exp_args:Ne \tl_map_inline:nn {#2}
+      {
+        \str_case:vnF { l_@@_font_#3_type_tl }
+          {
+            { serif }
+            {
+              \hbox_set:Nn \l_@@_glyph_box { \rmfamily ##1 }
+              \dim_set:Nn \l_@@_mono_width_dim { 0pt }
+              \dim_set:Nn \l_@@_mono_sep_dim { .52pt }
+            }
+            { sans }
+            {
+              \hbox_set:Nn \l_@@_glyph_box { \sffamily ##1 }
+              \dim_set:Nn \l_@@_mono_width_dim { 0pt }
+              \dim_set:Nn \l_@@_mono_sep_dim { .52pt }
+            }
+            { mono }
+            {
+              \hbox_set:Nn \l_@@_glyph_box { \ttfamily ##1 }
+              \dim_set:Nn \l_@@_mono_width_dim { 5.124975pt }
+              \dim_set:Nn \l_@@_mono_sep_dim { 0pt }
+            }
+          } { \hbox_set:Nn \l_@@_glyph_box {##1} }
+        \@@_draw:neennn { \int_use:N \box_dp:N \l_@@_glyph_box }
+          {#1} { \@@_data:nn {#3} {##1} } {#4}
+          { \l_@@_mono_width_dim } { \l_@@_mono_sep_dim }
+      }
+  }
+% TODO: Avoid nesting '\tikz' command; use the character's 
+%       natural dimensions instead.
+\cs_new_protected:Npn \@@_draw:nnnnnn #1#2#3#4#5#6
+  {
+    \tikz [ baseline = #1 ] \node
+      [ above, minimum~width = #5 * \f@size/10, inner~sep = #6 * \f@size/10 ]
+      { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
+                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
+              ] \path [#2] #3; };
+  }
+\cs_generate_variant:Nn \@@_draw:nnnnnn { neennn }
+\cs_new:Npn \@@_data:nn #1#2
+  {
+    \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } {#2}
+      { \prop_item:cn { c_@@_tikz_#1_data_prop } {#2} }
+      { node [ draw, rounded~corners = .5pt, inner~xsep = -.06pt ] {?} }
+    % \file_if_exist_input:n { \c_@@_tikz_folder_tl/#2.pgf.coor }
+  }
+\cs_generate_variant:Nn \@@_data:nn { ne, ee }
+
+\cs_new_protected:Npn \@@_continous_fading_parse_aux:NNN #1#2#3
+  {
+    \group_begin: \exp_args:NNNe \group_end:
+      \tl_set:Nn #2 { \clist_item:Nn #1 { 1 } }
+    \group_begin: \exp_args:NNNe \group_end:
+      \tl_set:Nn #3 { \clist_item:Nn #1 { 2 } }
+  }
+
+\cs_new_protected:Npn \@@_continous_color_aux:nNN #1#2#3
+  {
+    \int_step_inline:nn { \tl_count:n {#1} }
+      {
+        \clist_put_right:Ne #2
+          {
+            \fp_eval:n
+              { 100 - (##1 - 1) * 100 / \tl_count:n {#1} }
+          }
+        \clist_put_right:Ne #3
+          { \fp_eval:n { 100 - ##1 * 100 / \tl_count:n {#1} } }
+      }
+  }
+
+% image clip
+% TODO: change 'height' to the height of char
+\keys_define:nn { char2path / chartoclip }
+  {
+    font      .tl_set:N  = \l_@@_char_clip_font,
+      font    .initial:n = { lmm },
+    image     .tl_set:N  = \l_@@_image_tl,
+      image   .initial:n = { example-image },
+    scale     .fp_set:N  = \l_@@_char_clip_scale_fp,
+      scale   .initial:n = { 1 },
+    anchor    .tl_set:N  = \l_@@_image_anchor_tl,
+      anchor  .initial:n = { center },
+    offset    .tl_set:N  = \l_@@_image_anchor_offset_tl,
+      offset  .initial:n = { (0pt, 0pt) },
+    height    .dim_set:N = \l_@@_image_height_dim,
+      height  .initial:n = { 3cm },
+  }
+\NewDocumentCommand \chartoclip { O{} m }
+  {
+    \group_begin:
+    \keys_set:nn { char2path / chartoclip }{#1}
+    \exp_args:Nee \@@_image_clip_aux:nnnnnn
+      { \prop_item:ce { c_@@_tikz_ \l_@@_char_clip_font _data_prop } { #2 } }
+      { \l_@@_image_anchor_offset_tl }
+      { \l_@@_image_tl               }
+      { \l_@@_image_height_dim       }
+      { \l_@@_char_clip_scale_fp     }
+      { \l_@@_image_anchor_tl        }
+    \group_end:
+  }
+\cs_new:Npn \@@_image_clip_aux:nnnnnn #1#2#3#4#5#6
+  {% #1:path data;    #2:anchor offset;  #3:image;
+    \tikz [ scale = \fp_eval:n { \c_@@_global_scale_fp*#5 } ]
+      \path [ path~picture = {
+              \node at ($(path~picture~bounding~box.#6) + #2$)
+                { \includegraphics [ height = #4 ] {#3} };
+          } ] #1;
+  }% #4:image height; #5:scale;          #6:anchor
+
+% Use ctp data (need to be expandable)
+\newcommand \ctpdata [2] { \@@_data:nn {#1}{#2} }
+
+\file_input_stop:
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+% \end{implementation}
+
+% ^^A\PrintIndex

@@ -23,6 +23,7 @@ tikz_coors/
 *.tar.gz
 *.zip
 *.curlopt
+/source/
 
 ## macOS Desktop Services Cache:
 .DS_Store
