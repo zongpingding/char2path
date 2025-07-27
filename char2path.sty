@@ -37,13 +37,8 @@
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
-    10pt = 0.820, % basic scale factor
-    11pt = 0.902,
-    12pt = 0.984,
-    13pt = 1.066,
-    14pt = 1.148,
-    15pt = 1.230,
-    16pt = 1.311,
+    10pt = 0.820, 11pt = 0.902, 12pt = 0.984, 13pt = 1.066,
+    14pt = 1.148, 15pt = 1.230, 16pt = 1.311,
   }
 
 \tl_new:N \l_@@_tikz_data_merge_tl
@@ -86,7 +81,7 @@
     draw      .tl_set:N     = \l_@@_draw_tl,
       draw    .initial:n    = { none },
     fill      .tl_set:N     = \l_@@_fill_tl,
-    outline   .dim_set:N    = \l_@@_outlint_tl,
+    outline   .dim_set:N    = \l_@@_outline_tl,
       outline .initial:n    = { 0pt },
     hfading   .clist_set:N  = \l_@@_hfading_clist,
     vfading   .clist_set:N  = \l_@@_vfading_clist,
@@ -115,9 +110,9 @@
       {
         \tl_set_rescan:Nnn \l_@@_tmpa_tl 
           {
-            \char_set_catcode:nn {  36 } { 12 }  % '$'
-            \char_set_catcode:nn {  38 } { 12 }  % '&'
-            \char_set_catcode:nn { 126 } { 12 }  % '~'
+            \char_set_catcode:nn {  36 } { 12 } % '$'
+            \char_set_catcode:nn {  38 } { 12 } % '&'
+            \char_set_catcode:nn { 126 } { 12 } % '~'
           } {#2}
       } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
     \bool_lazy_and:nnT
@@ -136,7 +131,7 @@
       {
         \exp_args:Nno \@@_aux:nnnn
           {
-            draw        = \l_@@_draw_tl,  line~width  = \l_@@_outlint_tl,
+            draw        = \l_@@_draw_tl,  line~width  = \l_@@_outline_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
             \clist_use:Nn \l_@@_options_clist { , }
           } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
@@ -146,11 +141,18 @@
           {
             \@@_continous_fading_parse_aux:NNN \l_@@_vfading_clist
               \l_@@_color_i_tl \l_@@_color_ii_tl
+            \str_case_e:nn { - }
+              {
+                { \l_@@_color_i_tl }
+                { \tl_set:Nn \l_@@_color_i_tl { transparent!0 } }
+                { \l_@@_color_ii_tl }
+                { \tl_set:Nn \l_@@_color_ii_tl { transparent!0 } }
+              }
             \@@_aux:nnnn
               {
-                draw        = \l_@@_draw_tl,  bottom~color  = \l_@@_color_ii_tl,
-                top~color   = \l_@@_color_i_tl, line~width  = \l_@@_outlint_tl,
-                \clist_use:Nn \l_@@_options_clist {,}
+                top~color  = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl,
+                line~width = \l_@@_outline_tl, draw = \l_@@_draw_tl,
+                \clist_use:Nn \l_@@_options_clist { , }
               } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
           }
         \clist_if_empty:NF \l_@@_hfading_clist
@@ -166,21 +168,56 @@
                   { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
                 \tl_set:Nn \l_@@_continous_color_tmpb_tl
                   { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
-                \exp_args:Nne \@@_aux:nnnn
+                \str_case_e:nnF { - }
                   {
-                    draw        = \l_@@_draw_tl,
-                    line~width  = \l_@@_outlint_tl,
-                    left~color  =
-                      \l_@@_color_i_tl!
-                      \l_@@_continous_color_tmpa_tl!
-                      \l_@@_color_ii_tl,
-                    right~color =
-                      \l_@@_color_ii_tl!
-                      \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
-                      \l_@@_color_i_tl,
-                    \clist_use:Nn \l_@@_options_clist { , }
-                  } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                  { \l_@@_char_clip_font } { \l_@@_scale_fp }
+                    { \l_@@_color_i_tl }
+                    {
+                      \exp_args:Nne \@@_aux:nnnn
+                        {
+                          draw        = \l_@@_draw_tl,
+                          line~width  = \l_@@_outline_tl,
+                          left~color  =
+                            \l_@@_color_ii_tl!
+                            \fp_eval:n { 100 - \l_@@_continous_color_tmpa_tl },
+                          right~color =
+                            \l_@@_color_ii_tl!
+                            \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl },
+                          \clist_use:Nn \l_@@_options_clist { , }
+                        } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                        { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                    }
+                    { \l_@@_color_ii_tl }
+                    {
+                      \exp_args:Nne \@@_aux:nnnn
+                        {
+                          draw        = \l_@@_draw_tl,
+                          line~width  = \l_@@_outline_tl,
+                          left~color  =
+                            \l_@@_color_i_tl!\l_@@_continous_color_tmpa_tl,
+                          right~color =
+                            \l_@@_color_i_tl!\l_@@_continous_color_tmpb_tl,
+                          \clist_use:Nn \l_@@_options_clist { , }
+                        } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                        { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                    }
+                  }
+                  {
+                   \exp_args:Nne \@@_aux:nnnn
+                      {
+                        draw        = \l_@@_draw_tl,
+                        line~width  = \l_@@_outline_tl,
+                        left~color  =
+                          \l_@@_color_i_tl!
+                          \l_@@_continous_color_tmpa_tl!
+                          \l_@@_color_ii_tl,
+                        right~color =
+                          \l_@@_color_ii_tl!
+                          \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
+                          \l_@@_color_i_tl,
+                        \clist_use:Nn \l_@@_options_clist { , }
+                      } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                      { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                  }
               }
           }
       }
@@ -227,9 +264,9 @@
 \cs_new_protected:Npn \@@_continous_fading_parse_aux:NNN #1#2#3
   {
     \group_begin: \exp_args:NNNe \group_end:
-    \tl_set:Nn #2 { \clist_item:Nn #1 { 1 } }
+      \tl_set:Nn #2 { \clist_item:Nn #1 { 1 } }
     \group_begin: \exp_args:NNNe \group_end:
-    \tl_set:Nn #3 { \clist_item:Nn #1 { 2 } }
+      \tl_set:Nn #3 { \clist_item:Nn #1 { 2 } }
   }
 
 \cs_new_protected:Npn \@@_continous_color_aux:nNN #1#2#3
@@ -248,7 +285,7 @@
 
 % image clip
 % TODO: change 'height' to the height of char
-\keys_define:nn { char2path / charclippath }
+\keys_define:nn { char2path / chartoclip }
   {
     font      .tl_set:N  = \l_@@_char_clip_font,
       font    .initial:n = { lmm },
@@ -263,11 +300,11 @@
     height    .dim_set:N = \l_@@_image_height_dim,
       height  .initial:n = { 3cm },
   }
-\NewDocumentCommand \charpathclip { O{} m }
+\NewDocumentCommand \chartoclip { O{} m }
   {
     \group_begin:
-    \keys_set:nn { char2path / charclippath }{#1}
-    \exp_args:Nee \__@@_image_clip:nnnnnn
+    \keys_set:nn { char2path / chartoclip }{#1}
+    \exp_args:Nee \@@_image_clip_aux:nnnnnn
       { \prop_item:ce { c_@@_tikz_ \l_@@_char_clip_font _data_prop } { #2 } }
       { \l_@@_image_anchor_offset_tl }
       { \l_@@_image_tl               }
@@ -276,16 +313,14 @@
       { \l_@@_image_anchor_tl        }
     \group_end:
   }
-\cs_new:Npn \__@@_image_clip:nnnnnn #1#2#3#4#5#6 
-  {% #1:path data;    #2:anchor offset;  #3:image; 
-   % #4:image height; #5:scale;          #6:anchor
+\cs_new:Npn \@@_image_clip_aux:nnnnnn #1#2#3#4#5#6
+  {% #1:path data;    #2:anchor offset;  #3:image;
     \tikz [ scale = \fp_eval:n { \c_@@_global_scale_fp*#5 } ]
       \path [ path~picture = {
-              \node at ($ (path~picture~bounding~box.#6) + #2 $)
+              \node at ($(path~picture~bounding~box.#6) + #2$)
                 { \includegraphics [ height = #4 ] {#3} };
           } ] #1;
-  }
-
+  }% #4:image height; #5:scale;          #6:anchor
 
 \file_input_stop:
 % </sty>
