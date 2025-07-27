@@ -13,9 +13,10 @@ a LaTeX package that converts characters into TikZ paths.
 Overview
 --------
 
-The package provides the `\chartopath` macro
+The package provides the `\chartopath` and `\chartoclip` macro
 
     \chartopath [<keys>] {<string>}
+    \chartoclip [<keys>] {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 
@@ -29,8 +30,6 @@ cd resources/SVG/font2svg
 pip install -r requirements.txt
 python font2path.py
 ```
-
-
 
 Issues
 ------
@@ -57,7 +56,7 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Eureka <[zongpingding.github.io](https://zongpingding.github.io)> and
+Copyright (C) 2023-2025 by Eureka <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
 This work may be distributed and/or modified under the conditions
