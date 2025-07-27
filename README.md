@@ -23,11 +23,23 @@ to print Ti*k*Z paths for characters in a string.
 See `char2path.pdf` for more. Happy TeXing!
 
 
-Generate `*.pgf.coor` from font
+Generate `tikz path` from font
 ---
+First, install the dependencies:
 ```shell
 cd resources/SVG/font2svg
 pip install -r requirements.txt
+```
+
+Next, define the following constants:
+```python
+FONT_FOLDER = "../../Fonts/"
+FONT_NAME = "lmmono10-regular.otf"
+FONT_ALIAS = 'lmm'
+```
+
+Finally, run the Python script below:
+``` shell
 python font2path.py
 ```
 
