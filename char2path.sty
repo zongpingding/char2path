@@ -226,32 +226,49 @@
   }
 
 \prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
+\dim_new:N \l_@@_mono_width_dim
+\dim_new:N \l_@@_mono_sep_dim
 \cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
   {
     \exp_args:Ne \tl_map_inline:nn {#2}
       {
         \str_case:vnF { l_@@_font_#3_type_tl }
           {
-            { serif } { \hbox_set:Nn \l_@@_glyph_box { \rmfamily ##1 } }
-            { sans }  { \hbox_set:Nn \l_@@_glyph_box { \sffamily ##1 } }
-            { mono }  { \hbox_set:Nn \l_@@_glyph_box { \ttfamily ##1 } }
+            { serif }
+            {
+              \hbox_set:Nn \l_@@_glyph_box { \rmfamily ##1 }
+              \dim_set:Nn \l_@@_mono_width_dim { 0pt }
+              \dim_set:Nn \l_@@_mono_sep_dim { .52pt }
+            }
+            { sans }
+            {
+              \hbox_set:Nn \l_@@_glyph_box { \sffamily ##1 }
+              \dim_set:Nn \l_@@_mono_width_dim { 0pt }
+              \dim_set:Nn \l_@@_mono_sep_dim { .52pt }
+            }
+            { mono }
+            {
+              \hbox_set:Nn \l_@@_glyph_box { \ttfamily ##1 }
+              \dim_set:Nn \l_@@_mono_width_dim { 5.124975pt }
+              \dim_set:Nn \l_@@_mono_sep_dim { 0pt }
+            }
           } { \hbox_set:Nn \l_@@_glyph_box {##1} }
-        \@@_draw:neen { \int_use:N \box_dp:N \l_@@_glyph_box }
+        \@@_draw:neennn { \int_use:N \box_dp:N \l_@@_glyph_box }
           {#1} { \@@_data:nn {#3} {##1} } {#4}
+          { \l_@@_mono_width_dim } { \l_@@_mono_sep_dim }
       }
   }
 % TODO: Avoid nesting '\tikz' command; use the character's 
 %       natural dimensions instead.
-\cs_new_protected:Npn \@@_draw:nnnn #1#2#3#4
+\cs_new_protected:Npn \@@_draw:nnnnnn #1#2#3#4#5#6
   {
     \tikz [ baseline = #1 ] \node
-      [ above, inner~sep = 0pt, outer~sep = 0pt,
-        minimum~width = 5.124975pt * \f@size/10 ]
+      [ above, minimum~width = #5 * \f@size/10, inner~sep = #6 * \f@size/10 ]
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
                         \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
               ] \path [#2] #3; };
   }
-\cs_generate_variant:Nn \@@_draw:nnnn { neen }
+\cs_generate_variant:Nn \@@_draw:nnnnnn { neennn }
 \cs_new:Npn \@@_data:nn #1#2
   {
     \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } {#2}

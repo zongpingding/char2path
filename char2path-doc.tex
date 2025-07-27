@@ -140,7 +140,7 @@ including \textrm{Latin Modern Roman},
 \textrm{Latin Modern Sans} (will be supported soon)
 and \texttt{Latin Modern Mono}.
 
-\DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
+\DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^^A=12
 \begin{center}
   \begin{minipage}[t]{.48\linewidth}
     \fbox{\hskip16pt\parbox[c][4\baselineskip]{\linewidth-24pt}{
@@ -233,11 +233,11 @@ is shown in the following figure.
 \begin{center}
   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
-      (0,0) --++ (.93\linewidth,0) node [ left, black ] {|\f@size|};
+      (0,0) --++ (.93\linewidth,0) node [ left, black ] {\cs{f@size}};
     \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
-    \node [ above = 1ex ] at (.72\linewidth,0) {\LARGE       \0};
+    \node [ above = 1ex ] at (.72\linewidth,0) {\LARGE      \0};
     \node [ below = 1ex ] at (.06\linewidth,0)
       {\small     \chartopath[fill = orange]\0};
     \node [ below  = 1ex] at (.24\linewidth,0)
@@ -245,7 +245,7 @@ is shown in the following figure.
     \node [ below = 1ex ] at (.45\linewidth,0)
       {\large     \chartopath[fill = blue]\0};
     \node [ below = 1ex ] at (.72\linewidth,0)
-      {\LARGE      \chartopath[fill = purple]\0};
+      {\LARGE     \chartopath[fill = purple]\0};
     \makeatletter
     \node at (.06\linewidth,0)
       {\small     \scalebox{\fpeval{8/\f@size}}
