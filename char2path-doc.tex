@@ -112,7 +112,8 @@ and the converted paths will be scaled to the corresponding factors.
     (Default: |1|).
     \item [\key{hfading}] \val{clist} can set the two colors for horizontal fading the whole string.
     \item [\key{vfading}] \val{clist} can set the two colors for vertical fading the whole string.
-    \item [\key{rescan}] \val{\TTF}
+    \item [\key{rescan}] \val{\TTF} rescan tokens \verb|$|, \verb|&|, and \verb|~| with catcode 12 (other). 
+    (Default: |true|).
   \end{keyval}
 \end{function}
 
@@ -140,6 +141,7 @@ and the converted paths will be scaled to the corresponding factors.
   \charpathclip[font = lmr, scale = 2,
                 offset = {(1, 2cm)}] {L}
 \end{example}
+
 
 \subsection{Char to path}
 
@@ -176,6 +178,7 @@ and \texttt{Latin Modern Mono}.
 \def\0{0123456789ABCabc./*}
 The basic usage only print the outline of the inputted string.
 \begin{example}
+  \def\0{0123456789ABCabc./*}
   \chartopath\0
 \end{example}
 \noindent
@@ -262,9 +265,10 @@ is shown in the following figure.
   \end{tikzpicture}
 \end{center}
 
+\section{Advanced examples}
 \subsection{Use in \pkg{listings}}
 
-This package can be used in the \pkg{listings} package, so that users could
+This package can be used with \pkg{listings} or \pkg{minted}, so that users could
 directly copy and paste the source code from |.pdf| file without worry about
 including unwanted line numbers.
 
@@ -289,6 +293,56 @@ including unwanted line numbers.
 \end{document}
 \end{lstlisting}
 \end{example}
+
+\subsection{String clip}
+You can also define a command, \verb|\strpathclip|, that accepts a string instead 
+of a single character:
+\begin{example}
+\ExplSyntaxOn
+\NewDocumentCommand{\strpathclip}{O{}m}
+  {
+    \int_step_inline:nn 
+      { \exp_args:Ne \tl_count:n {#2} }
+      {
+        \charpathclip[
+          #1,
+          offset = {(##1*1, 0pt)},
+        ]{\tl_item:nn {#2}{##1}}
+        \kern2pt
+      }
+  }
+\ExplSyntaxOff
+\strpathclip[scale=2.5, font=lmm]{AAAA}\\
+\strpathclip[scale=2.5, font=lmr]{Hello}
+\end{example}
+
+
+\subsection{(La)TeX logo}
+The logos \TeX{} and \LaTeX{} can be recreated using \verb|\charpathclip|:
+\begin{example}
+\def\ctpL{\charpathclip[font=lmr, image=example-image]{L}}
+\def\ctpA{\charpathclip[font=lmr, image=example-image]{A}}
+\def\ctpT{\charpathclip[font=lmr, image=example-image]{T}}
+\def\ctpE{\charpathclip[font=lmr, image=example-image]{E}}
+\def\ctpX{\charpathclip[font=lmr, image=example-image]{X}}
+\protected\def\ctpTeX{%
+  \ctpT\kern-.1667em \lower.5ex%
+  \hbox{\ctpE}\kern-.125em \ctpX
+}
+\protected\def\ctpLaTeX
+  { \ctpL\kern-.36em%
+    {\sbox0 T%
+      \vbox to\ht0 {%
+        \vskip-.021em%
+        \hbox{\kern0.083em%
+        \scalebox{.7}{\ctpA}}%
+        \vss
+    }}\kern-.1em\ctpTeX
+  }
+\scalebox{2.5}{\ctpTeX}
+\scalebox{2.5}{\ctpLaTeX}
+\end{example}
+
 
 \section{Todo list}
 

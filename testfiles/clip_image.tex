@@ -54,16 +54,107 @@
 
 \begin{document}
 \section{scratch}
-\charclipimage{path image=fig-1.png}{A}
-\charclipimage{path image=fig-1.png}{B}
-\charclipimage{path image=fig-1.png}{C}
-\charclipimage{path image=fig-1.png}{E}
-\charclipimage{path image=fig-1.png}{H}
-
 \includegraphics[width=5cm]{fig-1.png}
 
+
+\subsection{char clip}
+\charclipimage{path image=fig-1.png}{A}
+% \charclipimage{path image=fig-1.png}{B}
+% \charclipimage{path image=fig-1.png}{C}
+% \charclipimage{path image=fig-1.png}{E}
+% \charclipimage{path image=fig-1.png}{H}
+
+
+\subsubsection{string clip}
+\tikz\draw[red] (0, 0) -> (1, 1) (1, 2) -- (2, 0); % multi-path
+
+
+% BUG: they will overlap
+% \tikz[scale=.06]\path[path image=fig-1.png] (18.9706, 0.0) -- (18.9706, 0.8202) -- (18.4944, 0.8202).. controls (16.9069, 0.8202) and (16.5365, 1.0054) .. (16.2454, 1.8785) -- (10.5304, 18.415).. controls (10.3981, 18.759) and (10.3452, 18.9442) .. (9.9219, 18.9442).. controls (9.4985, 18.9442) and (9.4192, 18.7854) .. (9.2869, 18.415) -- (3.81, 2.5929).. controls (3.3338, 1.2435) and (2.2754, 0.8467) .. (0.8467, 0.8202) -- (0.8467, 0.0) -- (3.5454, 0.0794) -- (6.5881, 0.0) -- (6.5881, 0.8202).. controls (5.2652, 0.8202) and (4.6038, 1.4817) .. (4.6038, 2.1696).. controls (4.6038, 2.249) and (4.6302, 2.5135) .. (4.6567, 2.5665) -- (5.8738, 6.0325) -- (12.409, 6.0325) -- (13.8113, 1.9844).. controls (13.8377, 1.8785) and (13.8906, 1.7198) .. (13.8906, 1.614).. controls (13.8906, 0.8202) and (12.409, 0.8202) .. (11.6946, 0.8202) -- (11.6946, 0.0).. controls (12.6471, 0.0794) and (14.4992, 0.0794) .. (15.5046, 0.0794) -- cycle(12.1179, 6.8527) -- (6.1648, 6.8527) -- (9.1281, 15.4517) -- cycle
+
+% (17.2244, 4.8419).. controls (17.2244, 7.1438) and (15.0548, 9.1281) .. (12.1179, 9.4456).. controls (14.6844, 9.9483) and (16.51, 11.6417) .. (16.51, 13.5996).. controls (16.51, 15.9015) and (14.0758, 18.071) .. (10.6363, 18.071) -- (0.9525, 18.071) -- (0.9525, 17.2508) -- (1.5875, 17.2508).. controls (3.6248, 17.2508) and (3.6777, 16.9598) .. (3.6777, 16.0073) -- (3.6777, 2.0638).. controls (3.6777, 1.1113) and (3.6248, 0.8202) .. (1.5875, 0.8202) -- (0.9525, 0.8202) -- (0.9525, 0.0) -- (11.3242, 0.0).. controls (14.8431, 0.0) and (17.2244, 2.3548) .. (17.2244, 4.8419) -- cycle(13.9435, 13.5996).. controls (13.9435, 11.9063) and (12.6471, 9.6838) .. (9.7102, 9.6838) -- (5.8738, 9.6838) -- (5.8738, 16.1925).. controls (5.8738, 17.0656) and (5.9267, 17.2508) .. (7.1702, 17.2508) -- (10.451, 17.2508).. controls (13.0175, 17.2508) and (13.9435, 15.0019) .. (13.9435, 13.5996) -- cycle(14.5785, 4.8683).. controls (14.5785, 2.9898) and (13.2027, 0.8202) .. (10.4775, 0.8202) -- (7.1702, 0.8202).. controls (5.9267, 0.8202) and (5.8738, 1.0054) .. (5.8738, 1.8785) -- (5.8738, 9.1017) -- (10.8479, 9.1017).. controls (13.4673, 9.1017) and (14.5785, 6.641) .. (14.5785, 4.8683) -- cycle;
+
+% use clist map
+\ExplSyntaxOn
+% \cs_new:Npn \dimeval #1 { \dim_eval:n {#1} }
+% \cs_new:Npn \intfromRoman #1 { \int_from_roman:n {#1} }
+% \cs_new:Npn \dimset #1 { \dim_set:Nn \l_tmpa_dim {#1} }
+% \cs_set_eq:NN \ltmpadim \l_tmpa_dim
+% \newbox\tempbox
+% \foreach \i in { A, B, ..., D }
+%   {
+%     \setbox\tempbox=\hbox{\i}
+%     \dimset {\the\wd\tempbox}
+%     \charpathclip[
+%       image=fig-1.png, 
+%       scale=4, 
+%       font = lmr,
+%       % offset={(\fpeval{(\intfromRoman{\i}-1)*0.1}, 0)}
+%     ]{\i}\kern-8pt
+%   }
+\NewDocumentCommand{\strpathclip}{O{}m}
+  {
+    \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+      {
+        \charpathclip[
+          #1,
+          offset = {(##1*1, 0pt)},
+        ]{\tl_item:nn {#2}{##1}}
+        \kern2pt
+      }
+  }
+\ExplSyntaxOff
 
 \section{TEST charpathclip}
 \charpathclip[image=fig-1.png, scale=5, offset={(1, 2cm)}]{H}
 \charpathclip[font=lmr, scale=5, offset={(1, 2cm)}]{H}
+
+\subsection{string clip}
+\strpathclip[scale=4, image=fig-1.png, font=lmr]{AAAA}
+\strpathclip[scale=4, image=fig-1.png, font=lmr]{HELLO LaTeX}
+
+
+\scalebox{5}{\LaTeX}
+\def\ctpL{\charpathclip[font=lmr, image=fig-1.png]{L}}
+\def\ctpA{\charpathclip[font=lmr, image=fig-1.png]{A}}
+\def\ctpT{\charpathclip[font=lmr, image=fig-1.png]{T}}
+\def\ctpE{\charpathclip[font=lmr, image=fig-1.png]{E}}
+\def\ctpX{\charpathclip[font=lmr, image=fig-1.png]{X}}
+
+
+\subsection{TeX logo}
+% \def\TeX{T\kern-.1667em \lower.5ex\hbox{E}\kern-.125em X}
+% \DeclareRobustCommand{\LaTeX}{L\kern-.36em%
+% {\sbox\z@ T%
+% \vbox to\ht\z@{\hbox{\check@mathfonts
+% \fontsize\sf@size\z@
+% \math@fontsfalse\selectfont
+% A}%
+% \vss}%
+% }%
+% \kern-.15em%
+% \TeX}
+\ExplSyntaxOn\makeatletter
+\def\ctpTeX{\ctpT\kern-.1667em \lower.5ex\hbox{\ctpE}\kern-.125em \ctpX}
+\def\ctpLaTeX
+  {
+    \ctpL\kern-.36em
+    {\sbox\z@ T
+      \vbox to\ht\z@{
+        \vskip-.25pt
+        \hbox{\kern1pt
+        \scalebox{.7}{\ctpA}}
+        \vss
+      }
+    }
+    \kern-.1em\ctpTeX
+  }
+\makeatother\ExplSyntaxOff
+\scalebox{3}{\ctpTeX}\hskip4em
+\scalebox{3}{\TeX}
+
+
+\vskip3em
+\noindent\scalebox{3}{\ctpLaTeX}\hskip2em
+\scalebox{3}{\LaTeX}
 \end{document}

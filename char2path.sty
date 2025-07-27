@@ -13,7 +13,7 @@
   }
 \ProcessKeyOptions [ char2path ]
 
-\RequirePackage{l3draw, tikz, etoolbox}
+\RequirePackage{tikz, etoolbox}
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
   {
@@ -157,10 +157,10 @@
           {
             \@@_continous_fading_parse_aux:NNN \l_@@_hfading_clist
               \l_@@_color_i_tl \l_@@_color_ii_tl
-            \@@_continous_color_aux:nNN { \l_@@_tmpa_tl }
+            \exp_args:Ne \@@_continous_color_aux:nNN { \l_@@_tmpa_tl }
               \l_@@_continous_color_left_clist
               \l_@@_continous_color_right_clist
-            \int_step_inline:nn { \tl_count:n { \l_@@_tmpa_tl } }
+            \int_step_inline:nn { \exp_args:Ne \tl_count:n { \l_@@_tmpa_tl } }
               {
                 \tl_set:Nn \l_@@_continous_color_tmpa_tl
                   { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
@@ -179,7 +179,7 @@
                       \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
                       \l_@@_color_i_tl,
                     \clist_use:Nn \l_@@_options_clist { , }
-                  } { \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                  } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
                   { \l_@@_char_clip_font } { \l_@@_scale_fp }
               }
           }
@@ -268,7 +268,7 @@
     \group_begin:
     \keys_set:nn { char2path / charclippath }{#1}
     \exp_args:Nee \__@@_image_clip:nnnnnn
-      { \prop_item:cn { c_@@_tikz_ \l_@@_char_clip_font _data_prop } { #2 } }
+      { \prop_item:ce { c_@@_tikz_ \l_@@_char_clip_font _data_prop } { #2 } }
       { \l_@@_image_anchor_offset_tl }
       { \l_@@_image_tl               }
       { \l_@@_image_height_dim       }
@@ -285,18 +285,6 @@
                 { \includegraphics [ height = #4 ] {#3} };
           } ] #1;
   }
-% \tikzset
-%   {
-%     path~image/.style = 
-%       {
-%         path~picture =
-%           {
-%             \node at (path~picture~bounding~box.center) 
-%               { \includegraphics[height=3cm]{#1} };
-%             % TODO: change 'height' to the height of char
-%           }
-%       }
-%   }
 
 
 \file_input_stop:
