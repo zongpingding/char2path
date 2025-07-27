@@ -110,9 +110,9 @@
       {
         \tl_set_rescan:Nnn \l_@@_tmpa_tl 
           {
-            \char_set_catcode:nn {  36 } { 12 } % '$'
-            \char_set_catcode:nn {  38 } { 12 } % '&'
-            \char_set_catcode:nn { 126 } { 12 } % '~'
+            \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 } % '$'
+            \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 } % '&'
+            \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 } % '~'
           } {#2}
       } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
     \bool_lazy_and:nnT
