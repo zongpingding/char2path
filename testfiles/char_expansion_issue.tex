@@ -1,0 +1,14 @@
+\makeatletter
+\def\input@path{{../}}
+\makeatother
+\documentclass{article}
+\usepackage{char2path}
+\parindent0pt
+\def\0{0123456789*/}
+
+
+\begin{document}
+\chartopath[font=lmr, fill=teal]{\0}\par
+\chartopath[hfading = {red, blue}]{0123456789}\par
+\chartopath[vfading = {red, green}]\0
+\end{document}

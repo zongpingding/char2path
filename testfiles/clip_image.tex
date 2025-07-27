@@ -110,45 +110,46 @@
 \charpathclip[font=lmr, scale=5, offset={(1, 2cm)}]{H}
 
 \subsection{string clip}
-% \strpathclip[scale=4, image=fig-1.png, font=lmr]{AAAA}
-% \strpathclip[scale=4, image=fig-1.png, font=lmr]{HELLO LaTeX}
+\strpathclip[scale=4, image=fig-1.png, font=lmr]{AAAA}
+\strpathclip[scale=4, image=fig-1.png, font=lmr]{HELLO LaTeX}
 
 
-% \scalebox{5}{\LaTeX}
-% \def\ctpL{\charpathclip[font=lmr, image=fig-1.png]{L}}
-% \def\ctpA{\charpathclip[font=lmr, image=fig-1.png]{A}}
-% \def\ctpT{\charpathclip[font=lmr, image=fig-1.png]{T}}
-% \def\ctpE{\charpathclip[font=lmr, image=fig-1.png]{E}}
-% \def\ctpX{\charpathclip[font=lmr, image=fig-1.png]{X}}
+\scalebox{5}{\LaTeX}
+\def\ctpL{\charpathclip[font=lmr, image=fig-1.png]{L}}
+\def\ctpA{\charpathclip[font=lmr, image=fig-1.png]{A}}
+\def\ctpT{\charpathclip[font=lmr, image=fig-1.png]{T}}
+\def\ctpE{\charpathclip[font=lmr, image=fig-1.png]{E}}
+\def\ctpX{\charpathclip[font=lmr, image=fig-1.png]{X}}
 
-% % \def\TeX{T\kern-.1667em \lower.5ex\hbox{E}\kern-.125em X}
-% % \DeclareRobustCommand{\LaTeX}{L\kern-.36em%
-% % {\sbox\z@ T%
-% % \vbox to\ht\z@{\hbox{\check@mathfonts
-% % \fontsize\sf@size\z@
-% % \math@fontsfalse\selectfont
-% % A}%
-% % \vss}%
-% % }%
-% % \kern-.15em%
-% % \TeX}
-% \ExplSyntaxOn\makeatletter
-% \def\ctpTeX{\ctpT\kern-.1667em \lower.5ex\hbox{\ctpE}\kern-.125em \ctpX}
-% \def\ctpLaTeX
-%   {
-%     \ctpL\kern-.36em
-%     {\sbox\z@ T
-%       \vbox to\ht\z@{
-%         \vskip-.25pt
-%         \hbox{\kern1pt
-%         \scalebox{.7}{\ctpA}}
-%         \vss
-%       }
-%     }
-%     \kern-.1em\ctpTeX
-%   }
-% \makeatother\ExplSyntaxOff
-\ctplogoimage{fig-1.png}
+
+\subsection{TeX logo}
+% \def\TeX{T\kern-.1667em \lower.5ex\hbox{E}\kern-.125em X}
+% \DeclareRobustCommand{\LaTeX}{L\kern-.36em%
+% {\sbox\z@ T%
+% \vbox to\ht\z@{\hbox{\check@mathfonts
+% \fontsize\sf@size\z@
+% \math@fontsfalse\selectfont
+% A}%
+% \vss}%
+% }%
+% \kern-.15em%
+% \TeX}
+\ExplSyntaxOn\makeatletter
+\def\ctpTeX{\ctpT\kern-.1667em \lower.5ex\hbox{\ctpE}\kern-.125em \ctpX}
+\def\ctpLaTeX
+  {
+    \ctpL\kern-.36em
+    {\sbox\z@ T
+      \vbox to\ht\z@{
+        \vskip-.25pt
+        \hbox{\kern1pt
+        \scalebox{.7}{\ctpA}}
+        \vss
+      }
+    }
+    \kern-.1em\ctpTeX
+  }
+\makeatother\ExplSyntaxOff
 \scalebox{3}{\ctpTeX}\hskip4em
 \scalebox{3}{\TeX}
 
@@ -156,17 +157,4 @@
 \vskip3em
 \noindent\scalebox{3}{\ctpLaTeX}\hskip2em
 \scalebox{3}{\LaTeX}
-
-
-\section{fading bug}
-% \chartopath [fading = {violet, blue, horizontal}] {lmm} {0123456789}\par
-
-\def\0{0123456789*/}
-\noindent\chartopath [fading = {violet, blue, horizontal}] {lmm} {\0}\par
-\noindent\chartopath {lmm} {\0}
-
-
-\section{J baseline bug}
-J \tikz\draw[fill=red, scale=.0135, draw=none] (12.3031, 17.2508) -- (12.3031, 18.071) -- (8.89, 17.9917).. controls (7.7788, 17.9917) and (5.4504, 17.9917) .. (4.445, 18.071) -- (4.445, 17.2508) -- (5.3975, 17.2508).. controls (7.9904, 17.2508) and (7.9904, 16.9069) .. (7.9904, 15.9808) -- (7.9904, 3.9158).. controls (7.9904, 1.4817) and (6.6675, 0.0) .. (5.2652, 0.0).. controls (5.1065, 0.0) and (3.3073, 0.0) .. (2.3548, 1.5346).. controls (3.7306, 1.5346) and (4.0481, 2.3283) .. (4.0481, 3.0163).. controls (4.0481, 3.9688) and (3.3073, 4.4979) .. (2.5665, 4.4979).. controls (1.9844, 4.4979) and (1.0848, 4.1275) .. (1.0848, 2.9633).. controls (1.0848, 1.0054) and (2.9633, -0.5821) .. (5.3181, -0.5821).. controls (8.0169, -0.5821) and (9.9483, 1.27) .. (10.2394, 3.2544).. controls (10.2658, 3.466) and (10.2658, 3.519) .. (10.2658, 4.4185) -- (10.2658, 16.166).. controls (10.2658, 17.2508) and (10.6363, 17.2508) .. (12.3031, 17.2508) -- cycle;%
-J
 \end{document}

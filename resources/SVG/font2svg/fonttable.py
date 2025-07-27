@@ -1,5 +1,5 @@
 import string
-from glyph_unicode_map import *
+from glyph_unicode import *
 
 
 # 1. alpha letters
