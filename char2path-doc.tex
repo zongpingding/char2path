@@ -1,9 +1,8 @@
-\documentclass[lm-default]{l3doc}
-\usepackage[scale=10pt]{char2path}
+\documentclass{l3doc}
+\usepackage[scale = 10pt]{char2path}
 \usepackage{listings, hyperref}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 
-\usepackage[mono = false]{libertine}
 \AddToHook{env/function/before}{\vspace*{-.7\baselineskip}}
 \AddToHook{env/syntax/after}   {\par\vspace*{.2\baselineskip}}
 \makeatletter
@@ -95,7 +94,7 @@ and the converted paths will be scaled to the corresponding factors.
   \end{tabular}
 \end{center}
 
-\begin{function}[added = 2025-07-22]{\chartopath}
+\begin{function}[updated = 2025-07-27]{\chartopath}
   \begin{syntax}
     \cs{chartopath} \oarg{key-vals} \marg{string}
   \end{syntax}
@@ -166,10 +165,10 @@ and \texttt{Latin Modern Mono}.
 \subsection{Basic usage}
 
 \noindent
-\def\0{0123456789ABCabc./*}
+\def\0{013456789/ctp}
 The basic usage only print the outline of the inputted string.
 \begin{example}
-  \def\0{0123456789ABCabc./*}
+  \def\0{013456789/ctp}
   \chartopath\0
 \end{example}
 \noindent
@@ -184,7 +183,9 @@ Just like the keys in \pkg{Ti\textit k\/Z}
   \chartopath[draw = blue, fill = red, scale = 1.2]\0
 \end{example}
 
-Fading is also supported
+\begin{texnote}
+  Fading will cost too much time!!!
+\end{texnote}
 
 \begin{example}
   \chartopath[hfading = {red, green}]\0
@@ -199,16 +200,16 @@ Fading is also supported
 \end{example}
 
 \begin{example}
-  \chartopath[vfading = {teal, violet}]\0
+  \chartopath[vfading = {teal, purple}]\0
 \end{example}
 
 \begin{example}
-  \chartopath[vfading = {-, teal}]\0
+  \chartopath[vfading = {-, orange}]\0
 \end{example}
 
-\begin{texnote}
-  Fading will cost too much time!!!
-\end{texnote}
+\begin{example}
+  \chartopath[vfading = {violet, -}]\0
+\end{example}
 
 as well as pattern
 
@@ -233,18 +234,18 @@ is shown in the following figure.
   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
       (0,0) --++ (.93\linewidth,0) node [ left, black ] {|\f@size|};
-    \node [ above = 1ex ] at (.06\linewidth,0) {\small      0123456789};
-    \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize 0123456789};
-    \node [ above = 1ex ] at (.45\linewidth,0) {\large      0123456789};
-    \node [ above = 1ex ] at (.72\linewidth,0) {\huge       0123456789};
+    \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
+    \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
+    \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
+    \node [ above = 1ex ] at (.72\linewidth,0) {\LARGE       \0};
     \node [ below = 1ex ] at (.06\linewidth,0)
-      {\small     \chartopath[fill = orange]{0123456789}};
+      {\small     \chartopath[fill = orange]\0};
     \node [ below  = 1ex] at (.24\linewidth,0)
-      {\normalsize\chartopath[fill = green]{0123456789}};
+      {\normalsize\chartopath[fill = green]\0};
     \node [ below = 1ex ] at (.45\linewidth,0)
-      {\large     \chartopath[fill = blue]{0123456789}};
+      {\large     \chartopath[fill = blue]\0};
     \node [ below = 1ex ] at (.72\linewidth,0)
-      {\huge      \chartopath[fill = purple]{0123456789}};
+      {\LARGE      \chartopath[fill = purple]\0};
     \makeatletter
     \node at (.06\linewidth,0)
       {\small     \scalebox{\fpeval{8/\f@size}}
@@ -256,8 +257,8 @@ is shown in the following figure.
       {\large     \scalebox{\fpeval{8/\f@size}}
         {\large     \f@size pt (\cs[no-index]{large})}};
     \node at (.72\linewidth,0)
-      {\huge      \scalebox{\fpeval{8/\f@size}}
-        {\huge      \f@size pt (\cs[no-index]{huge})}};
+      {\LARGE      \scalebox{\fpeval{8/\f@size}}
+        {\LARGE      \f@size pt (\cs[no-index]{LARGE})}};
     \makeatother
   \end{tikzpicture}
 \end{center}
@@ -329,7 +330,6 @@ The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
 \section{Todo list}
 
 \begin{itemize}
-  \item [\textcolor{red}{\textsf{Bug}}] Baselines of several characters need to optimize (maybe some mistakes in datas).
   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning: Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
   \item [\textcolor{blue}{\textsf{Function}}] Support function like
   "\chartopath{\usefont{T1}{cmr}{m}{sc} abc}", or\\
