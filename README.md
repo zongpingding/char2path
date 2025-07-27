@@ -25,9 +25,21 @@ See `char2path.pdf` for more. Happy TeXing!
 
 Generate `*.pgf.coor` from font
 ---
+First, install the dependencies:
 ```shell
 cd resources/SVG/font2svg
 pip install -r requirements.txt
+```
+
+Next, define the following constants:
+```python
+FONT_FOLDER = "../../Fonts/"
+FONT_NAME = "latin-modern-mono10.otf"
+FONT_ALIAS = 'lms'
+```
+
+Finally, run the Python script below:
+``` shell
 python font2path.py
 ```
 
