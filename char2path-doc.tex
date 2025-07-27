@@ -35,8 +35,25 @@
       }^^A
     \hss}^^A
   \endtrivlist}
+\long\def\s@example@end{\immediate\closeout\example@out\@esphack\endgroup
+  \trivlist\item[]\relax
+    \leavevmode\hbox to \z@{^^A
+      \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}\vbox{\noindent
+      \hskip-4pt
+      \begin{minipage}{\textwidth}^^A
+        \small\verbatiminput \example@name^^A
+      \end{minipage}\par\medskip\noindent
+      \fbox{^^A
+        \begin{minipage}{\textwidth}^^A
+          \normalsize\input \example@name^^A
+        \end{minipage}^^A
+      }}^^A
+    \hss}^^A
+  \endtrivlist}
 \newenvironment{example}
   {\stepcounter{example}\example@start}{\example@end}
+\newenvironment{example*}
+  {\stepcounter{example}\example@start}{\s@example@end}
 \makeatother
 \newlist{keyval}{itemize}{10}
 \setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
@@ -316,15 +333,11 @@ that accepts a string instead of a single character:
 \begin{example}
 \ExplSyntaxOn
 \NewDocumentCommand \strpathclip { O{} m }
-  {
-    \int_step_inline:nn 
-      { \exp_args:Ne \tl_count:n {#2} }
-      { \chartoclip [ #1, offset = {(##1*1, 0pt)}
-                    ] {\tl_item:nn {#2}{##1}} \kern2pt }
-  }
+  { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+      { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
+          { \tl_item:nn {#2}{##1}} \kern2pt } }
 \ExplSyntaxOff
-\strpathclip[scale=2.5, font=lmm]{AAAA}\\
-\strpathclip[scale=2.5, font=lmr]{Hello}
+\strpathclip[scale = 2, font = lmr]{Hello} \strpathclip[scale = 2, font = lmm]{c2p}
 \end{example}
 
 
@@ -339,6 +352,12 @@ The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
   \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
 \scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
 \end{example}
+
+\subsection{Get path data}
+
+\begin{example*}
+  \def\0{\ctpdata{lmr}{-}} \ttfamily\nobreakdash\detokenize\expandafter{\expanded{\0}}
+\end{example*}
 
 \section{Todo list}
 
