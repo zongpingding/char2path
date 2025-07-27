@@ -134,7 +134,7 @@ and the converted paths will be scaled to the corresponding factors.
   \end{keyval}
 \end{function}
 
-\section{Examples}
+\section{Basic Examples}
 
 This package can convert the following characters to path by default:
 including \textrm{Latin Modern Roman},
@@ -224,8 +224,6 @@ FakeSlant is also supported
               scale = 1.2] \0
 \end{example}
 
-\subsection{Use in text}
-
 Commands for changing font's size, like |\small|,
 can be directly applied to \cs{chartopath}.
 A comparison of the text and the path under 4 different font size commands
@@ -264,7 +262,7 @@ is shown in the following figure.
   \end{tikzpicture}
 \end{center}
 
-\section{Advanced examples}
+\section{Advanced Examples}
 \subsection{Use in \pkg{listings}}
 
 This package can be used with \pkg{listings} or \pkg{minted}, so that users could
@@ -279,8 +277,7 @@ including unwanted line numbers.
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
-    \chartopath[rescan = false, hfading = {violet, blue}]
-       {\orithelstnumber}
+    \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}%
   }
 \end{verbatim}
 
@@ -298,16 +295,13 @@ You can also define a command, \cs[no-index]{strpathclip},
 that accepts a string instead of a single character:
 \begin{example}
 \ExplSyntaxOn
-\NewDocumentCommand{\strpathclip}{O{}m}
+\NewDocumentCommand \strpathclip { O{} m }
   {
     \int_step_inline:nn 
       { \exp_args:Ne \tl_count:n {#2} }
       {
-        \chartoclip[
-          #1,
-          offset = {(##1*1, 0pt)},
-        ]{\tl_item:nn {#2}{##1}}
-        \kern2pt
+        \chartoclip [ #1, offset = {(##1*1, 0pt)}
+                    ] {\tl_item:nn {#2}{##1}} \kern2pt
       }
   }
 \ExplSyntaxOff
@@ -319,27 +313,17 @@ that accepts a string instead of a single character:
 \subsection{\hologo{(La)TeX} logo}
 The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
 \begin{example}
-\def\ctpL{\chartoclip[font=lmr, image=example-image]{L}}
-\def\ctpA{\chartoclip[font=lmr, image=example-image]{A}}
-\def\ctpT{\chartoclip[font=lmr, image=example-image]{T}}
-\def\ctpE{\chartoclip[font=lmr, image=example-image]{E}}
-\def\ctpX{\chartoclip[font=lmr, image=example-image]{X}}
+\def\ctp#1{\chartoclip[font = lmr, image = example-image]{#1}}
 \protected\def\ctpTeX{%
-  \ctpT\kern-.1667em \lower.5ex%
-  \hbox{\ctpE}\kern-.125em \ctpX
+  \ctp T\kern-.1667em \lower.5ex%
+  \hbox{\ctp E}\kern-.125em \ctp X
 }
-\protected\def\ctpLaTeX
-  { \ctpL\kern-.36em%
-    {\sbox0 T%
-      \vbox to\ht0 {%
-        \vskip-.021em%
-        \hbox{\kern0.083em%
-        \scalebox{.7}{\ctpA}}%
-        \vss
-    }}\kern-.1em\ctpTeX
-  }
-\scalebox{2.5}{\ctpTeX}
-\scalebox{2.5}{\ctpLaTeX}
+\protected\def\ctpLaTeX{%
+  \ctp L\kern-.36em{\sbox0 T\vbox to\ht0{\vskip-.021em%
+  \hbox{\kern.083em\scalebox{.7}{\ctp A}}\vss}}%
+  \kern-.15em\ctpTeX
+}
+\scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
 \end{example}
 
 \section{Todo list}
