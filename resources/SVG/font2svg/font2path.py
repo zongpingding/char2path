@@ -14,8 +14,8 @@ EXTRACT_COOR = True
 
 #####    assign font     #####
 FONT_FOLDER = "../../Fonts/"
-FONT_NAME = "lmsans10-regular.otf"
-FONT_ALIAS = 'lms'
+FONT_NAME = "texgyreadventor-regular.otf"
+FONT_ALIAS = 'texgyre'
 FONT = FONT_FOLDER + FONT_NAME
 
 #####  SVG directories  #####
@@ -140,6 +140,6 @@ if EXTRACT_COOR:
                 extract_tikz_path(
                     '{'+name_in_coor+'}', 
                     str(target_file), 
-                    file_name
+                    'tikz_coors/'+file_name
                 ) # with 'a'
                 print("PGF to TikZ:" + target_file, "->", target_file+f' -> {{{name_in_coor}}}')
