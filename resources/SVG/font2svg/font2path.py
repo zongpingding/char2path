@@ -1,14 +1,14 @@
 import os
-import re
 import subprocess
 from pathlib import Path
 from fonttable import *
+from glyph_coordinates import *
 
 
 
 #####  bool control  #####
-EXTRACT_SVG_FROM_FONT = True 
-EXTRACT_SVG = True
+EXTRACT_SVG_FROM_FONT = False 
+EXTRACT_SVG = False
 EXTRACT_COOR = True
 
 
@@ -78,22 +78,7 @@ if EXTRACT_SVG:
 
 
 #####   generate pgf from svg   #####
-# svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_8.pgf
-# sed -n 's/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p' eight.pgf > eight.pgf.coor
-def extract_tikz_path(char_name:str, input_file:str, output_file:str) -> None:
-    with open(input_file, 'r', encoding='utf-8') as infile, \
-        open(output_file, 'a', encoding='utf-8') as outfile:
-
-        pattern = re.compile(r'^\s*\\path\[fill=black\]\s*(.*);\s*$')
-
-        for line in infile:
-            match = pattern.match(line)
-            if match:
-                content = match.group(1)
-                outfile.write(f'{char_name} = {{{content}}},\n')
-
 # maps dir to unicode map
-# FONTABLE_SVG_DIR = [CAPS_DIR, SMALL_DIR, NUMS_DIR, OTHER_SYMBOLS_DIR]
 def dir_to_unicode_map(dir:str) -> (str):
     match True:
         case _ if dir == str(CAPS_DIR):
@@ -139,7 +124,7 @@ if EXTRACT_COOR:
                 file_name = dir_to_unicode_map(str(dir))[1]
                 extract_tikz_path(
                     '{'+name_in_coor+'}', 
-                    str(target_file), 
+                    str(target_file),
                     'tikz_coors/'+file_name
                 ) # with 'a'
                 print("PGF to TikZ:" + target_file, "->", target_file+f' -> {{{name_in_coor}}}')

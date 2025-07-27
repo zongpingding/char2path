@@ -33,6 +33,9 @@
 \@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
 \@@_msg_new:nn { kernel } { file ~ not ~ found }
 
+
+\gdef\ctpXshift{0}
+\gdef\ctpYshift{0}
 \tl_const:Nn \c_@@_tikz_folder_tl { font_glyph } % for future use
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
@@ -67,6 +70,8 @@
 \@@_load_font_data:nnn { mono } { lmm }
   { arabic, alpha-small, alpha-caps, others, }
 \@@_load_font_data:nnn { sans } { lms }
+  { arabic, alpha-small, alpha-caps, others, }
+\@@_load_font_data:nnn { serif } { texgyre }
   { arabic, alpha-small, alpha-caps, others, }
 
 \box_new:N \l_@@_glyph_box
