@@ -7,8 +7,7 @@
 The `char2path` Package
 =======================
 
-The `char2path` package (conducted with LaTeX3) provides
-a LaTeX package that converts characters into TikZ paths.
+The `char2path` package provides a LaTeX package for converting characters into TikZ paths.
 
 Overview
 --------

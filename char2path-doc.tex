@@ -2,9 +2,7 @@
 \usepackage[scale = 10pt]{char2path}
 \usepackage{listings, hyperref}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
-
-\AddToHook{env/function/before}{\vspace*{-.7\baselineskip}}
-\AddToHook{env/syntax/after}   {\par\vspace*{.2\baselineskip}}
+\AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
 \makeatletter
 \def \@key  #1{\textcolor{red}{\textbf{\texttt{#1}}}\:\texttt{=}\:}
 \def \s@key #1{\textcolor{red}{\textbf{\texttt{#1}}}}
@@ -45,9 +43,11 @@
 \makeindex
 
 \title{^^A
-  The \pkg{char2path} Package\thanks{^^A
-    \url{https://github.com/zongpingding/char2path},
-    \texttt{https://ctan.org/pkg/char2path}^^A
+  The \texorpdfstring{%
+    \chartopath[hfading = {teal, purple}, font = lms]{char2path}%
+  }{char2path} Package\thanks{^^A
+    \url{https://ctan.org/pkg/char2path},
+    \url{https://github.com/zongpingding/char2path}^^A
   }^^A
 }
 \author{^^A
@@ -67,50 +67,51 @@
 
 \section{Introduction}
 
-The \pkg{char2path} package (conducted with \LaTeX3) provides
-a \LaTeX\ package that converts characters into Ti\textit k\/Z paths.
-It supports various compilation methods, such as \hologo{pdfLaTeX},
-\hologo{XeLaTeX}, \hologo{ApLaTeX} (pending for check), \hologo{LuaLaTeX}, etc.
+The \pkg{char2path} package provides a \LaTeX\ package for converting
+characters into Ti\textit k\/Z paths.
+It supports compilation methods including \hologo{pdfLaTeX},
+\hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
 
 \section{Usage}
 
-To load this package, write the line
-\begin{quote}
-  |\usepackage[scale = |\meta{int}|pt]{char2path}|
-\end{quote}
-
-Here, the integral number \meta{int} supports the following choices,
-and the converted paths will be scaled to the corresponding factors.
-
-\begin{center}
-  \begin{tabular}{*9c}
+\noindent
+\begin{minipage}{.55\linewidth}
+  To load this package, write the line
+  \begin{Verbatim}[commandchars = \|\{\}]
+  \usepackage[scale = |meta{choice}]|{char2path|}
+  \end{Verbatim}
+  The supported right listed \meta{choice} can
+  scale the converted paths with corresponding factors.
+\end{minipage}
+\hspace*\fill
+\begin{minipage}{.43\linewidth}
+  \begin{tabular}{*5{>{\small}c}}
     \toprule
-    Pound   & |10pt|  & |11pt|  & |12pt|  &
-    |13pt|  & |14pt|  & |15pt|  & |16pt|  & (Pending...)\\
+    Choice  & |10pt| & |11pt| & |12pt| & |13pt|\\
+    Factor  & |0.82| & |0.90| & |0.98| & |1.07|\\
     \midrule
-    Factor  & |0.820| & |0.902| & |0.984| &
-    |1.066| & |1.148| & |1.230| & |1.311| & ...\\
+    Choice  & |14pt| & |15pt| & |16pt| & ...   \\
+    Factor  & |1.15| & |1.23| & |1.31| & ...   \\
     \bottomrule
   \end{tabular}
-\end{center}
+\end{minipage}
 
 \begin{function}[updated = 2025-07-27]{\chartopath}
   \begin{syntax}
     \cs{chartopath} \oarg{key-vals} \marg{string}
   \end{syntax}
-  The mandatory argument accepts the required input string, and the optional
-  argument accepts the following keys to set the style how the string converts
-  to path.
+  The \oarg{key-vals} accepts the listed keys to set how the \marg{string}
+  converts to path.
   \begin{keyval}
-    \item [\key{font}] \val{lmm/lmr} font name.
-    \item [\key{draw, fill}] \val{color} can set the color of the outline/fill of string
-    (Default: |black|).
-    \item [\key{outline}] \val{dim} can set the outline of the string
+    \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
+    choose char's font.
+    \item [\key{draw, fill}] \val{color} set the color of
+    the outline/fill of string (Default: |black|).
+    \item [\key{outline}] \val{dim} set the outline of the string
+    to achieve the ``Fake Bold'' effect (Default: |0pt|).
+    \item [\key{scale}] \val{fp num} set font's scale factor
     (Default: |1|).
-    \item [\key{scale}] \val{fp num} can set the scale of the string
-    (Default: |1|).
-    \item [\key{hfading}] \val{color clist} can set the two colors for horizontal fading the whole string.
-    \item [\key{vfading}] \val{color clist} can set the two colors for vertical fading the whole string.
+    \item [\key{hfading, vfading}] \val{color clist} set the two colors for horizontally/vertically fading the whole string.
     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other). 
     (Default: |true|).
   \end{keyval}
@@ -123,40 +124,61 @@ and the converted paths will be scaled to the corresponding factors.
   The mandatory argument accepts a single character, and the optional
   argument accepts the following keys to set the style how the character clip
   the image.
-  \begin{keyval}
-    \item [\key{font}] \val{lmm/lmr} font name.
-    \item [\key{image}] \val{image} image name.
-    \item [\key{scale}] \val{fp num} font scale factor.
-    \item [\key{anchor}] \val{tikz anchor} image anchor.
-    \item [\key{offset}] \val{(x, y)} imgae anchor offset.
-    \item [\key{height}] \val{dim} image height.
-  \end{keyval}
+  \par\medskip\noindent
+  \begin{minipage}{.57\linewidth}
+    \begin{keyval}
+      \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
+      choose char's font.
+      \item [\key{image}] \val{image} set image to clip.
+      \item [\key{scale}] \val{fp num} set font's scale factor
+      (Default: |1|).
+    \end{keyval}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.39\linewidth}
+    \begin{keyval}
+      \item [\key{anchor}] \val{tikz anchor} set image's anchor.
+      \item [\key{offset}] \val{(x, y)} set imgae anchor's offset.
+      \item [\key{height}] \val{dim} image's height.
+    \end{keyval}
+  \end{minipage}
 \end{function}
 
-\section{Basic Examples}
+\section{Examples}
 
 This package can convert the following characters to path by default:
-including \textrm{Latin Modern Roman},
-\textrm{Latin Modern Sans} (will be supported soon)
+including \textrm{Latin Modern Roman}, \textrm{Latin Modern Sans},
 and \texttt{Latin Modern Mono}.
 
 \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
 \begin{center}
-  \begin{minipage}[t]{.48\linewidth}
-    \fbox{\hskip16pt\parbox[c][4\baselineskip]{\linewidth-24pt}{
-      \chartopath{!\#$"\%&'()*+,-./012345678}\par
-      \chartopath{9:;<=>?@ABCDEFGHIJKLMNOP}\par
-      \chartopath{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
-      \chartopath{ijklmnopqrstuvwxyz\{|\}~}
-    }}
-  \end{minipage}
-  \hspace*\fill
-  \begin{minipage}[t]{.48\linewidth}
-    \fbox{\hskip16pt\parbox[c][4\baselineskip]{\linewidth-24pt}{
+  \begin{minipage}[t]{.32\linewidth}
+    \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
+      \scriptsize
       \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./012345678}\par
       \chartopath[font = lmr, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
       \chartopath[font = lmr, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
       \chartopath[font = lmr, draw]{ijklmnopqrstuvwxyz\{|\}~}
+    }}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}[t]{.32\linewidth}
+    \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
+      \scriptsize
+      \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./012345678}\par
+      \chartopath[font = lms, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
+      \chartopath[font = lms, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
+      \chartopath[font = lms, draw]{ijklmnopqrstuvwxyz\{|\}~}
+    }}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}[t]{.32\linewidth}
+    \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
+      \scriptsize
+      \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./012345678}\par
+      \chartopath[font = lmm, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
+      \chartopath[font = lmm, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
+      \chartopath[font = lmm, draw]{ijklmnopqrstuvwxyz\{|\}~}
     }}
   \end{minipage}
 \end{center}
@@ -165,16 +187,17 @@ and \texttt{Latin Modern Mono}.
 \subsection{Basic usage}
 
 \noindent
-\def\0{013456789/ctp}
+\def\0{0123456789/ctp}
 The basic usage only print the outline of the inputted string.
 \begin{example}
-  \def\0{013456789/ctp}
+  \def\0{0123456789/ctp}
   \chartopath\0
 \end{example}
 \noindent
-Users can pecific the color of outline and fill,
-or specific the scale of inputted characters.
-Just like the keys in \pkg{Ti\textit k\/Z}
+Users can specific the color of outline and fill,
+specific the fill-in pattern,
+and specific the scale and slant of inputted characters.
+Just like the keys in Ti\textit k\/Z.
 \begin{example}
   \chartopath[draw = none, fill = blue]\0
 \end{example}
@@ -183,51 +206,17 @@ Just like the keys in \pkg{Ti\textit k\/Z}
   \chartopath[draw = blue, fill = red, scale = 1.2]\0
 \end{example}
 
-\begin{texnote}
-  Fading will cost too much time!!!
-\end{texnote}
-
-\begin{example}
-  \chartopath[hfading = {red, green}]\0
-\end{example}
-
-\begin{example}
-  \chartopath[hfading = {blue, -}]\0
-\end{example}
-
-\begin{example}
-  \chartopath[hfading = {-, violet}]\0
-\end{example}
-
-\begin{example}
-  \chartopath[vfading = {teal, purple}]\0
-\end{example}
-
-\begin{example}
-  \chartopath[vfading = {-, orange}]\0
-\end{example}
-
-\begin{example}
-  \chartopath[vfading = {violet, -}]\0
-\end{example}
-
-as well as pattern
-
 \begin{example}
   \chartopath[pattern = north west lines,
               draw, scale = 1.2] \0
 \end{example}
 
-FakeSlant is also supported
-
 \begin{example}
-  \chartopath[draw, fill = green, xslant = .15,
-              scale = 1.2] \0
+  \chartopath[draw, fill = green,
+              xslant = .15, scale = 1.2] \0
 \end{example}
-
-Commands for changing font's size, like |\small|,
-can be directly applied to \cs{chartopath}.
-A comparison of the text and the path under 4 different font size commands
+Commands like \cs[no-index]{small} can be directly applied to \cs{chartopath}.
+A comparison of the text and the converted path under 4 different font size
 is shown in the following figure.
 
 \begin{center}
@@ -263,17 +252,47 @@ is shown in the following figure.
   \end{tikzpicture}
 \end{center}
 
+\subsection{Fading the path}
+
+\begin{example}
+  \chartopath[hfading = {red, green}]\0
+\end{example}
+
+\begin{example}
+  \chartopath[hfading = {blue, -}]\0
+\end{example}
+
+\begin{example}
+  \chartopath[hfading = {-, violet}]\0
+\end{example}
+
+\begin{example}
+  \chartopath[vfading = {teal, purple}]\0
+\end{example}
+
+\begin{example}
+  \chartopath[vfading = {-, orange}]\0
+\end{example}
+
+\begin{example}
+  \chartopath[vfading = {violet, -}]\0
+\end{example}
+
+\begin{texnote}
+  Fading will cost too much time!!!
+\end{texnote}
+
 \section{Advanced Examples}
+
 \subsection{Use in \pkg{listings}}
 
-This package can be used with \pkg{listings} or \pkg{minted}, so that users could
-directly copy and paste the source code from |.pdf| file without worry about
-including unwanted line numbers.
+This package can be used within \pkg{listings} or \pkg{minted},
+then users could directly copy the source code from |.pdf| file
+without worry about including unwanted line numbers.
 
 \let\orithelstnumber\thelstnumber
   \def\thelstnumber{%
-    \chartopath[rescan = false, hfading = {violet, blue}]
-       {\orithelstnumber}
+    \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}
   }
 \begin{verbatim}
   \let\orithelstnumber\thelstnumber
@@ -300,10 +319,8 @@ that accepts a string instead of a single character:
   {
     \int_step_inline:nn 
       { \exp_args:Ne \tl_count:n {#2} }
-      {
-        \chartoclip [ #1, offset = {(##1*1, 0pt)}
-                    ] {\tl_item:nn {#2}{##1}} \kern2pt
-      }
+      { \chartoclip [ #1, offset = {(##1*1, 0pt)}
+                    ] {\tl_item:nn {#2}{##1}} \kern2pt }
   }
 \ExplSyntaxOff
 \strpathclip[scale=2.5, font=lmm]{AAAA}\\
@@ -315,15 +332,11 @@ that accepts a string instead of a single character:
 The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
 \begin{example}
 \def\ctp#1{\chartoclip[font = lmr, image = example-image]{#1}}
-\protected\def\ctpTeX{%
-  \ctp T\kern-.1667em \lower.5ex%
-  \hbox{\ctp E}\kern-.125em \ctp X
-}
-\protected\def\ctpLaTeX{%
-  \ctp L\kern-.36em{\sbox0 T\vbox to\ht0{\vskip-.021em%
-  \hbox{\kern.083em\scalebox{.7}{\ctp A}}\vss}}%
-  \kern-.15em\ctpTeX
-}
+\protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
+  \hbox{\ctp E}\kern-.125em \ctp X}
+\protected\def\ctpLaTeX{\ctp L\kern-.36em%
+  {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{%
+  \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
 \scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
 \end{example}
 
