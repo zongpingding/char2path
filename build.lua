@@ -11,15 +11,16 @@
 
 module              = "char2path"
 version             = "v1.0.0"
-date                = "2025-08-01"
-maintainer          = "Eureka, Mingyu Xia"
+date                = "2025-07-28"
+maintainer          = "zongpingding, Mingyu Xia"
 uploader            = "Mingyu Xia"
-maintainid          = "myhsia"
+maintainid          = "zongpingding"
 email               = "myhsia@outlook.com"
 repository          = "https://github.com/" .. maintainid .. "/" .. module
-announcement        = [[]]
+announcement        = [[The new `char2path` package released.]]
 summary             = "A LaTeX package that converts characters into TikZ paths"
 description         = "The char2path package provides an easy way to converts characters into TikZ paths quickly, developed by expl3 based on TikZ."
+note                = "To CTAN team: Remember to add the co-author: zongpingding, for your convenience, his CTAN user page is ctan.org/home/zongpingding/"
 
 --[==========================================[--
           Build, Pack, Tag, and Upload
@@ -29,12 +30,12 @@ description         = "The char2path package provides an easy way to converts ch
 ctanzip             = module
 cleanfiles          = {"*log", "*.pdf", "*.zip", "*.curlopt"}
 excludefiles        = {"*~"}
-tagfiles            = {"*.dtx", "*.tex", "*.sty"}
+installfiles        = {"*.sty", "*.data.tex"}
+localdir            = "./testfiles/unpacked"
 textfiles           = {"*.md", "LICENSE", "*.lua"}
 typesetcmds         = "\\AtBeginDocument{\\ifdefined\\DisableImplementation" ..
                       "\\DisableImplementation\\fi}"
--- typesetdemofiles    = {module .. "-demo.tex"}
-typesetfiles        = {"char2path-doc.tex"}
+typesetfiles        = {module .. ".dtx"}
 typesetexe          = "latexmk -pdf"
 typesetruns         = 1
 uploadconfig  = {
@@ -72,9 +73,7 @@ end
 --[== "Hacks" to `l3build` | Do not Modify ==]--
 
 function docinit_hook()
-  -- cp(ctanreadme, unpackdir, currentdir)
-  cp("*.tex", maindir, typesetdir)
-  cp("*.sty", maindir, typesetdir)
+  cp(ctanreadme, unpackdir, currentdir)
   return 0
 end
 function tex(file,dir,cmd)

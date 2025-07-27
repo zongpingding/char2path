@@ -1,0 +1,122 @@
+\iffalse meta-comment
+
+File: char2path.ins
+-----------------------------------------------------------------------
+  Copyright (C) 2025 by Eureka <zongpingding5@outlook.com> and        *
+                        Mingyu Xia <myhsia@outlook.com>               *
+                                                                      *
+  This work may be distributed and/or modified under the conditions   *
+  of the LaTeX Project Public License (LPPL), either version 1.3c of  *
+  this license or (at your option) any later version.                 *
+  The latest version of this license is in                            *
+                                                                      *
+      http://www.latex-project.org/lppl.txt                           *
+                                                                      *
+  and version 1.3c or later is part of all distributions of LaTeX     *
+  version 2008 or later.                                              *
+                                                                      *
+  This work has the LPPL maintenance status `maintained'.             *
+                                                                      *
+  The Current Maintainer of this work is Eureka and Mingyu Xia.       *
+                                                                      *
+  This work consists of the files char2path.dtx,                      *
+                                  ctp-lmdata.dtx,                     *
+                                  char2path.ins,                      *
+                the derived files char2path.sty,                      *
+                                  ctp-lmr-arabic.data.tex,            *
+                                  ctp-lmr-alpha-small.data.tex,       *
+                                  ctp-lmr-alpha-caps.data.tex,        *
+                                  ctp-lmr-others.data.tex,            *
+                                  ctp-lms-arabic.data.tex,            *
+                                  ctp-lms-alpha-small.data.tex,       *
+                                  ctp-lms-alpha-caps.data.tex,        *
+                                  ctp-lms-others.data.tex,            *
+                                  ctp-lmm-arabic.data.tex,            *
+                                  ctp-lmm-alpha-small.data.tex,       *
+                                  ctp-lmm-alpha-caps.data.tex,        *
+                                  ctp-lmm-others.data.tex,            *
+          the documentation files char2path.pdf,                      *
+                              and README.md.                          *
+-----------------------------------------------------------------------
+
+  Any modification of this file should ensure that the copyright and
+  license information is placed in the derived files.
+
+-----------------------------------------------------------------------
+
+\fi
+
+\input docstrip %
+\askforoverwritefalse
+
+\preamble
+-----------------------------------------------------------------------
+  Copyright (C) 2025 by Eureka <zongpingding5@outlook.com> and        *
+                        Mingyu Xia <myhsia@outlook.com>               *
+                                                                      *
+  This work may be distributed and/or modified under the conditions   *
+  of the LaTeX Project Public License (LPPL), either version 1.3c of  *
+  this license or (at your option) any later version.                 *
+  The latest version of this license is in                            *
+                                                                      *
+      http://www.latex-project.org/lppl.txt                           *
+                                                                      *
+  and version 1.3c or later is part of all distributions of LaTeX     *
+  version 2008 or later.                                              *
+                                                                      *
+  This work has the LPPL maintenance status `maintained'.             *
+                                                                      *
+  The Current Maintainer of this work is Mingyu Xia.                  *
+-----------------------------------------------------------------------
+\endpreamble
+
+\postamble
+-----------------------------------------------------------------------
+  This work consists of the files char2path.dtx,                      *
+                                  ctp-lmdata.dtx,                     *
+                                  char2path.ins,                      *
+                the derived files char2path.sty,                      *
+                                  ctp-lmr-arabic.data.tex,            *
+                                  ctp-lmr-alpha-small.data.tex,       *
+                                  ctp-lmr-alpha-caps.data.tex,        *
+                                  ctp-lmr-others.data.tex,            *
+                                  ctp-lms-arabic.data.tex,            *
+                                  ctp-lms-alpha-small.data.tex,       *
+                                  ctp-lms-alpha-caps.data.tex,        *
+                                  ctp-lms-others.data.tex,            *
+                                  ctp-lmm-arabic.data.tex,            *
+                                  ctp-lmm-alpha-small.data.tex,       *
+                                  ctp-lmm-alpha-caps.data.tex,        *
+                                  ctp-lmm-others.data.tex,            *
+          the documentation files char2path.pdf,                      *
+                              and README.md.                          *
+-----------------------------------------------------------------------
+\endpostamble
+
+\keepsilent
+
+\generate{
+  \usedir{tex/latex/char2path}
+    \file{\jobname.sty}                 {\from{\jobname.dtx}{package}}
+  \nopreamble\nopostamble
+    \file{ctp-lmr-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lmr-arabic}}
+    \file{ctp-lmr-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lmr-alpha-small}}
+    \file{ctp-lmr-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lmr-alpha-caps}}
+    \file{ctp-lmr-others.data.tex}      {\from{ctp-lmdata.dtx}{lmr-others}}
+    \file{ctp-lms-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lms-arabic}}
+    \file{ctp-lms-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lms-alpha-small}}
+    \file{ctp-lms-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lms-alpha-caps}}
+    \file{ctp-lms-others.data.tex}      {\from{ctp-lmdata.dtx}{lms-others}}
+    \file{ctp-lmm-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lmm-arabic}}
+    \file{ctp-lmm-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lmm-alpha-small}}
+    \file{ctp-lmm-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lmm-alpha-caps}}
+    \file{ctp-lmm-others.data.tex}      {\from{ctp-lmdata.dtx}{lmm-others}}
+  \usedir{doc/latex/char2path}
+  \nopreamble\nopostamble
+    \file{README.md}                    {\from{\jobname.dtx}{readme}}
+  }
+
+\endbatchfile
+\endinput
+%%
+%% End of file `char2path.ins'
