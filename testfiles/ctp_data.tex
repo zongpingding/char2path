@@ -1,0 +1,12 @@
+\makeatletter
+\def\input@path{{../}}
+\makeatother
+\documentclass{article}
+\usepackage{char2path}
+\parindent0pt
+
+
+\begin{document}
+\def\TTT{\ctpdata{lmm}{A}}
+\detokenize\expandafter{\expanded{\TTT}}
+\end{document}
