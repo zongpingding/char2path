@@ -2,7 +2,7 @@
 %
 % File: char2path.dtx
 % -----------------------------------------------------------------------
-%   Copyright (C) 2025 by Eureka <zongpingding5@outlook.com> and        *
+%   Copyright (C) 2025 by zongpingding <zongpingding5@outlook.com> and  *
 %                         Mingyu Xia <myhsia@outlook.com>               *
 %                                                                       *
 %   This work may be distributed and/or modified under the conditions   *
@@ -17,7 +17,7 @@
 %                                                                       *
 %   This work has the LPPL maintenance status `maintained'.             *
 %                                                                       *
-%   The Current Maintainer of this work is Eureka and Mingyu Xia.       *
+%   The Current Maintainer of this work is zongpingding and Mingyu Xia. *
 %                                                                       *
 %   This work consists of the files char2path.dtx,                      *
 %                                   ctp-lmdata.dtx,                     *
@@ -118,8 +118,14 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Eureka <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2023-2025 by zongpingding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
+
+This package's data is converted from
+[Latin Modern family](https://www.gust.org.pl/projects/e-foundry/latin-modern),
+which is based on the Computer Modern fonts released into public domain by
+AMS (1997). It's under the license of
+**[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
 
 This work may be distributed and/or modified under the conditions
 of the LaTeX Project Public License (LPPL), either version 1.3c of
@@ -133,7 +139,7 @@ version 2008 or later.
 
 This work has the LPPL maintenance status `maintained'.
 
-The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
+The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %</readme>
 %
 %<*internal>
@@ -141,9 +147,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 %</internal>
 %
 %<*driver>
-\documentclass{l3doc}
+\documentclass[show-notes]{l3doc}
 \usepackage[scale = 10pt]{char2path}
-\usepackage{listings}
+\usepackage{listings, duckuments}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 \AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
 \makeatletter
@@ -185,7 +191,7 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
       \hskip-4pt
       \begin{minipage}{\textwidth}^^A
         \small\VerbatimInput[gobble=2]{\example@name}^^A
-      \end{minipage}\par\medskip\noindent
+      \end{minipage}\par\smallskip\noindent
       \fbox{^^A
         \begin{minipage}{\textwidth}^^A
           \normalsize\input \example@name^^A
@@ -199,7 +205,7 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
   {\stepcounter{example}\example@start}{\s@example@end}
 \makeatother
 \newlist{keyval}{itemize}{10}
-\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
+\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt, itemsep = 1pt}
 \makeindex
 \begin{document}
   \DocInput{\jobname.dtx}
@@ -215,13 +221,13 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 %   }^^A
 % }
 % \author{^^A
-%   Eureka\thanks{^^A
+%   zongpingding\thanks{^^A
 %     \href{mailto:zongpingding5@outlook.com}{\texttt{zongpingding5@outlook.com}}},~
 %   Mingyu Xia\thanks{^^A
 %     \href{mailto:xiamingyu@westlake.edu.cn}{\texttt{xiamingyu@westlake.edu.cn}}^^A
 %   }^^A
 % }
-% \date{Released 2025-08-01\quad \texttt{v1.0.0}}
+% \date{Released 2025-07-28\quad \texttt{v1.0.0}}
 %
 % \maketitle
 %
@@ -233,6 +239,15 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 % characters into Ti\textit k\/Z paths.
 % It supports compilation methods including \hologo{pdfLaTeX},
 % \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+%
+% \vspace{3pt}
+% \noindent\fbox{\vbox{\scriptsize\noindent
+% This package's data is converted from
+% \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family},
+% which is based on the Computer Modern fonts released into public domain by
+% AMS (1997). It's under the license of
+% \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.}}
+% \vskip-12pt
 %
 % \section{Usage}
 %
@@ -444,7 +459,7 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 %   Fading will cost too much time!!!
 % \end{texnote}
 %
-% \section{Advanced Examples}
+% \section{Advanced Usage}
 %
 % \subsection{Use in \pkg{listings}}
 %
@@ -482,14 +497,13 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 %       { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
 %           { \tl_item:nn {#2}{##1}} \kern2pt } }
 % \ExplSyntaxOff
-% \strpathclip[scale = 2, font = lmr]{Hello} \strpathclip[scale = 2, font = lmm]{c2p}
+% \strpathclip[scale = 2, font = lmr, image = example-grid-100x100bp]{Hello, c2p}
 % \end{example}
-%
 %
 % \subsection{\hologo{(La)TeX} logo}
 % The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
 % \begin{example}
-% \def\ctp#1{\chartoclip[font = lmr, image = example-image]{#1}}
+% \def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
 % \protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
 %   \hbox{\ctp E}\kern-.125em \ctp X}
 % \protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
@@ -499,17 +513,23 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 % \end{example}
 %
 % \subsection{Get path data}
-%
+% \begin{function}{\ctpdata}
+%   \begin{syntax}
+%     \cs{ctpdata}\marg{font name}\marg{character}
+%   \end{syntax}
+%   This function can output the path data (in \textsc{pgf} coordinates).
+%   \NB{Note}{This command is expandable.}
 % \begin{example*}
-%   \def\0{\ctpdata{lmr}{-}} \ttfamily\detokenize\expandafter{\expanded{\0}}
+%   \def\0{\ctpdata{lmr}{-}} \scriptsize\ttfamily\detokenize\expandafter{\expanded{\0}}
 % \end{example*}
-%
+% \end{function}
+% \footnotesize
 % \section{Todo List}
 %
 % \begin{itemize}
 %   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning: Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
-%   \item [\textcolor{blue}{\textsf{Function}}] Support function like
-%   "\chartopath{\usefont{T1}{cmr}{m}{sc} abc}", or\\
+%   \item [\textcolor{blue}{\textsf{Function}}] Support syntax
+%   "\chartopath{\usefont{T1}{cmr}{m}{sc} abc}",
 %   "\chartopath{\sffamily abc}".
 % \end{itemize}
 %
@@ -528,16 +548,21 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\ProvidesExplPackage {char2path} {2025-08-01} {v1.0.0}
+\ProvidesExplPackage {char2path} {2025-07-28} {v1.0.0}
   {A LaTeX package that converts characters into TikZ paths}
-
+%    \end{macrocode}
+% \begin{variable}{\g_@@_scale_tl}
+% Define the |scale| key for this package.
+%    \begin{macrocode}
 \keys_define:nn { char2path }
   {
     scale   .tl_gset:N = \g_@@_scale_tl,
       scale .initial:n = { 10pt },
   }
 \ProcessKeyOptions [ char2path ]
-
+%    \end{macrocode}
+% \end{variable}
+%    \begin{macrocode}
 \RequirePackage{tikz, etoolbox}
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
@@ -548,7 +573,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
     \@popfilename
   }{}{}
 \usetikzlibrary{patterns, fadings, calc}
-
+%    \end{macrocode}
+% Warning Broadcast
+%    \begin{macrocode}
 \cs_new_protected:Npn \@@_msg_new:nn #1#2
   { \msg_new:nnn { char2path } {#1} {#2} }
 \cs_new_protected:Npn \@@_msg_warning:n #1
@@ -557,16 +584,33 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
   { \msg_error:nne { char2path } {#1} {#2} }
 \@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
 \@@_msg_new:nn { kernel } { file ~ not ~ found }
-
-\tl_const:Nn \c_@@_tikz_folder_tl { font_glyph } % for future use
+%    \end{macrocode}
+% \begin{variable}{\c_@@_tikz_folder_tl, \c_@@_global_scale_fp, \c_@@_scale_prop}
+%   Define global variables: \cmd{\c_@@_tikz_folder_tl} for future use,
+%   \cmd{\c_@@_global_scale_fp} for global scale factor, and
+%   \cmd{\c_@@_scale_prop} for storing scale choices respectly.
+%    \begin{macrocode}
+\tl_const:Nn \c_@@_tikz_folder_tl { font_glyph }
 \fp_const:Nn \c_@@_global_scale_fp { .0135 }
 \prop_const_from_keyval:Nn \c_@@_scale_prop
   {
     10pt = 0.820, 11pt = 0.902, 12pt = 0.984, 13pt = 1.066,
     14pt = 1.148, 15pt = 1.230, 16pt = 1.311,
   }
-
+%    \end{macrocode}
+% \end{variable}
+% \begin{variable}{\l_@@_tikz_data_merge_tl}
+%   To merge a font's different parts of data into a \meta{token list}.
+%    \begin{macrocode}
 \tl_new:N \l_@@_tikz_data_merge_tl
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\@@_load_font_data:nnn}
+% Load fonts' path data from database file (|*.data.tex|).
+% Due to the fact that character |~| is stored in the database,
+% |\char_set_catcode:nn { 126 } { 12 }| should be applied
+% to ensure it's path data could be correctly loaded in |expl3| syntax.
+%    \begin{macrocode}
 \cs_new_protected_nopar:Npn \@@_load_font_data:nnn #1#2#3
   {
     \clist_map_inline:nn {#3}
@@ -583,22 +627,40 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
       { c_@@_tikz_#2_data_prop } { \l_@@_tikz_data_merge_tl }
     \tl_set:cn { l_@@_font_#2_type_tl } {#1}
   }
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_protected_char:nn}
+%   To create a macro so that it couldn't be expanded.
+%    \begin{macrocode}
 \cs_new:Npn \@@_protected_char:nn #1#2
   { \cs_new_protected:cpn {#1} { \exp_not:n {#2} } }
 \@@_protected_char:nn { ctpbackslash }{ \textbackslash }
-\@@_load_font_data:nnn { serif } { lmr }
+%    \end{macrocode}
+% \end{macro}
+% Load font's data for |lmr|, |lms| and |lmm|, including
+% arabic (Unicode: 0030 -- 0039), 
+% alpha-small (Unicode: 0061-007A),
+% alpha-caps (Unicode: 0041 -- 005A),
+% and other symbols (anything left in Unicode: 0021 -- 007E).
+%    \begin{macrocode}
+\@@_load_font_data:nnn { serif }  { lmr }
   { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { mono } { lmm }
+\@@_load_font_data:nnn { sans }   { lms }
   { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { sans } { lms }
+\@@_load_font_data:nnn { mono }   { lmm }
   { arabic, alpha-small, alpha-caps, others, }
-
-\box_new:N \l_@@_glyph_box
+%    \end{macrocode}
+% \begin{variable}
+%   {
+%     \l_@@_char_clip_font, \l_@@_rescan_bool,
+%     \l_@@_draw_tl,        \l_@@_outline_tl,
+%     \l_@@_hfading_clist,  \l_@@_vfading_clist,
+%     \l_@@_fill_tl,        \l_@@_scale_fp
+%   }
+%   Key--value definitions for the \cs{chartopath} command.
+%    \begin{macrocode}
 \clist_new:N \l_@@_continous_color_left_clist
 \clist_new:N \l_@@_continous_color_right_clist
-\clist_new:N \l_@@_options_clist
-\tl_new:N \l_@@_unknown_tl
 \keys_define:nn { char2path / chartopath }
   {
     font      .tl_set:N     = \l_@@_char_clip_font,
@@ -616,6 +678,17 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
       scale   .initial:n    = { 1 },
     unknown   .code:n       = \@@_parse_unknown_option:n {#1}
   }
+%    \end{macrocode}
+% \end{variable}
+% \begin{variable}{\l_@@_options_clist}
+%   To store unknown key--values.
+%    \begin{macrocode}
+\clist_new:N \l_@@_options_clist
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\@@_parse_unknown_option:n}
+%   Parsing unknown key--values and pass them into Ti\textit \/Z.
+%    \begin{macrocode}
 \cs_new_protected_nopar:Npn \@@_parse_unknown_option:n #1
   {
     \tl_if_empty:nTF {#1}
@@ -625,14 +698,30 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
           { \l_keys_key_str = \exp_not:n {#1} }
       }
   }
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{variable}{\l_@@_tmpa_tl, \l_@@_tmpb_tl}
+%    \begin{macrocode}
 \tl_new:N \l_@@_tmpa_tl
 \tl_new:N \l_@@_tmpb_tl
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\chartopath}
+%   The main command for this package.
+%    \begin{macrocode}
 \NewDocumentCommand \chartopath { O{} m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartopath } {#1}
+%    \end{macrocode}
+%   If the optional argument is empty, then apply the rule:
+%   ``only print the outline of the inputted string''.
+%    \begin{macrocode}
     \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
+%    \end{macrocode}
+%   Config the |rescan| boolean: set the catcode of |$|, |&|, and |~|
+%   to 12 (common letter).
+%    \begin{macrocode}
     \bool_if:NTF \l_@@_rescan_bool
       {
         \tl_set_rescan:Nnn \l_@@_tmpa_tl 
@@ -642,10 +731,18 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
             \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 } % '~'
           } {#2}
       } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
+%    \end{macrocode}
+%   Warning information for fading: if both the |hfading|
+%   and the |vfading| key is valued, then a warning is returned.
+%    \begin{macrocode}
     \bool_lazy_and:nnT
       { !\clist_if_empty_p:N \l_@@_hfading_clist }
       { !\clist_if_empty_p:N \l_@@_vfading_clist }
       { \@@_msg_warning:n { fading } }
+%    \end{macrocode}
+%   Boolean judgment: if |hfading| and |vfading| are both empty at the same
+%   time, or |hfading| and |vfading| are not assigned at the same time
+%    \begin{macrocode}
     \bool_lazy_or:nnTF
       {
         \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist } 
@@ -655,6 +752,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
         \bool_lazy_and_p:nn { !\clist_if_empty_p:N \l_@@_hfading_clist }
                             { !\clist_if_empty_p:N \l_@@_vfading_clist }
       }
+%    \end{macrocode}
+%   If the situation is true, then use the basic usage for converting.
+%    \begin{macrocode}
       {
         \exp_args:Nno \@@_aux:nnnn
           {
@@ -663,11 +763,24 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
             \clist_use:Nn \l_@@_options_clist { , }
           } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
       }
+%    \end{macrocode}
+%   If the situation is false, then handle the vertical or horizontally
+%   fading due to user's input.
+%    \begin{macrocode}
       {
+%    \end{macrocode}
+%   Vertically fading branch.
+%    \begin{macrocode}
         \clist_if_empty:NF \l_@@_vfading_clist
           {
-            \@@_continous_fading_parse_aux:NNN \l_@@_vfading_clist
+%    \end{macrocode}
+%   Split the color list into two \meta{token list}s.
+%    \begin{macrocode}
+            \@@_fading_parse_aux:NNN \l_@@_vfading_clist
               \l_@@_color_i_tl \l_@@_color_ii_tl
+%    \end{macrocode}
+%   For single color: set the other color to |transparent!0|.
+%    \begin{macrocode}
             \str_case_e:nn { - }
               {
                 { \l_@@_color_i_tl }
@@ -675,6 +788,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
                 { \l_@@_color_ii_tl }
                 { \tl_set:Nn \l_@@_color_ii_tl { transparent!0 } }
               }
+%    \end{macrocode}
+%   Set the |top color| and |bottom color| accordingly.
+%    \begin{macrocode}
             \@@_aux:nnnn
               {
                 top~color  = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl,
@@ -682,13 +798,27 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
                 \clist_use:Nn \l_@@_options_clist { , }
               } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
           }
+%    \end{macrocode}
+%   Horizontally fading branch.
+%    \begin{macrocode}
         \clist_if_empty:NF \l_@@_hfading_clist
           {
-            \@@_continous_fading_parse_aux:NNN \l_@@_hfading_clist
+%    \end{macrocode}
+%   Split the color list into two \meta{token list}s.
+%    \begin{macrocode}
+            \@@_fading_parse_aux:NNN \l_@@_hfading_clist
               \l_@@_color_i_tl \l_@@_color_ii_tl
-            \exp_args:Ne \@@_continous_color_aux:nNN { \l_@@_tmpa_tl }
+%    \end{macrocode}
+%   Generate the color percentage list according to the number of
+%   characters in the input stream.
+%    \begin{macrocode}
+            \exp_args:Ne \@@_fading_color_aux:nNN { \l_@@_tmpa_tl }
               \l_@@_continous_color_left_clist
               \l_@@_continous_color_right_clist
+%    \end{macrocode}
+%   Set the |left color| and |right color|
+%   to every character with corresponding percentage.
+%    \begin{macrocode}
             \int_step_inline:nn { \exp_args:Ne \tl_count:n { \l_@@_tmpa_tl } }
               {
                 \tl_set:Nn \l_@@_continous_color_tmpa_tl
@@ -697,6 +827,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
                   { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
                 \str_case_e:nnF { - }
                   {
+%    \end{macrocode}
+%   Single color branch (left fading).
+%    \begin{macrocode}
                     { \l_@@_color_i_tl }
                     {
                       \exp_args:Nne \@@_aux:nnnn
@@ -713,6 +846,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
                         } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
                         { \l_@@_char_clip_font } { \l_@@_scale_fp } 
                     }
+%    \end{macrocode}
+%   Single color branch (right fading).
+%    \begin{macrocode}
                     { \l_@@_color_ii_tl }
                     {
                       \exp_args:Nne \@@_aux:nnnn
@@ -728,6 +864,9 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
                         { \l_@@_char_clip_font } { \l_@@_scale_fp } 
                     }
                   }
+%    \end{macrocode}
+%   Double color branch.
+%    \begin{macrocode}
                   {
                    \exp_args:Nne \@@_aux:nnnn
                       {
@@ -748,13 +887,37 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
               }
           }
       }
+%    \end{macrocode}
+%   Make the keys' values only valid within the command.
+%    \begin{macrocode}
     \group_end:
+%    \end{macrocode}
+%   Clean the unknown key--values' list.
+%    \begin{macrocode}
     \clist_gclear:N \l_@@_options_clist
   }
-
-\prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
+%    \end{macrocode}
+% \end{macro}
+% \begin{variable}{\l_@@_mono_width_dim, \l_@@_mono_sep_dim, \l_@@_glyph_box}
+%   Dimension variables for store the width and sep of the mono font,
+%   and box for calculating the depths of inputted characters.
+%    \begin{macrocode}
 \dim_new:N \l_@@_mono_width_dim
 \dim_new:N \l_@@_mono_sep_dim
+\box_new:N \l_@@_glyph_box
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\str_case:nn}
+%   Generate a |v-|type from \cmd{\str_case:nn} for later usage.
+%    \begin{macrocode}
+\prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_aux:nnnn}
+%   Define the auxiliary command of \cs{chartopath}: set the depth of
+%   every font's style (|roman|, |sans|, and |mono|),
+%   and then pass them to \cmd{\@@_draw:nnnnnn} to process.
+%    \begin{macrocode}
 \cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
   {
     \exp_args:Ne \tl_map_inline:nn {#2}
@@ -785,8 +948,14 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
           { \l_@@_mono_width_dim } { \l_@@_mono_sep_dim }
       }
   }
-% TODO: Avoid nesting '\tikz' command; use the character's 
-%       natural dimensions instead.
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_draw:nnnnnn}
+%   Auxiliary command for converting character to path:
+%   conducted with |\tikz|^^A
+%   \NB{TODO}{Avoid nesting \tikz command;
+%             use the character's natural dimensions instead}.
+%    \begin{macrocode}
 \cs_new_protected:Npn \@@_draw:nnnnnn #1#2#3#4#5#6
   {
     \tikz [ baseline = #1 ] \node
@@ -796,6 +965,11 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
               ] \path [#2] #3; };
   }
 \cs_generate_variant:Nn \@@_draw:nnnnnn { neennn }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_data:nn}
+%   Auxiliary command for mapping character to the corresponding data.
+%    \begin{macrocode}
 \cs_new:Npn \@@_data:nn #1#2
   {
     \prop_if_in:cnTF { c_@@_tikz_#1_data_prop } {#2}
@@ -804,16 +978,24 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
     % \file_if_exist_input:n { \c_@@_tikz_folder_tl/#2.pgf.coor }
   }
 \cs_generate_variant:Nn \@@_data:nn { ne, ee }
-
-\cs_new_protected:Npn \@@_continous_fading_parse_aux:NNN #1#2#3
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_fading_parse_aux:NNN}
+%   Parsing fading color list.
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_fading_parse_aux:NNN #1#2#3
   {
     \group_begin: \exp_args:NNNe \group_end:
       \tl_set:Nn #2 { \clist_item:Nn #1 { 1 } }
     \group_begin: \exp_args:NNNe \group_end:
       \tl_set:Nn #3 { \clist_item:Nn #1 { 2 } }
   }
-
-\cs_new_protected:Npn \@@_continous_color_aux:nNN #1#2#3
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_fading_color_aux:nNN}
+%   Generate color percentage clist due to the number ofinputted characters.
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_fading_color_aux:nNN #1#2#3
   {
     \int_step_inline:nn { \tl_count:n {#1} }
       {
@@ -827,8 +1009,17 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
       }
   }
 
-% image clip
-% TODO: change 'height' to the height of char
+%    \end{macrocode}
+% \end{macro}
+% \begin{variable}
+%   {
+%     \l_@@_char_clip_font,         \l_@@_image_tl,
+%     \l_@@_char_clip_scale_fp,     \l_@@_image_anchor_tl,
+%     \l_@@_image_anchor_offset_tl, \l_@@_image_height_dim
+%   }
+%   Key--value definitions for the \cs{chartoclip} command^^A
+%   \NB{TODO}{Change ``height'' to the height of char}.
+%    \begin{macrocode}
 \keys_define:nn { char2path / chartoclip }
   {
     font      .tl_set:N  = \l_@@_char_clip_font,
@@ -844,6 +1035,11 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
     height    .dim_set:N = \l_@@_image_height_dim,
       height  .initial:n = { 3cm },
   }
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\chartoclip}
+%   Command for the converted path clipping an specific image.
+%    \begin{macrocode}
 \NewDocumentCommand \chartoclip { O{} m }
   {
     \group_begin:
@@ -857,18 +1053,30 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
       { \l_@@_image_anchor_tl        }
     \group_end:
   }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_image_clip_aux:nnnnnn}
+%   The auxiliary command of \cs{chartoclip}:\par\noindent
+%   |#1|: path data;    |#2|: anchor offset; |#3|: image;
+%   |#4|: image height; |#5|: scale;         |#6|: anchor.
+%    \begin{macrocode}
 \cs_new:Npn \@@_image_clip_aux:nnnnnn #1#2#3#4#5#6
-  {% #1:path data;    #2:anchor offset;  #3:image;
+  {
     \tikz [ scale = \fp_eval:n { \c_@@_global_scale_fp*#5 } ]
       \path [ path~picture = {
               \node at ($(path~picture~bounding~box.#6) + #2$)
                 { \includegraphics [ height = #4 ] {#3} };
           } ] #1;
-  }% #4:image height; #5:scale;          #6:anchor
-
-% Use ctp data (need to be expandable)
+  }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ctpdata}
+% Command for using \pkg{char2path}'s data.
+%    \begin{macrocode}
 \newcommand \ctpdata [2] { \@@_data:nn {#1}{#2} }
-
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \file_input_stop:
 %    \end{macrocode}
 %
@@ -877,5 +1085,4 @@ The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
 %    \end{macrocode}
 %
 % \end{implementation}
-
-% ^^A\PrintIndex
+% \PrintIndex

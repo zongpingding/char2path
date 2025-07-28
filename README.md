@@ -66,8 +66,14 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Eureka <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2023-2025 by zongpingding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
+
+This package's data is converted from
+[Latin Modern family](https://www.gust.org.pl/projects/e-foundry/latin-modern),
+which is based on the Computer Modern fonts released into public domain by
+AMS (1997). It's under the license of
+**[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
 
 This work may be distributed and/or modified under the conditions
 of the LaTeX Project Public License (LPPL), either version 1.3c of
@@ -81,5 +87,4 @@ version 2008 or later.
 
 This work has the LPPL maintenance status `maintained'.
 
-The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
-
+The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
