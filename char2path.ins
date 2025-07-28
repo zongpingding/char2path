@@ -2,7 +2,7 @@
 
 File: char2path.ins
 -----------------------------------------------------------------------
-  Copyright (C) 2025 by Eureka <zongpingding5@outlook.com> and        *
+  Copyright (C) 2025 by zongpingding <zongpingding5@outlook.com> and  *
                         Mingyu Xia <myhsia@outlook.com>               *
                                                                       *
   This work may be distributed and/or modified under the conditions   *
@@ -17,7 +17,7 @@ File: char2path.ins
                                                                       *
   This work has the LPPL maintenance status `maintained'.             *
                                                                       *
-  The Current Maintainer of this work is Eureka and Mingyu Xia.       *
+  The Current Maintainer of this work is zongpingding and Mingyu Xia. *
                                                                       *
   This work consists of the files char2path.dtx,                      *
                                   ctp-lmdata.dtx,                     *
@@ -51,7 +51,7 @@ File: char2path.ins
 
 \preamble
 -----------------------------------------------------------------------
-  Copyright (C) 2025 by Eureka <zongpingding5@outlook.com> and        *
+  Copyright (C) 2025 by zongpingding <zongpingding5@outlook.com> and  *
                         Mingyu Xia <myhsia@outlook.com>               *
                                                                       *
   This work may be distributed and/or modified under the conditions   *
@@ -66,7 +66,7 @@ File: char2path.ins
                                                                       *
   This work has the LPPL maintenance status `maintained'.             *
                                                                       *
-  The Current Maintainer of this work is Mingyu Xia.                  *
+  The Current Maintainer of this work is zongpingding and Mingyu Xia. *
 -----------------------------------------------------------------------
 \endpreamble
 
@@ -93,12 +93,20 @@ File: char2path.ins
 -----------------------------------------------------------------------
 \endpostamble
 
+\declarepreamble\copyright
+-----------------------------------------------------------------------
+This package's data is converted from Latin Modern family, which is   *
+based on the Computer Modern fonts released into public domain by     *
+AMS (1997). It's under the license of The GUS Font License (GFL).     *
+-----------------------------------------------------------------------
+\endpreamble
+
 \keepsilent
 
 \generate{
   \usedir{tex/latex/char2path}
     \file{\jobname.sty}                 {\from{\jobname.dtx}{package}}
-  \nopreamble\nopostamble
+  \nopreamble\usepreamble\copyright\nopostamble
     \file{ctp-lmr-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lmr-arabic}}
     \file{ctp-lmr-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lmr-alpha-small}}
     \file{ctp-lmr-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lmr-alpha-caps}}
