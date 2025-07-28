@@ -7,58 +7,38 @@
 The `char2path` Package
 =======================
 
-The `char2path` package (conducted with LaTeX3) provides
-a LaTeX package that converts characters into TikZ paths.
+The `char2path` package provides a LaTeX package for converting characters into TikZ paths.
 
 Overview
 --------
 
-The package provides the `\chartopath` macro
+The package provides the `\chartopath` and `\chartoclip` macro
 
     \chartopath [<keys>] {<string>}
+    \chartoclip [<keys>] {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
-Usage
------
-
-### Generate `.svg` from font
-
-#### Use `Inkscape`
-
-1. Set text font to latin modern mono
-2. Click `Object` -> `Object to path`
-3. Save as `Plain SVG`
-
-> Note: The default unit in Inkscape is millimeters (`mm`), while in svg2tikz it is centimeters (`cm`).
-
-#### Use `fonts2svg`
-
-### Generate `svg` from Open True Type font (use package `opentypesvg`):
-
+Generate `tikz path` from font
+---
+First, install the dependencies:
 ```shell
-fonts2svg lmmonolt10-regular.otf -av
+cd resources/SVG/font2svg
+pip install -r requirements.txt
 ```
 
-Convert the generated SVG files to TikZ files, and
-
-```tex
-\def\globalscale{0.01350000}
+Next, define the following constants:
+```python
+FONT_FOLDER = "../../Fonts/"
+FONT_NAME = "lmmono10-regular.otf"
+FONT_ALIAS = 'lmm'
 ```
 
-### Generate `pgf` from `svg`
-
-```shell
-# full mwe
-svg2tikz lmm_8.svg --output lmm_export_8.tikz
-
-# just `scope' env
-svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_export_8.tikz
-
-# batch mode (powershell)
-for ($i=0; $i -le 9; $i++) {svg2tikz --codeoutput=codeonly lmm_$i.svg --output lmm_export_$i.tikz}
+Finally, run the Python script below:
+``` shell
+python font2path.py
 ```
 
 Issues
@@ -86,8 +66,14 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Eureka <[zongpingding.github.io](https://zongpingding.github.io)> and
+Copyright (C) 2023-2025 by zongpingding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
+
+This package's data is converted from
+[Latin Modern family](https://www.gust.org.pl/projects/e-foundry/latin-modern),
+which is based on the Computer Modern fonts released into public domain by
+AMS (1997). It's under the license of
+**[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
 
 This work may be distributed and/or modified under the conditions
 of the LaTeX Project Public License (LPPL), either version 1.3c of
@@ -101,4 +87,4 @@ version 2008 or later.
 
 This work has the LPPL maintenance status `maintained'.
 
-The Current Maintainer of this work is **Eureka** and **Mingyu Xia**.
+The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.

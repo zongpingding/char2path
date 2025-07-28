@@ -1,22 +1,22 @@
 import os
+import re
 import subprocess
 from pathlib import Path
-# font table data
 from fonttable import *
 
 
 
 #####  bool control  #####
 EXTRACT_SVG_FROM_FONT = True 
-EXTRACT_SVG = False
-EXTRACT_COOR = False
+EXTRACT_SVG = True
+EXTRACT_COOR = True
 
 
 #####    assign font     #####
 FONT_FOLDER = "../../Fonts/"
-FONT_NAME = "latin-modern-roman.mroman10-regular.otf"
+FONT_NAME = "texgyreadventor-regular.otf"
+FONT_ALIAS = 'texgyre'
 FONT = FONT_FOLDER + FONT_NAME
-
 
 #####  SVG directories  #####
 PARENT_DIR = Path('SVGs')
@@ -65,11 +65,11 @@ if EXTRACT_SVG:
                 match True:
                     case _ if char in OTHER_SYMBOLS.values(): # type of 'dict_values'
                         target_dir = OTHER_SYMBOLS_DIR
-                    case _ if char in NUM_LIST:
+                    case _ if char in NUM_LIST.values():
                         target_dir = NUMS_DIR
-                    case _ if (len(char)==1 and char.isupper()):
+                    case _ if char in ALPHA_CAPS.values():
                         target_dir = CAPS_DIR
-                    case _ if (len(char)==1 and char.islower()):
+                    case _ if char in ALPHA_SMALL.values():
                         target_dir = SMALL_DIR
                     case _:
                         continue
@@ -78,8 +78,40 @@ if EXTRACT_SVG:
 
 
 #####   generate pgf from svg   #####
-# svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_export_8.tikz
-# sed -n 's/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p' eight.pgf > output.txt 
+# svg2tikz --codeoutput=codeonly lmm_8.svg --output lmm_8.pgf
+# sed -n 's/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p' eight.pgf > eight.pgf.coor
+def extract_tikz_path(char_name:str, input_file:str, output_file:str) -> None:
+    with open(input_file, 'r', encoding='utf-8') as infile, \
+        open(output_file, 'a', encoding='utf-8') as outfile:
+
+        pattern = re.compile(r'^\s*\\path\[fill=black\]\s*(.*);\s*$')
+
+        for line in infile:
+            match = pattern.match(line)
+            if match:
+                content = match.group(1)
+                outfile.write(f'{char_name} = {{{content}}},\n')
+
+# maps dir to unicode map
+# FONTABLE_SVG_DIR = [CAPS_DIR, SMALL_DIR, NUMS_DIR, OTHER_SYMBOLS_DIR]
+def dir_to_unicode_map(dir:str) -> (str):
+    match True:
+        case _ if dir == str(CAPS_DIR):
+            name_in_coor = MAP_ALPHA_CAPS[ f'u{ord(ALPHA_CAPS_REVERSE[f_no_ext]):04x}']
+            file_name = f'ctp-{FONT_ALIAS}-alpha-caps.data.tex'
+        case _ if dir == str(SMALL_DIR):
+            name_in_coor = MAP_ALPHA_SMALL[ f'u{ord(ALPHA_SMALL_REVERSE[f_no_ext]):04x}']
+            file_name = f'ctp-{FONT_ALIAS}-alpha-small.data.tex'
+        case _ if dir == str(NUMS_DIR):
+            name_in_coor = MAP_NUMS[ f'u{ord(NUM_LIST_REVERSE[f_no_ext]):04x}']
+            file_name = f'ctp-{FONT_ALIAS}-arabic.data.tex'
+        case _ if dir == str(OTHER_SYMBOLS_DIR):
+            name_in_coor = MAP_OTHER_SYMBOLS[ f'u{ord(OTHER_SYMBOLS_REVERSE[f_no_ext]):04x}']
+            file_name = f'ctp-{FONT_ALIAS}-others.data.tex'
+        case _:
+            raise Exception("Wrong mapping type.")
+    return (name_in_coor, file_name)
+
 if EXTRACT_COOR:
     for dir in FONTABLE_SVG_DIR:
         for f in dir.iterdir():
@@ -93,14 +125,21 @@ if EXTRACT_COOR:
                     str(f),
                     "--output", target_file
                 ], check=True)
-                print(f.name, "->", target_file)
+                print('---------> new symbol <---------')
+                print("SVG to PGF :" + f.name, "->", target_file)
                 # 2. extract pgf path coordinates
-                with open(str(target_file) + '.coor', 'w') as out_file:
-                    subprocess.run([
-                        "sed",
-                        "-n",
-                        r"s/^[[:space:]]*\\path\[fill=black\][[:space:]]*\(.*\);[[:space:]]*$/{\1}/p",
-                        target_file
-                    ], stdout=out_file, check=True)
-                    print(target_file, "->", target_file+'.coor')
-
+                # 2.1 split char data:
+                # extract_tikz_path(
+                #     f_no_ext, 
+                #     str(target_file), 
+                #     str(target_file) + '.coor'
+                # ) # with 'w'
+                # 2.2 merge char data:
+                name_in_coor = dir_to_unicode_map(str(dir))[0]
+                file_name = dir_to_unicode_map(str(dir))[1]
+                extract_tikz_path(
+                    '{'+name_in_coor+'}', 
+                    str(target_file), 
+                    'tikz_coors/'+file_name
+                ) # with 'a'
+                print("PGF to TikZ:" + target_file, "->", target_file+f' -> {{{name_in_coor}}}')
