@@ -152,10 +152,18 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 \usepackage{listings}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 \AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
-\makeatletter
-\def \@key  #1{\textcolor{red}{\textbf{\texttt{#1}}}\:\texttt{=}\:}
-\def \s@key #1{\textcolor{red}{\textbf{\texttt{#1}}}}
-\DeclareDocumentCommand \key s {\IfBooleanTF{#1}\s@key\@key}
+\ExplSyntaxOn \makeatletter
+\DeclareDocumentCommand \key { s m }
+  {
+    \IfBooleanTF {#1} { \textcolor{red}{\bfseries #2} }
+      {
+        \ttfamily
+        \seq_set_from_clist:Nn \l_tmpa_seq {#2}
+        \seq_set_map:NNn \l_tmpb_seq \l_tmpa_seq
+          { \exp_not:n { \textcolor{red}{\bfseries ##1} } }
+        \seq_use:Nn \l_tmpb_seq { ,~ } \:=\:
+      }
+  }
 \DeclareCommandCopy \val \meta
 \def \TFF {true\textup{\textbar\textbf{false}}}
 \def \TTF {\textup{\textbf{true}\textbar}false}
@@ -175,7 +183,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
     \leavevmode\hbox to \z@{^^A
       \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
       \begin{minipage}[c]{.72\textwidth}^^A
-        \small\VerbatimInput[gobble=2] \example@name^^A
+        \small\verbatiminput \example@name^^A
       \end{minipage}^^A
       \fbox{^^A
         \begin{minipage}[c]{.26\textwidth}^^A
@@ -203,7 +211,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
   {\stepcounter{example}\example@start}{\example@end}
 \newenvironment{example*}
   {\stepcounter{example}\example@start}{\s@example@end}
-\makeatother
+\makeatother \ExplSyntaxOff
 \newlist{keyval}{itemize}{10}
 \setlist[keyval]{leftmargin = 0pt, labelsep = 0pt, itemsep = 1pt}
 \makeindex
@@ -227,20 +235,12 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %     \href{mailto:xiamingyu@westlake.edu.cn}{\texttt{xiamingyu@westlake.edu.cn}}^^A
 %   }^^A
 % }
-% \date{Released 2025-07-28\quad \texttt{v1.0.0}}
+% \date{Released 2025-08-01\quad \texttt{v1.0.1}}
 %
 % \maketitle
 %
 % \begin{documentation}
 %
-% \section{Introduction}
-%
-% The \pkg{char2path} package provides a \LaTeX\ package for converting
-% characters into Ti\textit k\/Z paths.
-% It supports compilation methods including \hologo{pdfLaTeX},
-% \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
-%
-% \vspace{3pt}
 % \noindent\fbox{\vbox{\scriptsize\noindent
 % This package's data is converted from
 % \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family},
@@ -249,13 +249,20 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 % \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.}}
 % \vskip-12pt
 %
+% \section{Introduction}
+%
+% The \pkg{char2path} package provides a \LaTeX\ package for converting
+% characters into Ti\textit k\/Z paths.
+% It supports compilation methods including \hologo{pdfLaTeX},
+% \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+%
 % \section{Usage}
 %
 % \noindent
 % \begin{minipage}{.55\linewidth}
 %   To load this package, write the line
 %   \begin{Verbatim}[commandchars = \|\{\}]
-%   \usepackage[scale = |meta{choice}]|{char2path|}
+% \usepackage[scale = |meta{choice}]|{char2path|}
 %   \end{Verbatim}
 %   The supported right listed \meta{choice} can
 %   scale the converted paths with corresponding factors.
@@ -277,7 +284,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %   \begin{syntax}
 %     \cs{chartopath} \oarg{key-vals} \marg{string}
 %   \end{syntax}
-%   The \oarg{key-vals} accepts the listed keys to set how the \marg{string}
+%   The \oarg{key-vals} accepts the listed keys to set how the \meta{string}
 %   converts to path.
 %   \begin{keyval}
 %     \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
@@ -366,36 +373,62 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 % \noindent
 % \def\0{0123456789/ctp}
 % The basic usage only print the outline of the inputted string.
-% \begin{example}
-%   \def\0{0123456789/ctp}
-%   \chartopath\0
-% \end{example}
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \def\0{0123456789/ctp}
+  \chartopath\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
 % \noindent
 % Users can specific the color of outline and fill,
 % specific the fill-in pattern,
 % and specific the scale and slant of inputted characters.
 % Just like the keys in Ti\textit k\/Z.
-% \begin{example}
-%   \chartopath[draw = none, fill = blue]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[draw = blue, fill = red, scale = 1.2]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[pattern = north west lines,
-%               draw, scale = 1.2] \0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[draw, fill = green,
-%               xslant = .15, scale = 1.2] \0
-% \end{example}
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[draw = none, fill = blue]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[draw = blue, fill = red, scale = 1.2]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[pattern = north west lines,
+              draw, scale = 1.2] \0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[draw, fill = green,
+              xslant = .15, scale = 1.2] \0
+\end{example}
+% \iffalse
+%</example>
+% \fi
 % Commands like \cs[no-index]{small} can be directly applied to \cs{chartopath}.
 % A comparison of the text and the converted path under 4 different font size
 % is shown in the following figure.
-%
 % \begin{center}
 %   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
 %     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
@@ -430,31 +463,60 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 % \end{center}
 %
 % \subsection{Fading the path}
-%
-% \begin{example}
-%   \chartopath[hfading = {red, green}]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[hfading = {blue, -}]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[hfading = {-, violet}]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[vfading = {teal, purple}]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[vfading = {-, orange}]\0
-% \end{example}
-%
-% \begin{example}
-%   \chartopath[vfading = {violet, -}]\0
-% \end{example}
-%
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[hfading = {red, green}]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[hfading = {blue, -}]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[hfading = {-, violet}]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[vfading = {teal, purple}]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[vfading = {-, orange}]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[vfading = {violet, -}]\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
 % \begin{texnote}
 %   Fading will cost too much time!!!
 % \end{texnote}
@@ -477,41 +539,55 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %     \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}%
 %   }
 % \end{verbatim}
-%
-% \begin{example}
-% \begin{lstlisting}[language = {[LaTeX]TeX}, gobble = 2]
-% \documentclass{article}
-% \begin{document}
-%   Hello, \LaTeX!
-% \end{document}
-% \end{lstlisting}
-% \end{example}
-%
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+\begin{lstlisting}[language = {[LaTeX]TeX}]
+\documentclass{article}
+\begin{document}
+  Hello, \LaTeX!
+\end{document}
+\end{lstlisting}
+\end{example}
+% \iffalse
+%</example>
+% \fi
 % \subsection{String clip}
 % You can also define a command, \cs[no-index]{strpathclip},
 % that accepts a string instead of a single character:
-% \begin{example}
-% \ExplSyntaxOn
-% \NewDocumentCommand \strpathclip { O{} m }
-%   { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
-%       { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
-%           { \tl_item:nn {#2}{##1}} \kern2pt } }
-% \ExplSyntaxOff
-% \strpathclip[scale = 2, font = lmr, image = example-grid-100x100bp]{Hello, c2p}
-% \end{example}
-%
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+\ExplSyntaxOn
+\NewDocumentCommand \strpathclip { O{} m }
+  { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+      { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
+          { \tl_item:nn {#2}{##1}} \kern2pt } }
+\ExplSyntaxOff
+\strpathclip[scale = 2, font = lmr, image = example-grid-100x100bp]{Hello, c2p}
+\end{example}
+% \iffalse
+%</example>
+% \fi
 % \subsection{\hologo{(La)TeX} logo}
 % The logos \TeX\ and \LaTeX\ can be recreated using \cs{chartoclip}:
-% \begin{example}
-% \def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
-% \protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
-%   \hbox{\ctp E}\kern-.125em \ctp X}
-% \protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
-%   {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{^^A
-%   \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
-% \scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
-% \end{example}
-%
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+\def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
+\protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
+  \hbox{\ctp E}\kern-.125em \ctp X}
+\protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
+  {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{^^A
+  \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
+\scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
+\end{example}
+% \iffalse
+%</example>
+% \fi
 % \subsection{Get path data}
 % \begin{function}{\ctpdata}
 %   \begin{syntax}
@@ -548,7 +624,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\ProvidesExplPackage {char2path} {2025-07-28} {v1.0.0}
+\ProvidesExplPackage {char2path} {2025-08-01} {v1.0.1}
   {A LaTeX package that converts characters into TikZ paths}
 %    \end{macrocode}
 % \begin{variable}{\g_@@_scale_tl}
@@ -687,7 +763,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %    \end{macrocode}
 % \end{variable}
 % \begin{macro}{\@@_parse_unknown_option:n}
-%   Parsing unknown key--values and pass them into Ti\textit \/Z.
+%   Parsing unknown key--values and pass them into Ti\textit k\/Z.
 %    \begin{macrocode}
 \cs_new_protected_nopar:Npn \@@_parse_unknown_option:n #1
   {
@@ -700,10 +776,10 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
   }
 %    \end{macrocode}
 % \end{macro}
-% \begin{variable}{\l_@@_tmpa_tl, \l_@@_tmpb_tl}
+% \begin{variable}{\l_@@_tmpa_tl}
+%   Temporary \meta{token list} for storing proceed inputted string.
 %    \begin{macrocode}
 \tl_new:N \l_@@_tmpa_tl
-\tl_new:N \l_@@_tmpb_tl
 %    \end{macrocode}
 % \end{variable}
 % \begin{macro}{\chartopath}
@@ -907,12 +983,11 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 \box_new:N \l_@@_glyph_box
 %    \end{macrocode}
 % \end{variable}
-% \begin{macro}{\str_case:nn}
+% \DescribeMacro{\str_case:vn}
 %   Generate a |v-|type from \cmd{\str_case:nn} for later usage.
 %    \begin{macrocode}
 \prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
 %    \end{macrocode}
-% \end{macro}
 % \begin{macro}{\@@_aux:nnnn}
 %   Define the auxiliary command of \cs{chartopath}: set the depth of
 %   every font's style (|roman|, |sans|, and |mono|),

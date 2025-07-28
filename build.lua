@@ -10,8 +10,8 @@
 --]==========================================]--
 
 module              = "char2path"
-version             = "v1.0.0"
-date                = "2025-07-28"
+version             = "v1.0.1"
+date                = "2025-08-01"
 maintainer          = "zongpingding, Mingyu Xia"
 uploader            = "Mingyu Xia"
 maintainid          = "zongpingding"
@@ -20,7 +20,6 @@ repository          = "https://github.com/" .. maintainid .. "/" .. module
 announcement        = [[The new `char2path` package released.]]
 summary             = "A LaTeX package that converts characters into TikZ paths"
 description         = "The char2path package provides an easy way to converts characters into TikZ paths quickly, developed by expl3 based on TikZ."
-note                = "To CTAN team: Remember to add the co-author: zongpingding, for your convenience, his CTAN user page is ctan.org/home/zongpingding/"
 
 --[==========================================[--
           Build, Pack, Tag, and Upload
@@ -33,8 +32,6 @@ excludefiles        = {"*~"}
 installfiles        = {"*.sty", "*.data.tex"}
 localdir            = "./testfiles/unpacked"
 textfiles           = {"*.md", "LICENSE", "*.lua"}
-typesetcmds         = "\\AtBeginDocument{\\ifdefined\\DisableImplementation" ..
-                      "\\DisableImplementation\\fi}"
 typesetfiles        = {module .. ".dtx"}
 typesetexe          = "latexmk -pdf"
 typesetruns         = 1
@@ -54,7 +51,7 @@ uploadconfig  = {
   support      = repository .. "/issues",
   repository   = repository,
   development  = "https://github.com/" .. maintainid,
-  update       = false --!!Remember to set this to true when upload next time!!
+  update       = true
 }
 function update_tag(file, content, tagname, tagdate)
   tagname = version
