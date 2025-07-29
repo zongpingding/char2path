@@ -32,6 +32,7 @@ excludefiles        = {"*~"}
 installfiles        = {"*.sty", "*.data.tex", "*-demo.tex"}
 localdir            = "./testfiles/unpacked"
 textfiles           = {"*.md", "LICENSE", "*.lua"}
+typesetdemofiles    = {module .. "-demo.tex"}
 typesetfiles        = {module .. ".dtx"}
 typesetexe          = "latexmk -pdf"
 typesetruns         = 1
@@ -71,6 +72,9 @@ end
 
 function docinit_hook()
   cp(ctanreadme, unpackdir, currentdir)
+  for _, demo in ipairs(typesetdemofiles) do
+    cp(demo, unpackdir, typesetdir)
+  end
   return 0
 end
 function tex(file,dir,cmd)
