@@ -12,9 +12,9 @@
 module              = "char2path"
 version             = "v1.0.1"
 date                = "2025-08-01"
-maintainer          = "zongpingding, Mingyu Xia"
+maintainer          = "Zongping Ding, Mingyu Xia"
 uploader            = "Mingyu Xia"
-maintainid          = "zongpingding"
+maintainid          = "Zongping Ding"
 email               = "myhsia@outlook.com"
 repository          = "https://github.com/" .. maintainid .. "/" .. module
 announcement        = [[The new `char2path` package released.]]
