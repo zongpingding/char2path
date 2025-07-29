@@ -66,7 +66,7 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by zongpingding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2023-2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
 This package's data is converted from
@@ -87,4 +87,4 @@ version 2008 or later.
 
 This work has the LPPL maintenance status `maintained'.
 
-The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
+The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.

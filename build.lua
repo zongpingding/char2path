@@ -10,17 +10,16 @@
 --]==========================================]--
 
 module              = "char2path"
-version             = "v1.0.0"
-date                = "2025-07-28"
-maintainer          = "zongpingding, Mingyu Xia"
+version             = "v1.0.1"
+date                = "2025-08-01"
+maintainer          = "Zongping Ding, Mingyu Xia"
 uploader            = "Mingyu Xia"
-maintainid          = "zongpingding"
+maintainid          = "Zongping Ding"
 email               = "myhsia@outlook.com"
 repository          = "https://github.com/" .. maintainid .. "/" .. module
 announcement        = [[The new `char2path` package released.]]
 summary             = "A LaTeX package that converts characters into TikZ paths"
 description         = "The char2path package provides an easy way to converts characters into TikZ paths quickly, developed by expl3 based on TikZ."
-note                = "To CTAN team: Remember to add the co-author: zongpingding, for your convenience, his CTAN user page is ctan.org/home/zongpingding/"
 
 --[==========================================[--
           Build, Pack, Tag, and Upload
@@ -30,11 +29,9 @@ note                = "To CTAN team: Remember to add the co-author: zongpingding
 ctanzip             = module
 cleanfiles          = {"*log", "*.pdf", "*.zip", "*.curlopt"}
 excludefiles        = {"*~"}
-installfiles        = {"*.sty", "*.data.tex"}
+installfiles        = {"*.sty", "*.data.tex", "*-demo.tex"}
 localdir            = "./testfiles/unpacked"
 textfiles           = {"*.md", "LICENSE", "*.lua"}
-typesetcmds         = "\\AtBeginDocument{\\ifdefined\\DisableImplementation" ..
-                      "\\DisableImplementation\\fi}"
 typesetfiles        = {module .. ".dtx"}
 typesetexe          = "latexmk -pdf"
 typesetruns         = 1
@@ -47,14 +44,14 @@ uploadconfig  = {
   summary      = summary,
   description  = description,
   license      = "lppl1.3c",  
-  ctanPath     = "/macros/latex/contrib/" .. module,
+  ctanPath     = "/graphics/pgf/contrib/" .. module,
   announcement = announcement,
-  home         = repository,
+  home         = "https://github.com/" .. maintainid,
   bugtracker   = repository .. "/issues",
   support      = repository .. "/issues",
   repository   = repository,
   development  = "https://github.com/" .. maintainid,
-  update       = false --!!Remember to set this to true when upload next time!!
+  update       = true
 }
 function update_tag(file, content, tagname, tagdate)
   tagname = version
