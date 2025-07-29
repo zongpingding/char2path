@@ -27,7 +27,7 @@ description         = "The char2path package provides an easy way to converts ch
 --]==========================================]--
 
 ctanzip             = module
-cleanfiles          = {"*log", "*.pdf", "*.zip", "*.curlopt"}
+cleanfiles          = {"*log", "*.pdf", "*.zip", "*.curlopt", typesetdemofiles}
 excludefiles        = {"*~"}
 installfiles        = {"*.sty", "*.data.tex", "*-demo.tex"}
 localdir            = "./testfiles/unpacked"
@@ -74,6 +74,7 @@ function docinit_hook()
   cp(ctanreadme, unpackdir, currentdir)
   for _, demo in ipairs(typesetdemofiles) do
     cp(demo, unpackdir, typesetdir)
+    cp(demo, unpackdir, currentdir)
   end
   return 0
 end

@@ -1,0 +1,89 @@
+%% \iffalse
+\documentclass{article}
+\def\MakePercentIgnore{\catcode`\%9\relax}
+\def\MakePercentComment{\catcode`\%14\relax}
+\def\DocInput#1{\MakePercentIgnore\input{#1}\MakePercentComment}
+\catcode`\^^A 14\relax
+\usepackage[scale = 10pt]{char2path}
+\usepackage{verbatim, listings}
+\lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
+\newenvironment{example}{\vskip1ex\hrule\vskip1ex}{\vskip1ex\hrule\vskip1ex\par}
+\begin{document}
+  \DocInput{\jobname.tex}
+\end{document}
+%% \fi
+\par \smallskip \noindent
+\fbox{\parbox[c]{\dimeval{\linewidth-6.8pt}}{\scriptsize
+  \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+\vskip1ex\hrule \vskip1ex
+  \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+\vskip1ex\hrule \vskip1ex
+  \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+}}
+\def\0{0123456789/ctp}
+\begin{example}
+  \def\0{0123456789/ctp}
+  \chartopath\0
+\end{example}
+\begin{example}
+  \chartopath[draw = none, fill = blue]\0
+\end{example}
+\begin{example}
+  \chartopath[draw = blue, fill = red, scale = 1.2]\0
+\end{example}
+\begin{example}
+  \chartopath[pattern = north west lines,
+              draw, scale = 1.2] \0
+\end{example}
+\begin{example}
+  \chartopath[draw, fill = green,
+              xslant = .15, scale = 1.2] \0
+\end{example}
+\begin{example}
+  \chartopath[hfading = {red, green}]\0
+\end{example}
+\begin{example}
+  \chartopath[hfading = {blue, -}]\0
+\end{example}
+\begin{example}
+  \chartopath[hfading = {-, violet}]\0
+\end{example}
+\begin{example}
+  \chartopath[vfading = {teal, purple}]\0
+\end{example}
+\begin{example}
+  \chartopath[vfading = {-, orange}]\0
+\end{example}
+\begin{example}
+  \chartopath[vfading = {violet, -}]\0
+\end{example}
+\let\orithelstnumber\thelstnumber
+  \def\thelstnumber{^^A
+    \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}^^A
+  }
+\begin{example}
+\begin{lstlisting}[language = {[LaTeX]TeX}]
+\documentclass{article}
+\begin{document}
+  Hello, \LaTeX!
+\end{document}
+\end{lstlisting}
+\end{example}
+\begin{example}
+\ExplSyntaxOn
+\NewDocumentCommand \strpathclip { O{} m }
+  { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+      { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
+          { \tl_item:nn {#2}{##1}} \kern2pt } }
+\ExplSyntaxOff
+\strpathclip[scale = 2, font = lmr, image = example-grid-100x100bp]{Hello, c2p}
+\end{example}
+\begin{example}
+\def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
+\protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
+  \hbox{\ctp E}\kern-.125em \ctp X}
+\protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
+  {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{^^A
+  \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
+\scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
+\end{example}
