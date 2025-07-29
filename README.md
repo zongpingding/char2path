@@ -16,7 +16,7 @@ Overview
 The package provides the `\chartopath` and `\chartoclip` macro
 
     \chartopath [<keys>] {<string>}
-    \chartoclip [<keys>] {<string>}
+    \chartoclip [<keys>] {<character>}
 
 to print Ti*k*Z paths for characters in a string.
 
@@ -27,7 +27,7 @@ Generate `tikz path` from font
 ---
 First, install the dependencies:
 ```shell
-cd resources/SVG/font2svg
+cd resources/scripts/font2svg
 pip install -r requirements.txt
 ```
 
