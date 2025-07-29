@@ -142,6 +142,23 @@ This work has the LPPL maintenance status `maintained'.
 The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %</readme>
 %
+%<*eg-preamble>
+%% \iffalse
+\documentclass{article}
+\def\MakePercentIgnore{\catcode`\%9\relax}
+\def\MakePercentComment{\catcode`\%14\relax}
+\def\DocInput#1{\MakePercentIgnore\input{#1}\MakePercentComment}
+\catcode`\^^A 14\relax
+\usepackage[scale = 10pt]{char2path}
+\usepackage{verbatim, listings}
+\lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
+\newenvironment{example}{\vskip1ex\hrule\vskip1ex}{\vskip1ex\hrule\vskip1ex\par}
+\begin{document}
+  \DocInput{\jobname.tex}
+\end{document}
+%% \fi
+%</eg-preamble>
+%
 %<*internal>
 \fi
 %</internal>
@@ -183,11 +200,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
     \leavevmode\hbox to \z@{^^A
       \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
       \begin{minipage}[c]{.72\textwidth}^^A
-        \small\verbatiminput \example@name^^A
+        \small\verbatiminput \example@name
       \end{minipage}^^A
       \fbox{^^A
         \begin{minipage}[c]{.26\textwidth}^^A
-          \normalsize\input \example@name^^A
+          \normalsize\input \example@name
         \end{minipage}^^A
       }^^A
     \hss}^^A
@@ -360,7 +377,13 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \subsection{Basic usage}
 %
 % \noindent
-% \def\0{0123456789/ctp}
+% \iffalse
+%<*example>
+% \fi
+\def\0{0123456789/ctp}
+% \iffalse
+%</example>
+% \fi
 % The basic usage only print the outline of the inputted string.
 % \iffalse
 %<*example>
@@ -518,10 +541,16 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % then users could directly copy the source code from |.pdf| file
 % without worry about including unwanted line numbers.
 %
-% \let\orithelstnumber\thelstnumber
-%   \def\thelstnumber{^^A
-%     \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}^^A
-%   }
+% \iffalse
+%<*example>
+% \fi
+\let\orithelstnumber\thelstnumber
+  \def\thelstnumber{^^A
+    \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}^^A
+  }
+% \iffalse
+%</example>
+% \fi
 % \begin{verbatim}
 %   \let\orithelstnumber\thelstnumber
 %   \def\thelstnumber{%
