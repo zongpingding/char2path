@@ -2,8 +2,8 @@
 %
 % File: char2path.dtx
 % -----------------------------------------------------------------------
-%   Copyright (C) 2025 by zongpingding <zongpingding5@outlook.com> and  *
-%                         Mingyu Xia <myhsia@outlook.com>               *
+%   Copyright (C) 2025 by Zongping Ding <zongpingding5@outlook.com> and *
+%                         Mingyu Xia    <myhsia@outlook.com>            *
 %                                                                       *
 %   This work may be distributed and/or modified under the conditions   *
 %   of the LaTeX Project Public License (LPPL), either version 1.3c of  *
@@ -17,7 +17,7 @@
 %                                                                       *
 %   This work has the LPPL maintenance status `maintained'.             *
 %                                                                       *
-%   The Current Maintainer of this work is zongpingding and Mingyu Xia. *
+%   The Current Maintainer of this work is Zongping Ding and Mingyu Xia.*
 %                                                                       *
 %   This work consists of the files char2path.dtx,                      *
 %                                   ctp-lmdata.dtx,                     *
@@ -118,7 +118,7 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by zongpingding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2023-2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
 This package's data is converted from
@@ -139,7 +139,7 @@ version 2008 or later.
 
 This work has the LPPL maintenance status `maintained'.
 
-The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
+The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %</readme>
 %
 %<*internal>
@@ -179,7 +179,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
   \def\verbatim@processline{\immediate\write\example@out{\the\verbatim@line}}^^A
   \verbatim@start}
 \long\def\example@end{\immediate\closeout\example@out\@esphack\endgroup
-  \trivlist\item[]\relax
+  \trivlist\item\relax
     \leavevmode\hbox to \z@{^^A
       \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
       \begin{minipage}[c]{.72\textwidth}^^A
@@ -193,7 +193,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
     \hss}^^A
   \endtrivlist}
 \long\def\s@example@end{\immediate\closeout\example@out\@esphack\endgroup
-  \trivlist\item[]\relax
+  \trivlist\item\relax
     \leavevmode\hbox to \z@{^^A
       \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}\vbox{\noindent
       \hskip-4pt
@@ -229,25 +229,27 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %   }^^A
 % }
 % \author{^^A
-%   zongpingding\thanks{^^A
+%   Zongping Ding\thanks{^^A
 %     \href{mailto:zongpingding5@outlook.com}{\texttt{zongpingding5@outlook.com}}},~
 %   Mingyu Xia\thanks{^^A
 %     \href{mailto:xiamingyu@westlake.edu.cn}{\texttt{xiamingyu@westlake.edu.cn}}^^A
 %   }^^A
 % }
 % \date{Released 2025-08-01\quad \texttt{v1.0.1}}
+% \def\Copyright{^^A
+% \begin{center}
+% \fbox{\fbox{\begin{tabular}{@{}>{\small}{l}@{}}^^A
+% This package's data is converted from
+% \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family}, which is\\^^A
+% based on the Computer Modern fonts released into public domain by\\^^A
+% AMS (1997). It's under the license of
+% \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.
+% \end{tabular}}}\end{center}}
+% \makeatletter \def\@thanks{\Copyright} \makeatother
 %
 % \maketitle
 %
 % \begin{documentation}
-%
-% \noindent\fbox{\vbox{\scriptsize\noindent
-% This package's data is converted from
-% \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family},
-% which is based on the Computer Modern fonts released into public domain by
-% AMS (1997). It's under the license of
-% \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.}}
-% \vskip-12pt
 %
 % \section{Introduction}
 %
@@ -279,6 +281,20 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %     \bottomrule
 %   \end{tabular}
 % \end{minipage}
+% \par \medskip \noindent
+% The following characters within \textrm{Latin Modern Roman},
+% \textrm{Latin Modern Sans}, and \texttt{Latin Modern Mono}
+% are supported to be converted into path:
+% \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
+% \par \smallskip \noindent
+% \fbox{\parbox[c]{\linewidth-6.8pt}{\scriptsize
+%   \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+% \vskip1ex\hrule \vskip1ex
+%   \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+% \vskip1ex\hrule \vskip1ex
+%   \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+%   }}
+% \MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
 %
 % \begin{function}[updated = 2025-07-27]{\chartopath}
 %   \begin{syntax}
@@ -296,7 +312,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %     \item [\key{scale}] \val{fp num} set font's scale factor
 %     (Default: |1|).
 %     \item [\key{hfading, vfading}] \val{color clist} set the two colors for horizontally/vertically fading the whole string.
-%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other). 
+%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other).
 %     (Default: |true|).
 %   \end{keyval}
 % \end{function}
@@ -328,45 +344,18 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 %   \end{minipage}
 % \end{function}
 %
+% \begin{function}{\ctpdata}
+%   \begin{syntax}
+%     \cs{ctpdata}\marg{font name}\marg{character}
+%   \end{syntax}
+%   This function can output the path data (in \textsc{pgf} coordinates).
+%   \NB{Note}{This command is expandable.}
+% \begin{example*}
+%   \def\0{\ctpdata{lmr}{-}} \scriptsize\ttfamily\detokenize\expandafter{\expanded{\0}}
+% \end{example*}
+% \end{function}
+%
 % \section{Examples}
-%
-% This package can convert the following characters to path by default:
-% including \textrm{Latin Modern Roman}, \textrm{Latin Modern Sans},
-% and \texttt{Latin Modern Mono}.
-%
-% \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
-% \begin{center}
-%   \begin{minipage}[t]{.32\linewidth}
-%     \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
-%       \scriptsize
-%       \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./012345678}\par
-%       \chartopath[font = lmr, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
-%       \chartopath[font = lmr, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
-%       \chartopath[font = lmr, draw]{ijklmnopqrstuvwxyz\{|\}~}
-%     }}
-%   \end{minipage}
-%   \hspace*\fill
-%   \begin{minipage}[t]{.32\linewidth}
-%     \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
-%       \scriptsize
-%       \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./012345678}\par
-%       \chartopath[font = lms, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
-%       \chartopath[font = lms, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
-%       \chartopath[font = lms, draw]{ijklmnopqrstuvwxyz\{|\}~}
-%     }}
-%   \end{minipage}
-%   \hspace*\fill
-%   \begin{minipage}[t]{.32\linewidth}
-%     \fbox{\parbox[c][2.5\baselineskip]{\linewidth-8pt}{
-%       \scriptsize
-%       \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./012345678}\par
-%       \chartopath[font = lmm, draw]{9:;<=>?@ABCDEFGHIJKLMNOP}\par
-%       \chartopath[font = lmm, draw]{QRSTUVWXYZ[\ctpbackslash]^_`abcdefgh}\par
-%       \chartopath[font = lmm, draw]{ijklmnopqrstuvwxyz\{|\}~}
-%     }}
-%   \end{minipage}
-% \end{center}
-% \MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
 %
 % \subsection{Basic usage}
 %
@@ -588,17 +577,6 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
 % \iffalse
 %</example>
 % \fi
-% \subsection{Get path data}
-% \begin{function}{\ctpdata}
-%   \begin{syntax}
-%     \cs{ctpdata}\marg{font name}\marg{character}
-%   \end{syntax}
-%   This function can output the path data (in \textsc{pgf} coordinates).
-%   \NB{Note}{This command is expandable.}
-% \begin{example*}
-%   \def\0{\ctpdata{lmr}{-}} \scriptsize\ttfamily\detokenize\expandafter{\expanded{\0}}
-% \end{example*}
-% \end{function}
 % \footnotesize
 % \section{Todo List}
 %
@@ -796,7 +774,7 @@ The Current Maintainer of this work is **zongpingding** and **Mingyu Xia**.
     \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
 %    \end{macrocode}
 %   Config the |rescan| boolean: set the catcode of |$|, |&|, and |~|
-%   to 12 (common letter).
+%   to 12 (other).
 %    \begin{macrocode}
     \bool_if:NTF \l_@@_rescan_bool
       {
