@@ -302,16 +302,22 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % The following characters within \textrm{Latin Modern Roman},
 % \textrm{Latin Modern Sans}, and \texttt{Latin Modern Mono}
 % are supported to be converted into path:
-% \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
-% \par \smallskip \noindent
-% \fbox{\parbox[c]{\linewidth-6.8pt}{\scriptsize
-%   \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-% \vskip1ex\hrule \vskip1ex
-%   \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-% \vskip1ex\hrule \vskip1ex
-%   \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-%   }}
-% \MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
+% \DeleteShortVerb\| \DeleteShortVerb\"
+% \iffalse
+%<*example>
+% \fi
+\par \smallskip \noindent
+\fbox{\parbox[c]{\dimeval{\linewidth-6.8pt}}{\scriptsize
+  \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+\vskip1ex\hrule \vskip1ex
+  \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+\vskip1ex\hrule \vskip1ex
+  \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
+}}
+% \iffalse
+%</example>
+% \fi
+% \MakeShortVerb\| \MakeShortVerb\"
 %
 % \begin{function}[updated = 2025-07-27]{\chartopath}
 %   \begin{syntax}
@@ -750,6 +756,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
       font    .initial:n    = { lmm },
     rescan    .bool_set:N   = \l_@@_rescan_bool,
       rescan  .initial:n    = { true },
+    mono      .bool_set:N   = \l_@@_mono_bool,
+      mono    .initial:n    = { false },
+      mono    .default:n    = { true },
     draw      .tl_set:N     = \l_@@_draw_tl,
       draw    .initial:n    = { none },
     fill      .tl_set:N     = \l_@@_fill_tl,
@@ -802,16 +811,19 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
     \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
 %    \end{macrocode}
-%   Config the |rescan| boolean: set the catcode of |$|, |&|, and |~|
+%   Config the |rescan| boolean: set the catcode of
+%   |$| (U+0024), |&| (U+0026), |^| (U+005E), |_| (U+005F) and |~| (U+007E).
 %   to 12 (other).
 %    \begin{macrocode}
     \bool_if:NTF \l_@@_rescan_bool
       {
         \tl_set_rescan:Nnn \l_@@_tmpa_tl 
           {
-            \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 } % '$'
-            \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 } % '&'
-            \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 } % '~'
+            \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 5e } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 5f } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 }
           } {#2}
       } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
 %    \end{macrocode}
