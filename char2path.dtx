@@ -230,7 +230,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   {\stepcounter{example}\example@start}{\s@example@end}
 \makeatother \ExplSyntaxOff
 \newlist{keyval}{itemize}{10}
-\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt, itemsep = 1pt}
+\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt, itemsep = 0pt}
 \makeindex
 \begin{document}
   \DocInput{\jobname.dtx}
@@ -274,6 +274,31 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % characters into Ti\textit k\/Z paths.
 % It supports compilation methods including \hologo{pdfLaTeX},
 % \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+% \DeleteShortVerb\| \DeleteShortVerb\"
+% \vspace{-12pt}
+% \iffalse
+%<*example>
+% \fi
+\begin{center}
+\fbox{\vbox{
+  \chartopath[mono = .03\linewidth, font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}\par\noindent
+  \chartopath[mono = .03\linewidth, font = lmr, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+  \chartopath[mono = .03\linewidth, font = lmr, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+\vskip1ex\hrule \vskip1ex
+  \chartopath[mono = .03\linewidth, font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}\par\noindent
+  \chartopath[mono = .03\linewidth, font = lms, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+  \chartopath[mono = .03\linewidth, font = lms, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+\vskip1ex\hrule \vskip1ex
+  \chartopath[mono = .03\linewidth, font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}\par\noindent
+  \chartopath[mono = .03\linewidth, font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+  \chartopath[mono = .03\linewidth, font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+}}
+\end{center}
+% \iffalse
+%</example>
+% \fi
+% \vspace{-9pt}
+% \MakeShortVerb\| \MakeShortVerb\"
 %
 % \section{Usage}
 %
@@ -299,26 +324,16 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{tabular}
 % \end{minipage}
 % \par \medskip \noindent
-% The following characters within \textrm{Latin Modern Roman},
-% \textrm{Latin Modern Sans}, and \texttt{Latin Modern Mono}
-% are supported to be converted into path:
-% \DeleteShortVerb\| \DeleteShortVerb\"
-% \iffalse
-%<*example>
-% \fi
-\par \smallskip \noindent
-\fbox{\parbox[c]{\dimeval{\linewidth-6.8pt}}{\scriptsize
-  \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-\vskip1ex\hrule \vskip1ex
-  \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-\vskip1ex\hrule \vskip1ex
-  \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-}}
-% \iffalse
-%</example>
-% \fi
-% \MakeShortVerb\| \MakeShortVerb\"
-%
+% The characters listed in section 1 are supported by this package within
+% \textrm{Latin Modern Roman},
+% \textrm{Latin Modern Sans}, and \texttt{Latin Modern Mono} fonts.
+% Using the \texttt{Latin Modern Mono} font as an example:
+% \begin{Verbatim}[gobble = 2]
+%   \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+%   \chartopath[font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+%   \chartopath[font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+% \end{Verbatim}
+% \clearpage
 % \begin{function}[updated = 2025-07-27]{\chartopath}
 %   \begin{syntax}
 %     \cs{chartopath} \oarg{key-vals} \marg{string}
@@ -367,7 +382,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{minipage}
 % \end{function}
 %
-% \begin{function}{\ctpdata}
+% \begin{function}[added = 2025-07-28]{\ctpdata}
 %   \begin{syntax}
 %     \cs{ctpdata}\marg{font name}\marg{character}
 %   \end{syntax}
@@ -767,9 +782,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
       font    .initial:n    = { lmm },
     rescan    .bool_set:N   = \l_@@_rescan_bool,
       rescan  .initial:n    = { true },
-    mono      .bool_set:N   = \l_@@_mono_bool,
-      mono    .initial:n    = { false },
-      mono    .default:n    = { true },
+    mono      .dim_set:N    = \l_@@_mono_dim,
+      mono    .initial:n    = { 0pt },
     draw      .tl_set:N     = \l_@@_draw_tl,
       draw    .initial:n    = { none },
     fill      .tl_set:N     = \l_@@_fill_tl,
@@ -864,12 +878,13 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   If the situation is true, then use the basic usage for converting.
 %    \begin{macrocode}
       {
-        \exp_args:Nno \@@_aux:nnnn
+        \exp_args:Nno \@@_aux:nnnnn
           {
             draw        = \l_@@_draw_tl,  line~width  = \l_@@_outline_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
             \clist_use:Nn \l_@@_options_clist { , }
-          } { \l_@@_tmpa_tl } { \l_@@_font_tl } { \l_@@_scale_fp }
+          } { \l_@@_tmpa_tl } { \l_@@_font_tl }
+          { \l_@@_scale_fp } { \l_@@_mono_dim }
       }
 %    \end{macrocode}
 %   If the situation is false, then handle the vertical or horizontally
@@ -899,12 +914,13 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 %   Set the |top color| and |bottom color| accordingly.
 %    \begin{macrocode}
-            \@@_aux:nnnn
+            \@@_aux:nnnnn
               {
                 top~color  = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl,
                 line~width = \l_@@_outline_tl, draw = \l_@@_draw_tl,
                 \clist_use:Nn \l_@@_options_clist { , }
-              } { \l_@@_tmpa_tl } { \l_@@_font_tl } { \l_@@_scale_fp }
+              } { \l_@@_tmpa_tl } { \l_@@_font_tl }
+              { \l_@@_scale_fp } { \l_@@_mono_dim }
           }
 %    \end{macrocode}
 %   Horizontally fading branch.
@@ -978,14 +994,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 %   Convert the character with color keys stored in the corresponding branch.
 %    \begin{macrocode}
-                \exp_args:Nne \@@_aux:nnnn
+                \exp_args:Nne \@@_aux:nnnnn
                   {
                     draw        = \l_@@_draw_tl,
                     line~width  = \l_@@_outline_tl,
                     \clist_use:Nn \l_@@_hfading_keys_clist { , },
                     \clist_use:Nn \l_@@_options_clist { , }
                   } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                  { \l_@@_font_tl } { \l_@@_scale_fp }
+                  { \l_@@_font_tl } { \l_@@_scale_fp } { \l_@@_mono_dim }
               }
           }
       }
@@ -1014,10 +1030,10 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
 \prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
 %    \end{macrocode}
-% \begin{macro}{\@@_aux:nnnn}
+% \begin{macro}{\@@_aux:nnnnn}
 %   Define the auxiliary command of \cs{chartopath}: set the depth of
 %   every font's style (|roman|, |sans|, and |mono|),
-%   and then pass them to \cmd{\@@_draw:nnnnnn} to process.
+%   and then pass them to \cmd{\@@_draw:nnnnn} to process.
 %   \vspace*{-9pt}
 %   \begin{multicols}{4}
 %     \begin{arguments}
@@ -1029,7 +1045,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{multicols}
 %   \vspace*{-12pt}
 %    \begin{macrocode}
-\cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
+\cs_new_protected:Npn \@@_aux:nnnnn #1#2#3#4#5
   {
     \exp_args:Ne \tl_map_inline:nn {#2}
       {
@@ -1054,14 +1070,16 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
               \dim_set:Nn \l_@@_mono_sep_dim { 0pt }
             }
           } { \hbox_set:Nn \l_@@_glyph_box {##1} }
-        \@@_draw:neennn { \int_use:N \box_dp:N \l_@@_glyph_box }
+        \dim_compare:nNnF {#5} = { 0pt }
+          { \dim_set:Nn \l_@@_mono_width_dim {#5} }
+        \@@_draw:eennn
           {#1} { \@@_data:nn {#3} {##1} } {#4}
           { \l_@@_mono_width_dim } { \l_@@_mono_sep_dim }
       }
   }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_draw:nnnnnn}
+% \begin{macro}{\@@_draw:nnnnn}
 %   Auxiliary command for converting character to path:
 %   conducted with |\tikz|^^A
 %   \NB{TODO}{Avoid nesting \tikz command;
@@ -1069,7 +1087,6 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \vspace*{-9pt}
 %   \begin{multicols}{3}
 %     \begin{arguments}
-%       \item baseline
 %       \item path options
 %       \item \textsc{pgf} coordinates
 %       \item scale factor
@@ -1079,15 +1096,15 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{multicols}
 %   \vspace*{-12pt}
 %    \begin{macrocode}
-\cs_new_protected:Npn \@@_draw:nnnnnn #1#2#3#4#5#6
+\cs_new_protected:Npn \@@_draw:nnnnn #1#2#3#4#5
   {
-    \tikz [ baseline = #1 ] \node
-      [ above, minimum~width = #5 * \f@size/10, inner~sep = #6 * \f@size/10 ]
+    \tikz [ baseline = -.05pt ] \node
+      [ anchor = base, minimum~width = #4 * \f@size/10, inner~sep = #5 * \f@size/10 ]
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
-                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
-              ] \path [#2] #3; };
+                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #3 }
+              ] \path [#1] #2; };
   }
-\cs_generate_variant:Nn \@@_draw:nnnnnn { neennn }
+\cs_generate_variant:Nn \@@_draw:nnnnn { eennn }
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\@@_data:nn}
@@ -1193,7 +1210,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
 \cs_new:Npn \@@_image_clip_aux:nnnnnn #1#2#3#4#5#6
   {
-    \tikz [ scale = \fp_eval:n { \c_@@_global_scale_fp*#5 } ]
+    \tikz [ scale = \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #5 },
+            baseline = -.05pt ]
       \path [ path~picture = {
               \node at ($(path~picture~bounding~box.#6) + #2$)
                 { \includegraphics [ height = #4 ] {#3} };
