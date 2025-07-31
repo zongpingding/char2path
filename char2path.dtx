@@ -230,7 +230,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   {\stepcounter{example}\example@start}{\s@example@end}
 \makeatother \ExplSyntaxOff
 \newlist{keyval}{itemize}{10}
-\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt, itemsep = 0pt}
+\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
 \makeindex
 \begin{document}
   \DocInput{\jobname.dtx}
@@ -275,7 +275,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % It supports compilation methods including \hologo{pdfLaTeX},
 % \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
 % \DeleteShortVerb\| \DeleteShortVerb\"
-% \vspace{-12pt}
+% \vspace{-9pt}
 % \iffalse
 %<*example>
 % \fi
@@ -358,7 +358,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \chartopath[font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
 % \end{Verbatim}
 % \clearpage
-% \begin{function}[updated = 2025-07-27]{\chartopath}
+% \begin{function}[updated = 2025-07-31]{\chartopath}
 %   \begin{syntax}
 %     \cs{chartopath} \oarg{key-vals} \marg{string}
 %   \end{syntax}
@@ -381,36 +381,27 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{keyval}
 % \end{function}
 %
-% \begin{function}[updated = 2025-07-26]{\chartoclip}
+% \begin{function}[updated = 2025-07-31]{\chartoclip}
 %   \begin{syntax}
 %     \cs{chartoclip} \oarg{key-vals} \marg{char}
 %   \end{syntax}
 %   The mandatory argument accepts a single character, and the optional
 %   argument accepts the following keys to set the style how the character clip
 %   the image.
-%   \par\medskip\noindent
-%   \begin{minipage}{.57\linewidth}
-%     \begin{keyval}
-%       \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
-%       choose char's font.
-%       \item [\key{image}] \val{image} set image to clip.
-%       \item [\key{scale}] \val{fp num} set font's scale factor
-%       (Default: |1|).
-%     \end{keyval}
-%   \end{minipage}
-%   \hspace*\fill
-%   \begin{minipage}{.39\linewidth}
-%     \begin{keyval}
-%       \item [\key{anchor}] \val{tikz anchor} set image's anchor.
-%       \item [\key{offset}] \val{(x, y)} set imgae anchor's offset.
-%       \item [\key{height}] \val{dim} image's height.
-%     \end{keyval}
-%   \end{minipage}
+%   \begin{keyval}
+%     \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
+%     choose char's font.
+%     \item [\key{image}] \val{image file} set image for clipping.
+%     \item [\key{scale}] \val{fp num} set font's scale factor (Default: |1|).
+%     \item [\key{anchor}] \val{tikz anchor} set image's anchor.
+%     \item [\key{offset}] \val{(x, y)} set imgae anchor's offset.
+%     \item [\key{height}] \val{dim} image's height.
+%   \end{keyval}
 % \end{function}
 %
 % \begin{function}[added = 2025-07-28]{\ctpdata}
 %   \begin{syntax}
-%     \cs{ctpdata}\marg{font name}\marg{character}
+%     \cs{ctpdata} \marg{font name} \marg{character}
 %   \end{syntax}
 %   This function can output the path data (in \textsc{pgf} coordinates).
 %   \NB{Note}{This command is expandable.}
@@ -419,6 +410,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \end{example*}
 % \end{function}
 %
+% \clearpage
 % \section{Examples}
 %
 % \subsection{Basic usage}
@@ -431,17 +423,52 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \iffalse
 %</example>
 % \fi
-% The basic usage only print the outline of the inputted string.
+% If none of the \oarg{keys} in the optional argument of \cs{chartopath}
+% is assigned, then only the outline of the inputted string will be printed.
 % \iffalse
 %<*example>
 % \fi
 \begin{example}
-  \def\0{0123456789/ctp}
-  \chartopath\0
+  \def\0{0123456789/ctp} \chartopath\0
 \end{example}
 % \iffalse
 %</example>
 % \fi
+% Commands like \cs[no-index]{small} can be directly applied to \cs{chartopath}.
+% A comparison of the text and the converted path under 4 different font size
+% is shown in the following figure.
+% \begin{center}
+%   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
+%     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
+%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\cs{f@size}};
+%     \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
+%     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
+%     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
+%     \node [ above = 1ex ] at (.72\linewidth,0) {\Large      \0};
+%     \node [ below = 1ex ] at (.06\linewidth,0)
+%       {\small     \chartopath[fill = orange]\0};
+%     \node [ below  = 1ex] at (.24\linewidth,0)
+%       {\normalsize\chartopath[fill = green]\0};
+%     \node [ below = 1ex ] at (.45\linewidth,0)
+%       {\large     \chartopath[fill = blue]\0};
+%     \node [ below = 1ex ] at (.72\linewidth,0)
+%       {\Large     \chartopath[fill = purple]\0};
+%     \makeatletter
+%     \node at (.06\linewidth,0)
+%       {\small     \scalebox{\fpeval{8/\f@size}}
+%         {\small     \f@size pt (\cs[no-index]{small})}};
+%     \node at (.24\linewidth,0)
+%       {\normalsize\scalebox{\fpeval{8/\f@size}}
+%         {\normalsize\f@size pt (\cs[no-index]{normalsize})}};
+%     \node at (.45\linewidth,0)
+%       {\large     \scalebox{\fpeval{8/\f@size}}
+%         {\large     \f@size pt (\cs[no-index]{large})}};
+%     \node at (.72\linewidth,0)
+%       {\Large      \scalebox{\fpeval{8/\f@size}}
+%         {\Large      \f@size pt (\cs[no-index]{Large})}};
+%     \makeatother
+%   \end{tikzpicture}
+% \end{center}
 % \noindent
 % Users can specific the color of outline and fill,
 % specific the fill-in pattern,
@@ -460,7 +487,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[draw = blue, fill = red, scale = 1.2]\0
+  \chartopath[pattern = north west lines, draw  = teal,
+              pattern color = violet,     scale = 1.2] \0
 \end{example}
 % \iffalse
 %</example>
@@ -469,57 +497,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[pattern = north west lines,
-              draw, scale = 1.2] \0
+  \chartopath[fill = green, xslant = .15] \0
 \end{example}
 % \iffalse
 %</example>
 % \fi
-% \iffalse
-%<*example>
-% \fi
-\begin{example}
-  \chartopath[draw, fill = green,
-              xslant = .15, scale = 1.2] \0
-\end{example}
-% \iffalse
-%</example>
-% \fi
-% Commands like \cs[no-index]{small} can be directly applied to \cs{chartopath}.
-% A comparison of the text and the converted path under 4 different font size
-% is shown in the following figure.
-% \begin{center}
-%   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
-%     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
-%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\cs{f@size}};
-%     \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
-%     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
-%     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
-%     \node [ above = 1ex ] at (.72\linewidth,0) {\LARGE      \0};
-%     \node [ below = 1ex ] at (.06\linewidth,0)
-%       {\small     \chartopath[fill = orange]\0};
-%     \node [ below  = 1ex] at (.24\linewidth,0)
-%       {\normalsize\chartopath[fill = green]\0};
-%     \node [ below = 1ex ] at (.45\linewidth,0)
-%       {\large     \chartopath[fill = blue]\0};
-%     \node [ below = 1ex ] at (.72\linewidth,0)
-%       {\LARGE     \chartopath[fill = purple]\0};
-%     \makeatletter
-%     \node at (.06\linewidth,0)
-%       {\small     \scalebox{\fpeval{8/\f@size}}
-%         {\small     \f@size pt (\cs[no-index]{small})}};
-%     \node at (.24\linewidth,0)
-%       {\normalsize\scalebox{\fpeval{8/\f@size}}
-%         {\normalsize\f@size pt (\cs[no-index]{normalsize})}};
-%     \node at (.45\linewidth,0)
-%       {\large     \scalebox{\fpeval{8/\f@size}}
-%         {\large     \f@size pt (\cs[no-index]{large})}};
-%     \node at (.72\linewidth,0)
-%       {\LARGE      \scalebox{\fpeval{8/\f@size}}
-%         {\LARGE      \f@size pt (\cs[no-index]{LARGE})}};
-%     \makeatother
-%   \end{tikzpicture}
-% \end{center}
 %
 % \subsection{Fading the path}
 % \iffalse
@@ -580,6 +562,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   Fading will cost too much time!!!
 % \end{texnote}
 %
+% \clearpage
 % \section{Advanced Usage}
 %
 % \subsection{Use in \pkg{listings}}

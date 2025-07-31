@@ -17,7 +17,7 @@ uploader            = "Mingyu Xia"
 maintainid          = "Zongping Ding"
 email               = "myhsia@outlook.com"
 repository          = "https://github.com/" .. maintainid .. "/" .. module
-announcement        = [[The new `char2path` package released.]]
+announcement        = [[Version 1.0.1 releeased.]]
 summary             = "A LaTeX package that converts characters into TikZ paths"
 description         = "The char2path package provides an easy way to converts characters into TikZ paths quickly, developed by expl3 based on TikZ."
 
@@ -73,7 +73,7 @@ end
 function docinit_hook()
   cp(ctanreadme, unpackdir, currentdir)
   for _, demo in ipairs(typesetdemofiles) do
-    cp(demo, unpackdir, typesetdir)
+    -- cp(demo, unpackdir, typesetdir)
     cp(demo, unpackdir, currentdir)
   end
   return 0

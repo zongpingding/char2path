@@ -50,22 +50,17 @@
 \end{center}
 \def\0{0123456789/ctp}
 \begin{example}
-  \def\0{0123456789/ctp}
-  \chartopath\0
+  \def\0{0123456789/ctp} \chartopath\0
 \end{example}
 \begin{example}
   \chartopath[draw = none, fill = blue]\0
 \end{example}
 \begin{example}
-  \chartopath[draw = blue, fill = red, scale = 1.2]\0
+  \chartopath[pattern = north west lines, draw  = teal,
+              pattern color = violet,     scale = 1.2] \0
 \end{example}
 \begin{example}
-  \chartopath[pattern = north west lines,
-              draw, scale = 1.2] \0
-\end{example}
-\begin{example}
-  \chartopath[draw, fill = green,
-              xslant = .15, scale = 1.2] \0
+  \chartopath[fill = green, xslant = .15] \0
 \end{example}
 \begin{example}
   \chartopath[hfading = {red, green}]\0
