@@ -268,7 +268,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %
 % \begin{documentation}
 %
-% \section{Introduction}
+% \section{Introduction}\label{sec:introduction}
 %
 % The \pkg{char2path} package provides a \LaTeX\ package for converting
 % characters into Ti\textit k\/Z paths.
@@ -280,18 +280,39 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{center}
-\fbox{\vbox{
-  \chartopath[mono = .03\linewidth, font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}\par\noindent
-  \chartopath[mono = .03\linewidth, font = lmr, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-  \chartopath[mono = .03\linewidth, font = lmr, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+\fbox{\raggedright\vbox{^^A
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, font = lmr, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, font = lmr, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textrm{LMR}}
+  \end{minipage}
 \vskip1ex\hrule \vskip1ex
-  \chartopath[mono = .03\linewidth, font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}\par\noindent
-  \chartopath[mono = .03\linewidth, font = lms, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-  \chartopath[mono = .03\linewidth, font = lms, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, font = lms, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, font = lms, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textsf{LMS}}
+  \end{minipage}
 \vskip1ex\hrule \vskip1ex
-  \chartopath[mono = .03\linewidth, font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}\par\noindent
-  \chartopath[mono = .03\linewidth, font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-  \chartopath[mono = .03\linewidth, font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\texttt{LMM}}
+  \end{minipage}
 }}
 \end{center}
 % \iffalse
@@ -324,11 +345,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{tabular}
 % \end{minipage}
 % \par \medskip \noindent
-% The characters listed in section 1 are supported by this package within
+% \DescribeMacro{\ctpbackslash}
+% The characters listed in Section~\ref{sec:introduction}
+% are supported by this package within
 % \textrm{Latin Modern Roman},
-% \textrm{Latin Modern Sans}, and \texttt{Latin Modern Mono} fonts.
+% \textsf{Latin Modern Sans}, and \texttt{Latin Modern Mono} fonts.
+% Inputting some characters needs to be escaped.
 % Using the \texttt{Latin Modern Mono} font as an example:
-% \begin{Verbatim}[gobble = 2]
+% \begin{Verbatim}[gobble = 4]
 %   \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
 %   \chartopath[font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
 %   \chartopath[font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
@@ -349,6 +373,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %     to achieve the ``Fake Bold'' effect (Default: |0pt|).
 %     \item [\key{scale}] \val{fp num} set font's scale factor
 %     (Default: |1|).
+%     \item [\key{mono}] \val{dim} set font's monospace width
+%     (Default: |0pt|, monospace width is disabled now).
 %     \item [\key{hfading, vfading}] \val{color clist} set the two colors for horizontally/vertically fading the whole string.
 %     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other).
 %     (Default: |true|).
@@ -617,12 +643,10 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \fi
 \begin{example}
 \def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
-\protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
-  \hbox{\ctp E}\kern-.125em \ctp X}
-\protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
-  {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{^^A
-  \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
-\scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
+\protected\def\ctpTeX{\ctp T\kern-.125em \lower.54ex\hbox{\ctp E}\kern-.1em \ctp X}
+\protected\def\ctpLaTeX{\ctp L\kern -.36em{\lower-.54ex
+  \hbox{\scalebox{.72}{\ctp A}}}\kern -.08em\ctpTeX}
+\scalebox{1.5}{\ctpTeX} \scalebox{1.5}{\ctpLaTeX}
 \end{example}
 % \iffalse
 %</example>
@@ -749,7 +773,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
 \cs_new:Npn \@@_protected_char:nn #1#2
   { \cs_new_protected:cpn {#1} { \exp_not:n {#2} } }
-\@@_protected_char:nn { ctpbackslash }{ \textbackslash }
+\@@_protected_char:nn { ctpbackslash } { \textbackslash }
 %    \end{macrocode}
 % \end{macro}
 % Load font's data for |lmr|, |lms| and |lmm|, including
