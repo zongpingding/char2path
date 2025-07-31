@@ -21,7 +21,7 @@ to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
-Generate `tikz path` from font
+Generate Ti*k*Z paths from font
 ---
 First, install the dependencies:
 ```shell
