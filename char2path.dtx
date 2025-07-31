@@ -410,7 +410,22 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \end{example*}
 % \end{function}
 %
-% \clearpage
+% \begin{function}[added = 2025-07-31]{\setCTPfamilyfont}
+%   \begin{syntax}
+%     \cs{setCTPfamilyfont} \marg{font style} \marg{font name} \oarg{database}
+%   \end{syntax}
+%   This function enables users to load custom font \textcolor{gray!25}{by generating path data
+%   files\NB{Note}{Compiling option |--shell -escape| is required.}}
+%   \file{ctp-}\meta{font name}\file{-}\meta{database}\file{.code.tex}.
+%   The \meta{font style} will determine if the font needs to be monospace.
+%   This package has already loaded the following fonts:
+%   \begin{Verbatim}[gobble = 4]
+%     \setCTPfamilyfont {serif} {lmr}
+%     \setCTPfamilyfont {sans}  {lms}
+%     \setCTPfamilyfont {mono}  {lmm}
+%   \end{Verbatim}
+% \end{function}
+%
 % \section{Examples}
 %
 % \subsection{Basic usage}
@@ -712,6 +727,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   }
 %    \end{macrocode}
 % \end{variable}
+% \begin{macro}{\setCTPfamilyfont}
+%   User's interface for loading custom font.
+%    \begin{macrocode}
+\DeclareDocumentCommand \setCTPfamilyfont
+  { m m O{} }
+  { \__ctp_load_font_data:nnn {#1} {#2} {#3} }
+%    \end{macrocode}
+% \end{macro}
 % \begin{variable}{\l_@@_tikz_data_merge_tl}
 %   To merge a font's different parts of data into a \meta{token list}.
 %    \begin{macrocode}
@@ -760,21 +783,18 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 % \end{macro}
 % Load font's data for |lmr|, |lms| and |lmm|, including
-% arabic (Unicode: 0030 -- 0039), 
+% arabic (Unicode: 0030 -- 0039),
 % alpha-small (Unicode: 0061-007A),
 % alpha-caps (Unicode: 0041 -- 005A),
 % and other symbols (anything left in Unicode: 0021 -- 007E).
 %    \begin{macrocode}
-\@@_load_font_data:nnn { serif }  { lmr }
-  { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { sans }   { lms }
-  { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { mono }   { lmm }
-  { arabic, alpha-small, alpha-caps, others, }
+\setCTPfamilyfont { serif } { lmr } [ arabic, alpha-small, alpha-caps, others ]
+\setCTPfamilyfont { sans  } { lms } [ arabic, alpha-small, alpha-caps, others ]
+\setCTPfamilyfont { mono  } { lmm } [ arabic, alpha-small, alpha-caps, others ]
 %    \end{macrocode}
 % \begin{variable}
 %   {
-%     \l_@@_font_tl, \l_@@_rescan_bool,
+%     \l_@@_font_tl,        \l_@@_rescan_bool,
 %     \l_@@_draw_tl,        \l_@@_outline_tl,
 %     \l_@@_hfading_clist,  \l_@@_vfading_clist,
 %     \l_@@_fill_tl,        \l_@@_scale_fp
@@ -851,7 +871,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
     \bool_if:NTF \l_@@_rescan_bool
       {
-        \tl_set_rescan:Nnn \l_@@_tmpa_tl 
+        \tl_set_rescan:Nnn \l_@@_tmpa_tl
           {
             \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 }
             \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 }
@@ -874,7 +894,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
     \bool_lazy_or:nnTF
       {
-        \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist } 
+        \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist }
                             { \clist_if_empty_p:N \l_@@_vfading_clist }
       }
       {
