@@ -14,8 +14,8 @@ Overview
 
 The package provides the `\chartopath` and `\chartoclip` macro
 
-    \chartopath [<keys>] {<string>}
-    \chartoclip [<keys>] {<string>}
+    \chartopath [<keys>] {<font>} {<string>}
+    \chartoclip [<keys>] {<font>} {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 

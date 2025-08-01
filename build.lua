@@ -52,7 +52,7 @@ uploadconfig  = {
   support      = repository .. "/issues",
   repository   = repository,
   development  = "https://github.com/" .. maintainid,
-  update       = true
+  update       = true,
 }
 function update_tag(file, content, tagname, tagdate)
   tagname = version
