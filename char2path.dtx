@@ -65,8 +65,8 @@ Overview
 
 The package provides the `\chartopath` and `\chartoclip` macro
 
-    \chartopath [<keys>] {<string>}
-    \chartoclip [<keys>] {<string>}
+    \chartopath [<keys>] {<font>} {<string>}
+    \chartoclip [<keys>] {<font>} {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 
@@ -199,11 +199,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   \trivlist\item\relax
     \leavevmode\hbox to \z@{^^A
       \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
-      \begin{minipage}[c]{.72\textwidth}^^A
+      \begin{minipage}[c]{.75\textwidth}^^A
         \small\verbatiminput \example@name
       \end{minipage}^^A
       \fbox{^^A
-        \begin{minipage}[c]{.26\textwidth}^^A
+        \begin{minipage}[c]{.21\textwidth}^^A
           \normalsize\input \example@name
         \end{minipage}^^A
       }^^A
@@ -239,7 +239,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \fi
 % \title{^^A
 %   The \texorpdfstring{^^A
-%     \chartopath[hfading = {teal, purple}, font = lms]{char2path}^^A
+%     \chartopath[hfading = {teal, purple}]{lms}{char2path}^^A
 %   }{char2path} Package\thanks{^^A
 %     \url{https://ctan.org/pkg/char2path},
 %     \url{https://github.com/zongpingding/char2path}^^A
@@ -259,7 +259,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % This package's data is converted from
 % \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family}, which is\\^^A
 % based on the Computer Modern fonts released into public domain by\\^^A
-% AMS (1997). It's under the license of
+% AMS (1997). It's under
 % \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.
 % \end{tabular}}}\end{center}}
 % \makeatletter \def\@thanks{\Copyright} \makeatother
@@ -282,31 +282,31 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \begin{center}
 \fbox{\raggedright\vbox{^^A
   \begin{minipage}{.96\linewidth}
-    \chartopath[mono = .03125\linewidth, font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-    \chartopath[mono = .03125\linewidth, font = lmr, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-    \chartopath[mono = .03125\linewidth, font = lmr, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{abcdefghijklmnopqrstuvwxyz\{|\}~}
   \end{minipage}
   \hspace*\fill
   \begin{minipage}{.02\linewidth}
     \centering
     \rotatebox{90}{\textrm{LMR}}
   \end{minipage}
-\vskip1ex\hrule \vskip1ex
+  \vskip1ex\hrule \vskip1ex
   \begin{minipage}{.96\linewidth}
-    \chartopath[mono = .03125\linewidth, font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-    \chartopath[mono = .03125\linewidth, font = lms, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-    \chartopath[mono = .03125\linewidth, font = lms, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{abcdefghijklmnopqrstuvwxyz\{|\}~}
   \end{minipage}
   \hspace*\fill
   \begin{minipage}{.02\linewidth}
     \centering
     \rotatebox{90}{\textsf{LMS}}
   \end{minipage}
-\vskip1ex\hrule \vskip1ex
+  \vskip1ex\hrule \vskip1ex
   \begin{minipage}{.96\linewidth}
-    \chartopath[mono = .03125\linewidth, font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-    \chartopath[mono = .03125\linewidth, font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-    \chartopath[mono = .03125\linewidth, font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
   \end{minipage}
   \hspace*\fill
   \begin{minipage}{.02\linewidth}
@@ -353,14 +353,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % Inputting some characters needs to be escaped.
 % Using the \texttt{Latin Modern Mono} font as an example:
 % \begin{Verbatim}[gobble = 4]
-%   \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-%   \chartopath[font = lmm, draw]{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-%   \chartopath[font = lmm, draw]{abcdefghijklmnopqrstuvwxyz\{|\}~}
+%   \chartopath{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+%   \chartopath{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+%   \chartopath{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
 % \end{Verbatim}
 % \clearpage
-% \begin{function}[updated = 2025-07-31]{\chartopath}
+% \begin{function}[updated = 2025-08-01]{\chartopath}
 %   \begin{syntax}
-%     \cs{chartopath} \oarg{key-vals} \marg{string}
+%     \cs{chartopath} \oarg{key-vals} \marg{font family} \marg{string}
 %   \end{syntax}
 %   The \oarg{key-vals} accepts the listed keys to set how the \meta{string}
 %   converts to path.
@@ -382,9 +382,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{keyval}
 % \end{function}
 %
-% \begin{function}[updated = 2025-07-31]{\chartoclip}
+% \begin{function}[updated = 2025-08-01]{\chartoclip}
 %   \begin{syntax}
-%     \cs{chartoclip} \oarg{key-vals} \marg{char}
+%     \cs{chartoclip} \oarg{key-vals} \marg{font family} \marg{char}
 %   \end{syntax}
 %   The mandatory argument accepts a single character, and the optional
 %   argument accepts the following keys to set the style how the character clip
@@ -435,7 +435,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \iffalse
 %<*example>
 % \fi
-\def\0{0123456789/ctp}
+\def\0{char2path}
 % \iffalse
 %</example>
 % \fi
@@ -445,7 +445,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \def\0{0123456789/ctp} \chartopath\0
+  \def\0{0123456789/ctp} \chartopath{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -462,13 +462,13 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
 %     \node [ above = 1ex ] at (.72\linewidth,0) {\Large      \0};
 %     \node [ below = 1ex ] at (.06\linewidth,0)
-%       {\small     \chartopath[fill = orange]\0};
+%       {\small     \chartopath[fill = orange]{lmm}\0};
 %     \node [ below  = 1ex] at (.24\linewidth,0)
-%       {\normalsize\chartopath[fill = green]\0};
+%       {\normalsize\chartopath[fill = green]{lmm}\0};
 %     \node [ below = 1ex ] at (.45\linewidth,0)
-%       {\large     \chartopath[fill = blue]\0};
+%       {\large     \chartopath[fill = blue]{lmm}\0};
 %     \node [ below = 1ex ] at (.72\linewidth,0)
-%       {\Large     \chartopath[fill = purple]\0};
+%       {\Large     \chartopath[fill = purple]{lmm}\0};
 %     \makeatletter
 %     \node at (.06\linewidth,0)
 %       {\small     \scalebox{\fpeval{8/\f@size}}
@@ -494,7 +494,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[draw = none, fill = blue]\0
+  \chartopath[draw = none, fill = blue]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -504,7 +504,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \fi
 \begin{example}
   \chartopath[pattern = north west lines, draw  = teal,
-              pattern color = violet,     scale = 1.2] \0
+              pattern color = violet, scale = 1.2]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -513,7 +513,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[fill = green, xslant = .15] \0
+  \chartopath[fill = green, xslant = .15]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -524,7 +524,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[hfading = {red, green}]\0
+  \chartopath[hfading = {red, green}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -533,7 +533,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[hfading = {blue, -}]\0
+  \chartopath[hfading = {blue, -}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -542,7 +542,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[hfading = {-, violet}]\0
+  \chartopath[hfading = {-, violet}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -551,7 +551,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[vfading = {teal, purple}]\0
+  \chartopath[vfading = {teal, purple}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -560,7 +560,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[vfading = {-, orange}]\0
+  \chartopath[vfading = {-, orange}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -569,7 +569,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[vfading = {violet, -}]\0
+  \chartopath[vfading = {violet, -}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -592,7 +592,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \fi
 \let\orithelstnumber\thelstnumber
   \def\thelstnumber{^^A
-    \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}^^A
+    \chartopath[rescan = false, hfading = {violet, blue}]{lmm}{\orithelstnumber}^^A
   }
 % \iffalse
 %</example>
@@ -600,7 +600,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{verbatim}
 %   \let\orithelstnumber\thelstnumber
 %   \def\thelstnumber{%
-%     \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}%
+%     \chartopath[rescan = false, hfading = {violet, blue}]{lmm}{\orithelstnumber}%
 %   }
 % \end{verbatim}
 % \iffalse
@@ -628,9 +628,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \NewDocumentCommand \strpathclip { O{} m }
   { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
       { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
-          { \tl_item:nn {#2}{##1}} \kern2pt } }
+        {lmr} { \tl_item:nn {#2}{##1}} \kern2pt } }
 \ExplSyntaxOff
-\strpathclip[scale = 2, font = lmr, image = example-grid-100x100bp]{Hello, c2p}
+\strpathclip[scale = 2, image = example-grid-100x100bp]{Hello, c2p}
 \end{example}
 % \iffalse
 %</example>
@@ -641,7 +641,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-\def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
+\def\ctp#1{\chartoclip[image = example-grid-100x100bp]{lmr}{#1}}
 \protected\def\ctpTeX{\ctp T\kern-.125em \lower.54ex\hbox{\ctp E}\kern-.1em \ctp X}
 \protected\def\ctpLaTeX{\ctp L\kern -.36em{\lower-.54ex
   \hbox{\scalebox{.72}{\ctp A}}}\kern -.08em\ctpTeX}
@@ -808,8 +808,6 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \clist_new:N \l_@@_hfading_color_right_clist
 \keys_define:nn { char2path / chartopath }
   {
-    font      .tl_set:N     = \l_@@_font_tl,
-      font    .initial:n    = { lmm },
     rescan    .bool_set:N   = \l_@@_rescan_bool,
       rescan  .initial:n    = { true },
     mono      .dim_set:N    = \l_@@_mono_dim,
@@ -858,7 +856,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{macro}{\chartopath}
 %   The main command for this package.
 %    \begin{macrocode}
-\NewDocumentCommand \chartopath { O{} m }
+\NewDocumentCommand \chartopath { O{} m m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartopath } {#1}
@@ -881,8 +879,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
             \char_set_catcode:nn { \int_from_hex:n { 5e } } { 12 }
             \char_set_catcode:nn { \int_from_hex:n { 5f } } { 12 }
             \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 }
-          } {#2}
-      } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
+          } {#3}
+      } { \tl_set:Nn \l_@@_tmpa_tl {#3} }
 %    \end{macrocode}
 %   Warning information for fading: if both the |hfading|
 %   and the |vfading| key is valued, then a warning is returned.
@@ -913,8 +911,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
             draw        = \l_@@_draw_tl,  line~width  = \l_@@_outline_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
             \clist_use:Nn \l_@@_options_clist { , }
-          } { \l_@@_tmpa_tl } { \l_@@_font_tl }
-          { \l_@@_scale_fp } { \l_@@_mono_dim }
+          } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp } { \l_@@_mono_dim }
       }
 %    \end{macrocode}
 %   If the situation is false, then handle the vertical or horizontally
@@ -949,8 +946,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
                 top~color  = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl,
                 line~width = \l_@@_outline_tl, draw = \l_@@_draw_tl,
                 \clist_use:Nn \l_@@_options_clist { , }
-              } { \l_@@_tmpa_tl } { \l_@@_font_tl }
-              { \l_@@_scale_fp } { \l_@@_mono_dim }
+              } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp } { \l_@@_mono_dim }
           }
 %    \end{macrocode}
 %   Horizontally fading branch.
@@ -1031,7 +1027,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
                     \clist_use:Nn \l_@@_hfading_keys_clist { , },
                     \clist_use:Nn \l_@@_options_clist { , }
                   } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                  { \l_@@_font_tl } { \l_@@_scale_fp } { \l_@@_mono_dim }
+                  {#2} { \l_@@_scale_fp } { \l_@@_mono_dim }
               }
           }
       }
@@ -1193,8 +1189,6 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
 \keys_define:nn { char2path / chartoclip }
   {
-    font      .tl_set:N  = \l_@@_clip_font_tl,
-      font    .initial:n = { lmm },
     image     .tl_set:N  = \l_@@_clip_image_tl,
       image   .initial:n = { example-image },
     scale     .fp_set:N  = \l_@@_clip_scale_fp,
@@ -1211,12 +1205,12 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{macro}{\chartoclip}
 %   Command for the converted path clipping an specific image.
 %    \begin{macrocode}
-\NewDocumentCommand \chartoclip { O{} m }
+\NewDocumentCommand \chartoclip { O{} m m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartoclip }{#1}
     \exp_args:Nee \@@_image_clip_aux:nnnnnn
-      { \prop_item:ce { c_@@_tikz_ \l_@@_clip_font_tl _data_prop } { #2 } }
+      { \prop_item:ce { c_@@_tikz_#2_data_prop } { #3 } }
       { \l_@@_clip_offset_tl  } { \l_@@_clip_image_tl   }
       { \l_@@_clip_height_tl  } { \l_@@_clip_scale_fp   }
       { \l_@@_clip_anchor_tl  }
