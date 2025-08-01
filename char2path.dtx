@@ -182,8 +182,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
       }
   }
 \DeclareCommandCopy \val \meta
-\def \TFF {true\textup{\textbar\textbf{false}}}
-\def \TTF {\textup{\textbf{true}\textbar}false}
+\def \TFF {true\textup{\textbar\underline{\textbf{false}}}}
+\def \TTF {\textup{\underline{\textbf{true}}\textbar}false}
 \def \HoLogo@ApLaTeX #1{^^A
   \HOLOGO@mbox {A\kern -.05em p\kern -.05em \hologo{LaTeX}}}
 \newcounter{example}[subsection]
@@ -375,9 +375,10 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %     (Default: |1|).
 %     \item [\key{mono}] \val{dim} set font's monospace width
 %     (Default: |0pt|, monospace width is disabled now).
-%     \item [\key{hfading, vfading}] \val{color clist} set the two colors for horizontally/vertically fading the whole string.
-%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other).
-%     (Default: |true|).
+%     \item [\key{hfading, vfading}] \val{color clist} set the two colors
+%     for horizontally/vertically fading the whole string.
+%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~|
+%     with catcode 12 (other).
 %   \end{keyval}
 % \end{function}
 %
@@ -401,7 +402,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %
 % \begin{function}[added = 2025-07-28]{\ctpdata}
 %   \begin{syntax}
-%     \cs{ctpdata} \marg{font name} \marg{character}
+%     \cs{ctpdata} \marg{family} \marg{character}
 %   \end{syntax}
 %   This function can output the path data (in \textsc{pgf} coordinates).
 %   \NB{Note}{This command is expandable.}
@@ -412,11 +413,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %
 % \begin{function}[added = 2025-07-31]{\setCTPfamilyfont}
 %   \begin{syntax}
-%     \cs{setCTPfamilyfont} \marg{font style} \marg{font name} \oarg{database}
+%     \cs{setCTPfamilyfont} \marg{font style} \marg{family} \oarg{database}
 %   \end{syntax}
 %   This function enables users to load custom font \textcolor{gray!25}{by generating path data
 %   files\NB{Note}{Compiling option |--shell -escape| is required.}}
-%   \file{ctp-}\meta{font name}\file{-}\meta{database}\file{.code.tex}.
+%   \file{ctp-}\meta{family}\file{-}\meta{database}\file{.code.tex}.
 %   The \meta{font style} will determine if the font needs to be monospace.
 %   This package has already loaded the following fonts:
 %   \begin{Verbatim}[gobble = 4]
@@ -653,7 +654,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \section{Todo List}
 %
 % \begin{itemize}
-%   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning: Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
+%   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning:
+%   Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
 %   \item [\textcolor{blue}{\textsf{Function}}] Support syntax
 %   "\chartopath{\usefont{T1}{cmr}{m}{sc} abc}",
 %   "\chartopath{\sffamily abc}".
@@ -713,7 +715,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
 \@@_msg_new:nn { kernel } { file ~ not ~ found }
 %    \end{macrocode}
-% \begin{variable}{\c_@@_tikz_folder_tl, \c_@@_global_scale_fp, \c_@@_scale_prop}
+% \begin{variable}
+%   {\c_@@_tikz_folder_tl, \c_@@_global_scale_fp, \c_@@_scale_prop}
 %   Define global variables: \cmd{\c_@@_tikz_folder_tl} for future use,
 %   \cmd{\c_@@_global_scale_fp} for global scale factor, and
 %   \cmd{\c_@@_scale_prop} for storing scale choices respectly.
@@ -1126,7 +1129,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \cs_new_protected:Npn \@@_draw:nnnnn #1#2#3#4#5
   {
     \tikz [ baseline = -.05pt ] \node
-      [ anchor = base, minimum~width = #4 * \f@size/10, inner~sep = #5 * \f@size/10 ]
+      [ anchor = base, inner~sep = #5 * \f@size/10,
+        minimum~width = #4 * \f@size/10 ]
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
                         \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #3 }
               ] \path [#1] #2; };
