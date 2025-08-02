@@ -8,6 +8,8 @@ opentypesvg==1.1.5
 packaging==25.0
 pathlib==1.0.1
 pillow==11.3.0
+pycairo==1.28.0
+PyGObject==3.52.3
 pyparsing==3.2.3
 pyserial==3.5
 scour==0.37
