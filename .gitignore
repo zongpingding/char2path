@@ -2,6 +2,7 @@
 __pycache__/
 SVGs/
 tikz_coors/
+Fonts/
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -19,11 +20,11 @@ tikz_coors/
 
 ## `l3build` auxiliary files:
 /build/
+unpacked/
 *.pdf
 *.tar.gz
 *.zip
 *.curlopt
-/source/
 
 ## macOS Desktop Services Cache:
 .DS_Store
