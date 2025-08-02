@@ -10,7 +10,7 @@ from config import *
 #####  cli args parse  #####
 parser = argparse.ArgumentParser(
     prog="font2path",
-    usage='%(prog)s [options] font',
+    usage='%(prog)s [options]',
     description="font2path: a tool that converts font into TikZ paths.",
     formatter_class=argparse.RawTextHelpFormatter
 )

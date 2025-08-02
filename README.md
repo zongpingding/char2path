@@ -77,12 +77,13 @@ digits = 3
 
 Command-line arguments take precedence over the TOML file.
 ``` txt
-usage: font2path [options] font
+usage: font2path [options]
 
 font2path: a tool that converts font into TikZ paths.
 
 options:
   -h, --help           show this help message and exit
+  -m, --method         set tikz path generating method.
   -p, --folder         set font folder.
   -d, --data           set tikz path data folder.
   -a, --alias          set font name alias.
