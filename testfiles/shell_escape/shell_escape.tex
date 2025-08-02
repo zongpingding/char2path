@@ -1,0 +1,14 @@
+\documentclass{article}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\immediate\write18{mkdir _char2path}
+\immediate\write18{python3 glyph_otf.py > './_char2path/\jobname.temp.tex'}
+
+\tikz[every path/.style = {draw}]{\input{./_char2path/\jobname.temp.tex}}
+
+\immediate\write18{rm -rf ./_char2path/}
+
+\end{document}
