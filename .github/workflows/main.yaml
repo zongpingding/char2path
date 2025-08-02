@@ -19,5 +19,9 @@ jobs:
         uses: zauguin/install-texlive@v4
         with:
           package_file: .github/tl_packages
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - name: Run l3build
         run: l3build ctan -q -H
