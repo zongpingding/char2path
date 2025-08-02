@@ -1,0 +1,110 @@
+%% \iffalse
+\documentclass{article}
+\def\MakePercentIgnore{\catcode`\%9\relax}
+\def\MakePercentComment{\catcode`\%14\relax}
+\def\DocInput#1{\MakePercentIgnore\input{#1}\MakePercentComment}
+\catcode`\^^A 14\relax
+\usepackage[scale = 10pt]{char2path}
+\usepackage{verbatim, listings}
+\lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
+\newenvironment{example}{\vskip1ex\hrule\vskip1ex}{\vskip1ex\hrule\vskip1ex\par}
+\begin{document}
+  \DocInput{\jobname.tex}
+\end{document}
+%% \fi
+\begin{center}
+\fbox{\raggedright\vbox{^^A
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textrm{LMR}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textsf{LMS}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\texttt{LMM}}
+  \end{minipage}
+}}
+\end{center}
+\def\0{char2path}
+\begin{example}
+  \def\0{0123456789/ctp} \chartopath{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[draw = none, fill = blue]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[pattern = north west lines, draw  = teal,
+              pattern color = violet, scale = 1.2]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[fill = green, xslant = .15]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[hfading = {red, green}]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[hfading = {blue, -}]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[hfading = {-, violet}]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[vfading = {teal, purple}]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[vfading = {-, orange}]{lmm}\0
+\end{example}
+\begin{example}
+  \chartopath[vfading = {violet, -}]{lmm}\0
+\end{example}
+\let\orithelstnumber\thelstnumber
+  \def\thelstnumber{^^A
+    \chartopath[rescan = false, hfading = {violet, blue}]{lmm}{\orithelstnumber}^^A
+  }
+\begin{example}
+\begin{lstlisting}[language = {[LaTeX]TeX}]
+\documentclass{article}
+\begin{document}
+  Hello, \LaTeX!
+\end{document}
+\end{lstlisting}
+\end{example}
+\begin{example}
+\ExplSyntaxOn
+\NewDocumentCommand \strpathclip { O{} m }
+  { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+      { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
+        {lmr} { \tl_item:nn {#2}{##1}} \kern2pt } }
+\ExplSyntaxOff
+\strpathclip[scale = 2, image = example-grid-100x100bp]{Hello, c2p}
+\end{example}
+\begin{example}
+\def\ctp#1{\chartoclip[image = example-grid-100x100bp]{lmr}{#1}}
+\protected\def\ctpTeX{\ctp T\kern-.125em \lower.54ex\hbox{\ctp E}\kern-.1em \ctp X}
+\protected\def\ctpLaTeX{\ctp L\kern -.36em{\lower-.54ex
+  \hbox{\scalebox{.72}{\ctp A}}}\kern -.08em\ctpTeX}
+\scalebox{1.5}{\ctpTeX} \scalebox{1.5}{\ctpLaTeX}
+\end{example}

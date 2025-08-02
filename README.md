@@ -14,15 +14,15 @@ Overview
 
 The package provides the `\chartopath` and `\chartoclip` macro
 
-    \chartopath [<keys>] {<string>}
-    \chartoclip [<keys>] {<string>}
+    \chartopath [<keys>] {<font>} {<string>}
+    \chartoclip [<keys>] {<font>} {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
-Generate `tikz path` from font
----
+Generate Ti*k*Z paths from font
+-------------------------------
 First, install the dependencies:
 ```shell
 cd resources/SVG/font2svg
@@ -66,7 +66,7 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
 This package's data is converted from

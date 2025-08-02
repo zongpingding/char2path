@@ -65,16 +65,16 @@ Overview
 
 The package provides the `\chartopath` and `\chartoclip` macro
 
-    \chartopath [<keys>] {<string>}
-    \chartoclip [<keys>] {<string>}
+    \chartopath [<keys>] {<font>} {<string>}
+    \chartoclip [<keys>] {<font>} {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
 
-Generate `tikz path` from font
----
+Generate Ti*k*Z paths from font
+-------------------------------
 First, install the dependencies:
 ```shell
 cd resources/SVG/font2svg
@@ -118,7 +118,7 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
 This package's data is converted from
@@ -164,9 +164,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %</internal>
 %
 %<*driver>
-\documentclass[show-notes]{l3doc}
+\documentclass[show-notes, lm-default = false]{l3doc}
 \usepackage[scale = 10pt]{char2path}
-\usepackage{listings}
+\usepackage{listings,pdfpages}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 \AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
 \ExplSyntaxOn \makeatletter
@@ -182,8 +182,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
       }
   }
 \DeclareCommandCopy \val \meta
-\def \TFF {true\textup{\textbar\textbf{false}}}
-\def \TTF {\textup{\textbf{true}\textbar}false}
+\def \TFF {true\textup{\textbar\underline{\textbf{false}}}}
+\def \TTF {\textup{\underline{\textbf{true}}\textbar}false}
 \def \HoLogo@ApLaTeX #1{^^A
   \HOLOGO@mbox {A\kern -.05em p\kern -.05em \hologo{LaTeX}}}
 \newcounter{example}[subsection]
@@ -199,11 +199,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   \trivlist\item\relax
     \leavevmode\hbox to \z@{^^A
       \hbox to \z@{\hss{\footnotesize[\theexample]}\hskip4pt}
-      \begin{minipage}[c]{.72\textwidth}^^A
+      \begin{minipage}[c]{.75\textwidth}^^A
         \small\verbatiminput \example@name
       \end{minipage}^^A
       \fbox{^^A
-        \begin{minipage}[c]{.26\textwidth}^^A
+        \begin{minipage}[c]{.21\textwidth}^^A
           \normalsize\input \example@name
         \end{minipage}^^A
       }^^A
@@ -230,7 +230,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   {\stepcounter{example}\example@start}{\s@example@end}
 \makeatother \ExplSyntaxOff
 \newlist{keyval}{itemize}{10}
-\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt, itemsep = 1pt}
+\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
 \makeindex
 \begin{document}
   \DocInput{\jobname.dtx}
@@ -239,7 +239,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \fi
 % \title{^^A
 %   The \texorpdfstring{^^A
-%     \chartopath[hfading = {teal, purple}, font = lms]{char2path}^^A
+%     \chartopath[hfading = {teal, purple}]{lms}{char2path}^^A
 %   }{char2path} Package\thanks{^^A
 %     \url{https://ctan.org/pkg/char2path},
 %     \url{https://github.com/zongpingding/char2path}^^A
@@ -259,7 +259,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % This package's data is converted from
 % \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family}, which is\\^^A
 % based on the Computer Modern fonts released into public domain by\\^^A
-% AMS (1997). It's under the license of
+% AMS (1997). It's under
 % \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.
 % \end{tabular}}}\end{center}}
 % \makeatletter \def\@thanks{\Copyright} \makeatother
@@ -268,14 +268,60 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %
 % \begin{documentation}
 %
-% \section{Introduction}
+% \section{Introduction}\label{sec:introduction}
 %
 % The \pkg{char2path} package provides a \LaTeX\ package for converting
 % characters into Ti\textit k\/Z paths.
 % It supports compilation methods including \hologo{pdfLaTeX},
 % \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+% \DeleteShortVerb\| \DeleteShortVerb\"
+% \vspace{-9pt}
+% \iffalse
+%<*example>
+% \fi
+\begin{center}
+\fbox{\raggedright\vbox{^^A
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lmr}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textrm{LMR}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lms}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textsf{LMS}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .03125\linewidth, draw]{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\texttt{LMM}}
+  \end{minipage}
+}}
+\end{center}
+% \iffalse
+%</example>
+% \fi
+% \vspace{-9pt}
+% \MakeShortVerb\| \MakeShortVerb\"
 %
-% \section{Usage}
+% \section{Getting Started}
 %
 % \noindent
 % \begin{minipage}{.55\linewidth}
@@ -299,23 +345,42 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{tabular}
 % \end{minipage}
 % \par \medskip \noindent
-% The following characters within \textrm{Latin Modern Roman},
-% \textrm{Latin Modern Sans}, and \texttt{Latin Modern Mono}
-% are supported to be converted into path:
-% \DeleteShortVerb\| \DeleteShortVerb\" \catcode`\^11\relax
-% \par \smallskip \noindent
-% \fbox{\parbox[c]{\linewidth-6.8pt}{\scriptsize
-%   \chartopath[font = lmr, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-% \vskip1ex\hrule \vskip1ex
-%   \chartopath[font = lms, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-% \vskip1ex\hrule \vskip1ex
-%   \chartopath[font = lmm, draw]{!\#$"\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`abcdefghijklmnopqrstuvwxyz\{|\}~}
-%   }}
-% \MakeShortVerb\| \MakeShortVerb\" \catcode`\^7\relax
+% \DescribeMacro{\ctpbackslash}
+% The characters listed in Section~\ref{sec:introduction}
+% are supported by this package within
+% \textrm{Latin Modern Roman},
+% \textsf{Latin Modern Sans}, and \texttt{Latin Modern Mono} fonts.
+% Inputting some characters needs to be escaped.
+% Using the \texttt{Latin Modern Mono} font as an example:
+% \begin{Verbatim}[gobble = 4]
+%   \chartopath{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+%   \chartopath{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+%   \chartopath{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+% \end{Verbatim}
 %
-% \begin{function}[updated = 2025-07-27]{\chartopath}
+% \section{Font Setup}
+%
+% \begin{function}[added = 2025-07-31]{\setCTPfamilyfont}
 %   \begin{syntax}
-%     \cs{chartopath} \oarg{key-vals} \marg{string}
+%     \cs{setCTPfamilyfont} \marg{font style} \marg{font family} \oarg{database}
+%   \end{syntax}
+%   This function enables users to load custom font \textcolor{gray!25}{by generating path data
+%   files\NB{Note}{Compiling option |--shell -escape| is required.}}
+%   \file{ctp-}\meta{font family}\file{-}\meta{database}\file{.code.tex}.
+%   The \meta{font style} will determine if the font needs to be monospace.
+%   This package has already loaded the following fonts:
+%   \begin{Verbatim}[gobble = 4]
+%     \setCTPfamilyfont {serif} {lmr}
+%     \setCTPfamilyfont {sans}  {lms}
+%     \setCTPfamilyfont {mono}  {lmm}
+%   \end{Verbatim}
+% \end{function}
+% 
+% \section{Basic Usage}
+%
+% \begin{function}[updated = 2025-08-01]{\chartopath}
+%   \begin{syntax}
+%     \cs{chartopath} \oarg{key-vals} \marg{font family} \marg{string}
 %   \end{syntax}
 %   The \oarg{key-vals} accepts the listed keys to set how the \meta{string}
 %   converts to path.
@@ -328,112 +393,65 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %     to achieve the ``Fake Bold'' effect (Default: |0pt|).
 %     \item [\key{scale}] \val{fp num} set font's scale factor
 %     (Default: |1|).
-%     \item [\key{hfading, vfading}] \val{color clist} set the two colors for horizontally/vertically fading the whole string.
-%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~| with catcode 12 (other).
-%     (Default: |true|).
+%     \item [\key{mono}] \val{dim} set font's monospace width
+%     (Default: |0pt|, monospace width is disabled now).
+%     \item [\key{hfading, vfading}] \val{color clist} set the two colors
+%     for horizontally/vertically fading the whole string.
+%     \item [\key{rescan}] \val{\TTF} rescan tokens |$|, |&|, and |~|
+%     with catcode 12 (other).
 %   \end{keyval}
 % \end{function}
 %
-% \begin{function}[updated = 2025-07-26]{\chartoclip}
+% \begin{function}[updated = 2025-08-01]{\chartoclip}
 %   \begin{syntax}
-%     \cs{chartoclip} \oarg{key-vals} \marg{char}
+%     \cs{chartoclip} \oarg{key-vals} \marg{font family} \marg{char}
 %   \end{syntax}
 %   The mandatory argument accepts a single character, and the optional
 %   argument accepts the following keys to set the style how the character clip
 %   the image.
-%   \par\medskip\noindent
-%   \begin{minipage}{.57\linewidth}
-%     \begin{keyval}
-%       \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
-%       choose char's font.
-%       \item [\key{image}] \val{image} set image to clip.
-%       \item [\key{scale}] \val{fp num} set font's scale factor
-%       (Default: |1|).
-%     \end{keyval}
-%   \end{minipage}
-%   \hspace*\fill
-%   \begin{minipage}{.39\linewidth}
-%     \begin{keyval}
-%       \item [\key{anchor}] \val{tikz anchor} set image's anchor.
-%       \item [\key{offset}] \val{(x, y)} set imgae anchor's offset.
-%       \item [\key{height}] \val{dim} image's height.
-%     \end{keyval}
-%   \end{minipage}
+%   \begin{keyval}
+%     \item [\key{font}] \val{lmr\textup\textbar lms\textup\textbar lmm}
+%     choose char's font.
+%     \item [\key{image}] \val{image file} set image for clipping.
+%     \item [\key{scale}] \val{fp num} set font's scale factor (Default: |1|).
+%     \item [\key{anchor}] \val{tikz anchor} set image's anchor.
+%     \item [\key{offset}] \val{(x, y)} set imgae anchor's offset.
+%     \item [\key{height}] \val{dim} image's height.
+%   \end{keyval}
 % \end{function}
 %
-% \begin{function}{\ctpdata}
+% \section{Advanced}
+%
+% \begin{function}[added = 2025-07-28]{\ctpdata}
 %   \begin{syntax}
-%     \cs{ctpdata}\marg{font name}\marg{character}
+%     \cs{ctpdata} \marg{font family} \marg{character}
 %   \end{syntax}
 %   This function can output the path data (in \textsc{pgf} coordinates).
 %   \NB{Note}{This command is expandable.}
 % \begin{example*}
-%   \def\0{\ctpdata{lmr}{-}} \scriptsize\ttfamily\detokenize\expandafter{\expanded{\0}}
+%   \def\0{\ctpdata{lmr}{-}} \small\ttfamily\detokenize\expandafter{\expanded{\0}}
 % \end{example*}
 % \end{function}
 %
 % \section{Examples}
 %
-% \subsection{Basic usage}
+% \subsection{Outline, Fill and Scale}
 %
 % \noindent
 % \iffalse
 %<*example>
 % \fi
-\def\0{0123456789/ctp}
+\def\0{char2path}
 % \iffalse
 %</example>
 % \fi
-% The basic usage only print the outline of the inputted string.
+% If none of the \oarg{keys} in the optional argument of \cs{chartopath}
+% is assigned, then only the outline of the inputted string will be printed.
 % \iffalse
 %<*example>
 % \fi
 \begin{example}
-  \def\0{0123456789/ctp}
-  \chartopath\0
-\end{example}
-% \iffalse
-%</example>
-% \fi
-% \noindent
-% Users can specific the color of outline and fill,
-% specific the fill-in pattern,
-% and specific the scale and slant of inputted characters.
-% Just like the keys in Ti\textit k\/Z.
-% \iffalse
-%<*example>
-% \fi
-\begin{example}
-  \chartopath[draw = none, fill = blue]\0
-\end{example}
-% \iffalse
-%</example>
-% \fi
-% \iffalse
-%<*example>
-% \fi
-\begin{example}
-  \chartopath[draw = blue, fill = red, scale = 1.2]\0
-\end{example}
-% \iffalse
-%</example>
-% \fi
-% \iffalse
-%<*example>
-% \fi
-\begin{example}
-  \chartopath[pattern = north west lines,
-              draw, scale = 1.2] \0
-\end{example}
-% \iffalse
-%</example>
-% \fi
-% \iffalse
-%<*example>
-% \fi
-\begin{example}
-  \chartopath[draw, fill = green,
-              xslant = .15, scale = 1.2] \0
+  \def\0{0123456789/ctp} \chartopath{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -444,19 +462,19 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{center}
 %   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
 %     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
-%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\cs{f@size}};
+%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\tn{f@size}};
 %     \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
 %     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
 %     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
-%     \node [ above = 1ex ] at (.72\linewidth,0) {\LARGE      \0};
+%     \node [ above = 1ex ] at (.72\linewidth,0) {\Large      \0};
 %     \node [ below = 1ex ] at (.06\linewidth,0)
-%       {\small     \chartopath[fill = orange]\0};
+%       {\small     \chartopath[fill = orange]{lmm}\0};
 %     \node [ below  = 1ex] at (.24\linewidth,0)
-%       {\normalsize\chartopath[fill = green]\0};
+%       {\normalsize\chartopath[fill = green]{lmm}\0};
 %     \node [ below = 1ex ] at (.45\linewidth,0)
-%       {\large     \chartopath[fill = blue]\0};
+%       {\large     \chartopath[fill = blue]{lmm}\0};
 %     \node [ below = 1ex ] at (.72\linewidth,0)
-%       {\LARGE     \chartopath[fill = purple]\0};
+%       {\Large     \chartopath[fill = purple]{lmm}\0};
 %     \makeatletter
 %     \node at (.06\linewidth,0)
 %       {\small     \scalebox{\fpeval{8/\f@size}}
@@ -468,18 +486,51 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %       {\large     \scalebox{\fpeval{8/\f@size}}
 %         {\large     \f@size pt (\cs[no-index]{large})}};
 %     \node at (.72\linewidth,0)
-%       {\LARGE      \scalebox{\fpeval{8/\f@size}}
-%         {\LARGE      \f@size pt (\cs[no-index]{LARGE})}};
+%       {\Large      \scalebox{\fpeval{8/\f@size}}
+%         {\Large      \f@size pt (\cs[no-index]{Large})}};
 %     \makeatother
 %   \end{tikzpicture}
 % \end{center}
+% \noindent
+% Users can specific the color of outline and fill,
+% specific the fill-in pattern,
+% and specific the scale and slant of inputted characters.
+% Just like the keys in Ti\textit k\/Z.
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[draw = none, fill = blue]{lmm}\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[pattern = north west lines, draw  = teal,
+              pattern color = violet, scale = 1.2]{lmm}\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
+% \iffalse
+%<*example>
+% \fi
+\begin{example}
+  \chartopath[fill = green, xslant = .15]{lmm}\0
+\end{example}
+% \iffalse
+%</example>
+% \fi
 %
 % \subsection{Fading the path}
 % \iffalse
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[hfading = {red, green}]\0
+  \chartopath[hfading = {red, green}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -488,7 +539,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[hfading = {blue, -}]\0
+  \chartopath[hfading = {blue, -}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -497,7 +548,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[hfading = {-, violet}]\0
+  \chartopath[hfading = {-, violet}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -506,7 +557,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[vfading = {teal, purple}]\0
+  \chartopath[vfading = {teal, purple}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -515,7 +566,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[vfading = {-, orange}]\0
+  \chartopath[vfading = {-, orange}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -524,7 +575,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-  \chartopath[vfading = {violet, -}]\0
+  \chartopath[vfading = {violet, -}]{lmm}\0
 \end{example}
 % \iffalse
 %</example>
@@ -533,9 +584,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   Fading will cost too much time!!!
 % \end{texnote}
 %
-% \section{Advanced Usage}
-%
-% \subsection{Use in \pkg{listings}}
+% \subsection{Using in \pkg{listings}}
 %
 % This package can be used within \pkg{listings} or \pkg{minted},
 % then users could directly copy the source code from |.pdf| file
@@ -546,7 +595,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \fi
 \let\orithelstnumber\thelstnumber
   \def\thelstnumber{^^A
-    \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}^^A
+    \chartopath[rescan = false, hfading = {violet, blue}]{lmm}{\orithelstnumber}^^A
   }
 % \iffalse
 %</example>
@@ -554,7 +603,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{verbatim}
 %   \let\orithelstnumber\thelstnumber
 %   \def\thelstnumber{%
-%     \chartopath[rescan = false, hfading = {violet, blue}]{\orithelstnumber}%
+%     \chartopath[rescan = false, hfading = {violet, blue}]{lmm}{\orithelstnumber}%
 %   }
 % \end{verbatim}
 % \iffalse
@@ -571,9 +620,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \iffalse
 %</example>
 % \fi
-% \subsection{String clip}
-% You can also define a command, \cs[no-index]{strpathclip},
-% that accepts a string instead of a single character:
+% \subsection{Clipping string}
+% Define a command, \cs[no-index]{strpathclip},
+% to accepts a string instead of a single character:
 % \iffalse
 %<*example>
 % \fi
@@ -582,9 +631,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \NewDocumentCommand \strpathclip { O{} m }
   { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
       { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
-          { \tl_item:nn {#2}{##1}} \kern2pt } }
+        {lmr} { \tl_item:nn {#2}{##1}} \kern2pt } }
 \ExplSyntaxOff
-\strpathclip[scale = 2, font = lmr, image = example-grid-100x100bp]{Hello, c2p}
+\strpathclip[scale = 2, image = example-grid-100x100bp]{Hello, c2p}
 \end{example}
 % \iffalse
 %</example>
@@ -595,13 +644,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{example}
-\def\ctp#1{\chartoclip[font = lmr, image = example-grid-100x100bp]{#1}}
-\protected\def\ctpTeX{\ctp T\kern-.1667em \lower.5ex
-  \hbox{\ctp E}\kern-.125em \ctp X}
-\protected\def\ctpLaTeX{\ctp L\kern-.36em^^A
-  {\sbox0 T\vbox to\ht0{\vskip-.021em\hbox{^^A
-  \kern.083em\scalebox{.7}{\ctp A}}\vss}}\kern-.15em\ctpTeX}
-\scalebox{2}{\ctpTeX} \scalebox{2}{\ctpLaTeX}
+\def\ctp#1{\chartoclip[image = example-grid-100x100bp]{lmr}{#1}}
+\protected\def\ctpTeX{\ctp T\kern-.125em \lower.54ex\hbox{\ctp E}\kern-.1em \ctp X}
+\protected\def\ctpLaTeX{\ctp L\kern -.36em{\lower-.54ex
+  \hbox{\scalebox{.72}{\ctp A}}}\kern -.08em\ctpTeX}
+\scalebox{1.5}{\ctpTeX} \scalebox{1.5}{\ctpLaTeX}
 \end{example}
 % \iffalse
 %</example>
@@ -610,13 +657,16 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \section{Todo List}
 %
 % \begin{itemize}
-%   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning: Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
+%   \item [\textcolor{green}{\textsf{Warn}}] Resolve the font warning:
+%   Font shape \texttt{OMS/cmtt/m/n} undefined for \texttt{textbackslash}.
 %   \item [\textcolor{blue}{\textsf{Function}}] Support syntax
 %   "\chartopath{\usefont{T1}{cmr}{m}{sc} abc}",
 %   "\chartopath{\sffamily abc}".
 % \end{itemize}
 %
 % \end{documentation}
+%
+% \includepdf{char2path-demo}
 %
 % \begin{implementation}
 %
@@ -668,7 +718,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
 \@@_msg_new:nn { kernel } { file ~ not ~ found }
 %    \end{macrocode}
-% \begin{variable}{\c_@@_tikz_folder_tl, \c_@@_global_scale_fp, \c_@@_scale_prop}
+% \begin{variable}
+%   {\c_@@_tikz_folder_tl, \c_@@_global_scale_fp, \c_@@_scale_prop}
 %   Define global variables: \cmd{\c_@@_tikz_folder_tl} for future use,
 %   \cmd{\c_@@_global_scale_fp} for global scale factor, and
 %   \cmd{\c_@@_scale_prop} for storing scale choices respectly.
@@ -682,6 +733,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   }
 %    \end{macrocode}
 % \end{variable}
+% \begin{macro}{\setCTPfamilyfont}
+%   User's interface for loading custom font.
+%    \begin{macrocode}
+\DeclareDocumentCommand \setCTPfamilyfont
+  { m m O{} }
+  { \__ctp_load_font_data:nnn {#1} {#2} {#3} }
+%    \end{macrocode}
+% \end{macro}
 % \begin{variable}{\l_@@_tikz_data_merge_tl}
 %   To merge a font's different parts of data into a \meta{token list}.
 %    \begin{macrocode}
@@ -693,6 +752,15 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % Due to the fact that character |~| is stored in the database,
 % |\char_set_catcode:nn { 126 } { 12 }| should be applied
 % to ensure it's path data could be correctly loaded in |expl3| syntax.
+%   \vspace*{-9pt}
+%   \begin{multicols}{3}
+%     \begin{arguments}
+%       \item font style
+%       \item font name
+%       \item data files
+%     \end{arguments}
+%   \end{multicols}
+%   \vspace*{-12pt}
 %    \begin{macrocode}
 \cs_new_protected_nopar:Npn \@@_load_font_data:nnn #1#2#3
   {
@@ -717,39 +785,36 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
 \cs_new:Npn \@@_protected_char:nn #1#2
   { \cs_new_protected:cpn {#1} { \exp_not:n {#2} } }
-\@@_protected_char:nn { ctpbackslash }{ \textbackslash }
+\@@_protected_char:nn { ctpbackslash } { \textbackslash }
 %    \end{macrocode}
 % \end{macro}
 % Load font's data for |lmr|, |lms| and |lmm|, including
-% arabic (Unicode: 0030 -- 0039), 
+% arabic (Unicode: 0030 -- 0039),
 % alpha-small (Unicode: 0061-007A),
 % alpha-caps (Unicode: 0041 -- 005A),
 % and other symbols (anything left in Unicode: 0021 -- 007E).
 %    \begin{macrocode}
-\@@_load_font_data:nnn { serif }  { lmr }
-  { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { sans }   { lms }
-  { arabic, alpha-small, alpha-caps, others, }
-\@@_load_font_data:nnn { mono }   { lmm }
-  { arabic, alpha-small, alpha-caps, others, }
+\setCTPfamilyfont { serif } { lmr } [ arabic, alpha-small, alpha-caps, others ]
+\setCTPfamilyfont { sans  } { lms } [ arabic, alpha-small, alpha-caps, others ]
+\setCTPfamilyfont { mono  } { lmm } [ arabic, alpha-small, alpha-caps, others ]
 %    \end{macrocode}
 % \begin{variable}
 %   {
-%     \l_@@_char_clip_font, \l_@@_rescan_bool,
+%     \l_@@_font_tl,        \l_@@_rescan_bool,
 %     \l_@@_draw_tl,        \l_@@_outline_tl,
 %     \l_@@_hfading_clist,  \l_@@_vfading_clist,
 %     \l_@@_fill_tl,        \l_@@_scale_fp
 %   }
 %   Key--value definitions for the \cs{chartopath} command.
 %    \begin{macrocode}
-\clist_new:N \l_@@_continous_color_left_clist
-\clist_new:N \l_@@_continous_color_right_clist
+\clist_new:N \l_@@_hfading_color_left_clist
+\clist_new:N \l_@@_hfading_color_right_clist
 \keys_define:nn { char2path / chartopath }
   {
-    font      .tl_set:N     = \l_@@_char_clip_font,
-      font    .initial:n    = { lmm },
     rescan    .bool_set:N   = \l_@@_rescan_bool,
       rescan  .initial:n    = { true },
+    mono      .dim_set:N    = \l_@@_mono_dim,
+      mono    .initial:n    = { 0pt },
     draw      .tl_set:N     = \l_@@_draw_tl,
       draw    .initial:n    = { none },
     fill      .tl_set:N     = \l_@@_fill_tl,
@@ -783,16 +848,18 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   }
 %    \end{macrocode}
 % \end{macro}
-% \begin{variable}{\l_@@_tmpa_tl}
-%   Temporary \meta{token list} for storing proceed inputted string.
+% \begin{variable}{\l_@@_tmpa_tl, \l_@@_hfading_keys_clist}
+%   Temporary \meta{token list} for storing proceed inputted string,
+%   and a \meta{comma list} for storing the color keys of |hfading|.
 %    \begin{macrocode}
 \tl_new:N \l_@@_tmpa_tl
+\clist_new:N \l_@@_hfading_keys_clist
 %    \end{macrocode}
 % \end{variable}
 % \begin{macro}{\chartopath}
 %   The main command for this package.
 %    \begin{macrocode}
-\NewDocumentCommand \chartopath { O{} m }
+\NewDocumentCommand \chartopath { O{} m m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartopath } {#1}
@@ -802,18 +869,21 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
     \IfBlankT {#1} { \tl_set:Nn \l_@@_draw_tl { black } }
 %    \end{macrocode}
-%   Config the |rescan| boolean: set the catcode of |$|, |&|, and |~|
+%   Config the |rescan| boolean: set the catcode of
+%   |$| (U+0024), |&| (U+0026), |^| (U+005E), |_| (U+005F) and |~| (U+007E).
 %   to 12 (other).
 %    \begin{macrocode}
     \bool_if:NTF \l_@@_rescan_bool
       {
-        \tl_set_rescan:Nnn \l_@@_tmpa_tl 
+        \tl_set_rescan:Nnn \l_@@_tmpa_tl
           {
-            \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 } % '$'
-            \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 } % '&'
-            \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 } % '~'
-          } {#2}
-      } { \tl_set:Nn \l_@@_tmpa_tl {#2} }
+            \char_set_catcode:nn { \int_from_hex:n { 24 } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 26 } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 5e } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 5f } } { 12 }
+            \char_set_catcode:nn { \int_from_hex:n { 7e } } { 12 }
+          } {#3}
+      } { \tl_set:Nn \l_@@_tmpa_tl {#3} }
 %    \end{macrocode}
 %   Warning information for fading: if both the |hfading|
 %   and the |vfading| key is valued, then a warning is returned.
@@ -828,7 +898,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
     \bool_lazy_or:nnTF
       {
-        \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist } 
+        \bool_lazy_and_p:nn { \clist_if_empty_p:N \l_@@_hfading_clist }
                             { \clist_if_empty_p:N \l_@@_vfading_clist }
       }
       {
@@ -839,12 +909,12 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   If the situation is true, then use the basic usage for converting.
 %    \begin{macrocode}
       {
-        \exp_args:Nno \@@_aux:nnnn
+        \exp_args:Nno \@@_aux:nnnnn
           {
             draw        = \l_@@_draw_tl,  line~width  = \l_@@_outline_tl,
             \tl_if_blank:VF \l_@@_fill_tl { fill      = \l_@@_fill_tl, },
             \clist_use:Nn \l_@@_options_clist { , }
-          } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
+          } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp } { \l_@@_mono_dim }
       }
 %    \end{macrocode}
 %   If the situation is false, then handle the vertical or horizontally
@@ -874,12 +944,12 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 %   Set the |top color| and |bottom color| accordingly.
 %    \begin{macrocode}
-            \@@_aux:nnnn
+            \@@_aux:nnnnn
               {
                 top~color  = \l_@@_color_i_tl, bottom~color = \l_@@_color_ii_tl,
                 line~width = \l_@@_outline_tl, draw = \l_@@_draw_tl,
                 \clist_use:Nn \l_@@_options_clist { , }
-              } { \l_@@_tmpa_tl } { \l_@@_char_clip_font } { \l_@@_scale_fp }
+              } { \l_@@_tmpa_tl } {#2} { \l_@@_scale_fp } { \l_@@_mono_dim }
           }
 %    \end{macrocode}
 %   Horizontally fading branch.
@@ -896,18 +966,18 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   characters in the input stream.
 %    \begin{macrocode}
             \exp_args:Ne \@@_fading_color_aux:nNN { \l_@@_tmpa_tl }
-              \l_@@_continous_color_left_clist
-              \l_@@_continous_color_right_clist
+              \l_@@_hfading_color_left_clist
+              \l_@@_hfading_color_right_clist
 %    \end{macrocode}
 %   Set the |left color| and |right color|
 %   to every character with corresponding percentage.
 %    \begin{macrocode}
             \int_step_inline:nn { \exp_args:Ne \tl_count:n { \l_@@_tmpa_tl } }
               {
-                \tl_set:Nn \l_@@_continous_color_tmpa_tl
-                  { \clist_item:Nn \l_@@_continous_color_left_clist {##1} }
-                \tl_set:Nn \l_@@_continous_color_tmpb_tl
-                  { \clist_item:Nn \l_@@_continous_color_right_clist {##1} }
+                \tl_set:Nn \l_@@_hfading_color_tmpa_tl
+                  { \clist_item:Nn \l_@@_hfading_color_left_clist {##1} }
+                \tl_set:Nn \l_@@_hfading_color_tmpb_tl
+                  { \clist_item:Nn \l_@@_hfading_color_right_clist {##1} }
                 \str_case_e:nnF { - }
                   {
 %    \end{macrocode}
@@ -915,58 +985,52 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
                     { \l_@@_color_i_tl }
                     {
-                      \exp_args:Nne \@@_aux:nnnn
+                      \clist_set:Nn \l_@@_hfading_keys_clist
                         {
-                          draw        = \l_@@_draw_tl,
-                          line~width  = \l_@@_outline_tl,
-                          left~color  =
-                            \l_@@_color_ii_tl!
-                            \fp_eval:n { 100 - \l_@@_continous_color_tmpa_tl },
-                          right~color =
-                            \l_@@_color_ii_tl!
-                            \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl },
-                          \clist_use:Nn \l_@@_options_clist { , }
-                        } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                        { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                          left~color  = \l_@@_color_ii_tl!
+                            \fp_eval:n { 100 - \l_@@_hfading_color_tmpa_tl },
+                          right~color = \l_@@_color_ii_tl!
+                            \fp_eval:n { 100 - \l_@@_hfading_color_tmpb_tl }
+                        }
                     }
 %    \end{macrocode}
 %   Single color branch (right fading).
 %    \begin{macrocode}
                     { \l_@@_color_ii_tl }
                     {
-                      \exp_args:Nne \@@_aux:nnnn
+                      \clist_set:Nn \l_@@_hfading_keys_clist
                         {
-                          draw        = \l_@@_draw_tl,
-                          line~width  = \l_@@_outline_tl,
-                          left~color  =
-                            \l_@@_color_i_tl!\l_@@_continous_color_tmpa_tl,
-                          right~color =
-                            \l_@@_color_i_tl!\l_@@_continous_color_tmpb_tl,
-                          \clist_use:Nn \l_@@_options_clist { , }
-                        } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                        { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                          left~color  = \l_@@_color_i_tl!
+                          \l_@@_hfading_color_tmpa_tl,
+                          right~color = \l_@@_color_i_tl!
+                            \l_@@_hfading_color_tmpb_tl
+                        }
                     }
                   }
 %    \end{macrocode}
 %   Double color branch.
 %    \begin{macrocode}
                   {
-                   \exp_args:Nne \@@_aux:nnnn
+                    \clist_set:Nn \l_@@_hfading_keys_clist
                       {
-                        draw        = \l_@@_draw_tl,
-                        line~width  = \l_@@_outline_tl,
-                        left~color  =
-                          \l_@@_color_i_tl!
-                          \l_@@_continous_color_tmpa_tl!
-                          \l_@@_color_ii_tl,
-                        right~color =
-                          \l_@@_color_ii_tl!
-                          \fp_eval:n { 100 - \l_@@_continous_color_tmpb_tl }!
-                          \l_@@_color_i_tl,
-                        \clist_use:Nn \l_@@_options_clist { , }
-                      } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
-                      { \l_@@_char_clip_font } { \l_@@_scale_fp } 
+                        left~color  = \l_@@_color_i_tl!
+                          \l_@@_hfading_color_tmpa_tl!\l_@@_color_ii_tl,
+                        right~color = \l_@@_color_ii_tl!
+                          \fp_eval:n { 100 - \l_@@_hfading_color_tmpb_tl }!
+                          \l_@@_color_i_tl
+                      }
                   }
+%    \end{macrocode}
+%   Convert the character with color keys stored in the corresponding branch.
+%    \begin{macrocode}
+                \exp_args:Nne \@@_aux:nnnnn
+                  {
+                    draw        = \l_@@_draw_tl,
+                    line~width  = \l_@@_outline_tl,
+                    \clist_use:Nn \l_@@_hfading_keys_clist { , },
+                    \clist_use:Nn \l_@@_options_clist { , }
+                  } { \exp_args:Ne \tl_item:nn { \l_@@_tmpa_tl } {##1} }
+                  {#2} { \l_@@_scale_fp } { \l_@@_mono_dim }
               }
           }
       }
@@ -995,12 +1059,22 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \begin{macrocode}
 \prg_generate_conditional_variant:Nnn \str_case:nn { v } { F }
 %    \end{macrocode}
-% \begin{macro}{\@@_aux:nnnn}
+% \begin{macro}{\@@_aux:nnnnn}
 %   Define the auxiliary command of \cs{chartopath}: set the depth of
 %   every font's style (|roman|, |sans|, and |mono|),
-%   and then pass them to \cmd{\@@_draw:nnnnnn} to process.
+%   and then pass them to \cmd{\@@_draw:nnnnn} to process.
+%   \vspace*{-9pt}
+%   \begin{multicols}{4}
+%     \begin{arguments}
+%       \item path options
+%       \item string
+%       \item font style
+%       \item scale factor
+%     \end{arguments}
+%   \end{multicols}
+%   \vspace*{-12pt}
 %    \begin{macrocode}
-\cs_new_protected:Npn \@@_aux:nnnn #1#2#3#4
+\cs_new_protected:Npn \@@_aux:nnnnn #1#2#3#4#5
   {
     \exp_args:Ne \tl_map_inline:nn {#2}
       {
@@ -1025,28 +1099,42 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
               \dim_set:Nn \l_@@_mono_sep_dim { 0pt }
             }
           } { \hbox_set:Nn \l_@@_glyph_box {##1} }
-        \@@_draw:neennn { \int_use:N \box_dp:N \l_@@_glyph_box }
+        \dim_compare:nNnF {#5} = { 0pt }
+          { \dim_set:Nn \l_@@_mono_width_dim {#5} }
+        \@@_draw:eennn
           {#1} { \@@_data:nn {#3} {##1} } {#4}
           { \l_@@_mono_width_dim } { \l_@@_mono_sep_dim }
       }
   }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_draw:nnnnnn}
+% \begin{macro}{\@@_draw:nnnnn}
 %   Auxiliary command for converting character to path:
 %   conducted with |\tikz|^^A
 %   \NB{TODO}{Avoid nesting \tikz command;
 %             use the character's natural dimensions instead}.
+%   \vspace*{-9pt}
+%   \begin{multicols}{3}
+%     \begin{arguments}
+%       \item path options
+%       \item \textsc{pgf} coordinates
+%       \item scale factor
+%       \item monospace width
+%       \item glue
+%     \end{arguments}
+%   \end{multicols}
+%   \vspace*{-12pt}
 %    \begin{macrocode}
-\cs_new_protected:Npn \@@_draw:nnnnnn #1#2#3#4#5#6
+\cs_new_protected:Npn \@@_draw:nnnnn #1#2#3#4#5
   {
-    \tikz [ baseline = #1 ] \node
-      [ above, minimum~width = #5 * \f@size/10, inner~sep = #6 * \f@size/10 ]
+    \tikz [ baseline = -.05pt ] \node
+      [ anchor = base, inner~sep = #5 * \f@size/10,
+        minimum~width = #4 * \f@size/10 ]
       { \tikz [ scale = \prop_item:Ne \c_@@_scale_prop { \g_@@_scale_tl } *
-                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #4 }
-              ] \path [#2] #3; };
+                        \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #3 }
+              ] \path [#1] #2; };
   }
-\cs_generate_variant:Nn \@@_draw:nnnnnn { neennn }
+\cs_generate_variant:Nn \@@_draw:nnnnn { eennn }
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\@@_data:nn}
@@ -1095,26 +1183,24 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \end{macro}
 % \begin{variable}
 %   {
-%     \l_@@_char_clip_font,         \l_@@_image_tl,
-%     \l_@@_char_clip_scale_fp,     \l_@@_image_anchor_tl,
-%     \l_@@_image_anchor_offset_tl, \l_@@_image_height_dim
+%     \l_@@_clip_font_tl,   \l_@@_clip_image_tl,
+%     \l_@@_clip_scale_fp,  \l_@@_clip_anchor_tl,
+%     \l_@@_clip_offset_tl, \l_@@_clip_height_tl
 %   }
 %   Key--value definitions for the \cs{chartoclip} command^^A
 %   \NB{TODO}{Change ``height'' to the height of char}.
 %    \begin{macrocode}
 \keys_define:nn { char2path / chartoclip }
   {
-    font      .tl_set:N  = \l_@@_char_clip_font,
-      font    .initial:n = { lmm },
-    image     .tl_set:N  = \l_@@_image_tl,
+    image     .tl_set:N  = \l_@@_clip_image_tl,
       image   .initial:n = { example-image },
-    scale     .fp_set:N  = \l_@@_char_clip_scale_fp,
+    scale     .fp_set:N  = \l_@@_clip_scale_fp,
       scale   .initial:n = { 1 },
-    anchor    .tl_set:N  = \l_@@_image_anchor_tl,
+    anchor    .tl_set:N  = \l_@@_clip_anchor_tl,
       anchor  .initial:n = { center },
-    offset    .tl_set:N  = \l_@@_image_anchor_offset_tl,
+    offset    .tl_set:N  = \l_@@_clip_offset_tl,
       offset  .initial:n = { (0pt, 0pt) },
-    height    .dim_set:N = \l_@@_image_height_dim,
+    height    .dim_set:N = \l_@@_clip_height_tl,
       height  .initial:n = { 3cm },
   }
 %    \end{macrocode}
@@ -1122,29 +1208,38 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{macro}{\chartoclip}
 %   Command for the converted path clipping an specific image.
 %    \begin{macrocode}
-\NewDocumentCommand \chartoclip { O{} m }
+\NewDocumentCommand \chartoclip { O{} m m }
   {
     \group_begin:
     \keys_set:nn { char2path / chartoclip }{#1}
     \exp_args:Nee \@@_image_clip_aux:nnnnnn
-      { \prop_item:ce { c_@@_tikz_ \l_@@_char_clip_font _data_prop } { #2 } }
-      { \l_@@_image_anchor_offset_tl }
-      { \l_@@_image_tl               }
-      { \l_@@_image_height_dim       }
-      { \l_@@_char_clip_scale_fp     }
-      { \l_@@_image_anchor_tl        }
+      { \prop_item:ce { c_@@_tikz_#2_data_prop } { #3 } }
+      { \l_@@_clip_offset_tl  } { \l_@@_clip_image_tl   }
+      { \l_@@_clip_height_tl  } { \l_@@_clip_scale_fp   }
+      { \l_@@_clip_anchor_tl  }
     \group_end:
   }
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\@@_image_clip_aux:nnnnnn}
-%   The auxiliary command of \cs{chartoclip}:\par\noindent
-%   |#1|: path data;    |#2|: anchor offset; |#3|: image;
-%   |#4|: image height; |#5|: scale;         |#6|: anchor.
+%   The auxiliary command of \cs{chartoclip}:
+%   \vspace*{-9pt}
+%   \begin{multicols}{3}
+%     \begin{arguments}
+%       \item path data
+%       \item anchor offset
+%       \item image
+%       \item image height
+%       \item scale
+%       \item anchor
+%     \end{arguments}
+%   \end{multicols}
+%   \vspace*{-12pt}
 %    \begin{macrocode}
 \cs_new:Npn \@@_image_clip_aux:nnnnnn #1#2#3#4#5#6
   {
-    \tikz [ scale = \fp_eval:n { \c_@@_global_scale_fp*#5 } ]
+    \tikz [ scale = \fp_eval:n { \f@size/8.4 * \c_@@_global_scale_fp * #5 },
+            baseline = -.05pt ]
       \path [ path~picture = {
               \node at ($(path~picture~bounding~box.#6) + #2$)
                 { \includegraphics [ height = #4 ] {#3} };
