@@ -118,7 +118,7 @@ References
 Copyright and License
 ---------------------
 
-Copyright (C) 2023-2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
+Copyright (C) 2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
 This package's data is converted from
@@ -164,7 +164,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %</internal>
 %
 %<*driver>
-\documentclass[show-notes]{l3doc}
+\documentclass[show-notes, lm-default = false]{l3doc}
 \usepackage[scale = 10pt]{char2path}
 \usepackage{listings,pdfpages}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
@@ -321,7 +321,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \vspace{-9pt}
 % \MakeShortVerb\| \MakeShortVerb\"
 %
-% \section{Usage}
+% \section{Getting Started}
 %
 % \noindent
 % \begin{minipage}{.55\linewidth}
@@ -357,7 +357,27 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \chartopath{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
 %   \chartopath{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
 % \end{Verbatim}
-% \clearpage
+%
+% \section{Font Setup}
+%
+% \begin{function}[added = 2025-07-31]{\setCTPfamilyfont}
+%   \begin{syntax}
+%     \cs{setCTPfamilyfont} \marg{font style} \marg{font family} \oarg{database}
+%   \end{syntax}
+%   This function enables users to load custom font \textcolor{gray!25}{by generating path data
+%   files\NB{Note}{Compiling option |--shell -escape| is required.}}
+%   \file{ctp-}\meta{font family}\file{-}\meta{database}\file{.code.tex}.
+%   The \meta{font style} will determine if the font needs to be monospace.
+%   This package has already loaded the following fonts:
+%   \begin{Verbatim}[gobble = 4]
+%     \setCTPfamilyfont {serif} {lmr}
+%     \setCTPfamilyfont {sans}  {lms}
+%     \setCTPfamilyfont {mono}  {lmm}
+%   \end{Verbatim}
+% \end{function}
+% 
+% \section{Basic Usage}
+%
 % \begin{function}[updated = 2025-08-01]{\chartopath}
 %   \begin{syntax}
 %     \cs{chartopath} \oarg{key-vals} \marg{font family} \marg{string}
@@ -400,9 +420,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \end{keyval}
 % \end{function}
 %
+% \section{Advanced}
+%
 % \begin{function}[added = 2025-07-28]{\ctpdata}
 %   \begin{syntax}
-%     \cs{ctpdata} \marg{family} \marg{character}
+%     \cs{ctpdata} \marg{font family} \marg{character}
 %   \end{syntax}
 %   This function can output the path data (in \textsc{pgf} coordinates).
 %   \NB{Note}{This command is expandable.}
@@ -411,25 +433,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \end{example*}
 % \end{function}
 %
-% \begin{function}[added = 2025-07-31]{\setCTPfamilyfont}
-%   \begin{syntax}
-%     \cs{setCTPfamilyfont} \marg{font style} \marg{family} \oarg{database}
-%   \end{syntax}
-%   This function enables users to load custom font \textcolor{gray!25}{by generating path data
-%   files\NB{Note}{Compiling option |--shell -escape| is required.}}
-%   \file{ctp-}\meta{family}\file{-}\meta{database}\file{.code.tex}.
-%   The \meta{font style} will determine if the font needs to be monospace.
-%   This package has already loaded the following fonts:
-%   \begin{Verbatim}[gobble = 4]
-%     \setCTPfamilyfont {serif} {lmr}
-%     \setCTPfamilyfont {sans}  {lms}
-%     \setCTPfamilyfont {mono}  {lmm}
-%   \end{Verbatim}
-% \end{function}
-%
 % \section{Examples}
 %
-% \subsection{Basic usage}
+% \subsection{Outline, Fill and Scale}
 %
 % \noindent
 % \iffalse
@@ -456,7 +462,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \begin{center}
 %   \begin{tikzpicture}[every node/.style = {font = \ttfamily}]
 %     \draw [ -stealth, gray!25, line width = 1em, line cap = round ]
-%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\cs{f@size}};
+%       (0,0) --++ (.93\linewidth,0) node [ left, black ] {\tn{f@size}};
 %     \node [ above = 1ex ] at (.06\linewidth,0) {\small      \0};
 %     \node [ above = 1ex ] at (.24\linewidth,0) {\normalsize \0};
 %     \node [ above = 1ex ] at (.45\linewidth,0) {\large      \0};
@@ -578,10 +584,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   Fading will cost too much time!!!
 % \end{texnote}
 %
-% \clearpage
-% \section{Advanced Usage}
-%
-% \subsection{Use in \pkg{listings}}
+% \subsection{Using in \pkg{listings}}
 %
 % This package can be used within \pkg{listings} or \pkg{minted},
 % then users could directly copy the source code from |.pdf| file
@@ -617,9 +620,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \iffalse
 %</example>
 % \fi
-% \subsection{String clip}
-% You can also define a command, \cs[no-index]{strpathclip},
-% that accepts a string instead of a single character:
+% \subsection{Clipping string}
+% Define a command, \cs[no-index]{strpathclip},
+% to accepts a string instead of a single character:
 % \iffalse
 %<*example>
 % \fi
