@@ -45,12 +45,13 @@ python3 -m pip install -r requirements.txt --break-system-packages
 Next, custom your own `config.toml`, The default configuration is:
 ```toml
 [flow]
+method = "font2svg"
 gensvg = true
 extsvg = true
 gentkz = true
 
 [font_spec]
-folder = "../../Fonts/"
+folder = "../Fonts/"
 name   = "texgyreadventor-regular.otf"
 alias  = 'texgyre'
 
@@ -64,7 +65,7 @@ nums   = "nums"
 others = "others"
 
 [tkz_data]
-folder = "../../data"
+folder = "../data"
 caps   = "cpas"
 small  = "small"
 nums   = "nums"
