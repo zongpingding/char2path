@@ -1253,41 +1253,41 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \newcommand \ctpdata [2] { \@@_data:nn {#1}{#2} }
 %    \end{macrocode}
 % \end{macro}
-% ^^A shell-escape function
-\keys_define:nn { ctp/cli }
+%    \begin{macrocode}
+\keys_define:nn { chartopath / cli }
   {
-    method  .tl_set:N  = \l__@@_cli_method_tl,
+    method  .tl_set:N  = \l_@@_cli_method_tl,
     method  .initial:n = { font2svg },
-    string  .tl_set:N  = \l__@@_cli_string_tl,
-    fontdir .tl_set:N  = \l__@@_cli_fontdir_tl,
+    string  .tl_set:N  = \l_@@_cli_string_tl,
+    fontdir .tl_set:N  = \l_@@_cli_fontdir_tl,
     fontdir .initial:n = { . },
-    datadir .tl_set:N  = \l__@@_cli_datadir_tl,
+    datadir .tl_set:N  = \l_@@_cli_datadir_tl,
     datadir .initial:n = { ctp_data },
-    font    .tl_set:N  = \l__@@_cli_font_tl,
+    font    .tl_set:N  = \l_@@_cli_font_tl,
     % ^^A font    .value_required:n = true,
-    alias   .tl_set:N  = \l__@@_cli_alias_tl,
+    alias   .tl_set:N  = \l_@@_cli_alias_tl,
     % ^^A alias   .value_required:n = true, 
-    gensvg  .bool_set:N = \l__@@_cli_gensvg_bool,
+    gensvg  .bool_set:N = \l_@@_cli_gensvg_bool,
     gensvg  .initial:n  = { true },
     gensvg  .default:n  = { true },
-    extsvg  .bool_set:N = \l__@@_cli_extsvg_bool,
+    extsvg  .bool_set:N = \l_@@_cli_extsvg_bool,
     extsvg  .initial:n  = { true },
     extsvg  .default:n  = { true },
-    gentkz  .bool_set:N = \l__@@_cli_gentkz_bool,
+    gentkz  .bool_set:N = \l_@@_cli_gentkz_bool,
     gentkz  .initial:n  = { true },
     gentkz  .default:n  = { true },
     % ^^A TODO: support toml spec in cli.
-    toml    .tl_set:N   = \l__@@_cli_toml_tl,
+    toml    .tl_set:N   = \l_@@_cli_toml_tl,
     toml    .initial:n  = { ctpcfg.toml }
   }
-\cs_new:Npn \__@@_cmd_name: 
+\cs_new:Npn \@@_cmd_name: 
   {
     font2path~
     % ^^A python~font2path.py~
   }
-\__@@_msg_new:nn { shell-escape }
+\@@_msg_new:nn { shell-escape }
   { '-shell-escape'~is~required~to~use~\token_to_str:N\ctpgendata }
-\__@@_msg_new:nn { font2path-method }
+\@@_msg_new:nn { font2path-method }
   { 'font2path'~only~supports~methods:~'font2svg'~and~'fonttools' }
 
 \tl_new:N \g__@@_cli_result_tl
@@ -1298,34 +1298,34 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
         % ^^A TODO: add cache mechanism here !
         \bool_if:nTF { #1 }
           {
-            \sys_shell_now:e { \__@@_cmd_name: #2 }
+            \sys_shell_now:e { \@@_cmd_name: #2 }
           }{
             \exp_args:Ne \sys_get_shell:nnN 
-              { \__@@_cmd_name: #2 }
+              { \@@_cmd_name: #2 }
               { \cctab_select:N \c_initex_cctab }
               \l_tmpa_tl % ^^A test via '\q_no_value'
             \tl_gset:Ne \g__@@_cli_result_tl { \l_tmpa_tl }
           }
       }{
-        \__@@_msg_error:nn { shell-escape }{ ... }
+        \@@_msg_error:nn { shell-escape }{ ... }
       }
   }
 \cs_generate_variant:Nn \@@_shell_escape:nn { ne, no }
-\cs_new:Npn \__@@_cli:n #1
+\cs_new:Npn \@@_cli:n #1
   {
     \group_begin:
-      \keys_set:nn { ctp/cli }{ #1 }
-      \str_case:enF { \l__@@_cli_method_tl }
+      \keys_set:nn { chartopath / cli } { #1 }
+      \str_case:enF { \l_@@_cli_method_tl }
         {
           { font2svg }
             {
               \@@_shell_escape:ne { \c_true_bool }
                 {
                   -m~font2svg \space
-                  \__@@_cli_args_add:nn {-g}{\the\l__@@_cli_gensvg_bool}
-                  \__@@_cli_args_add:nn {-e}{\the\l__@@_cli_extsvg_bool}
-                  \__@@_cli_args_add:nn {-c}{\the\l__@@_cli_gentkz_bool}
-                  \__@@_cli_default_args:
+                  \@@_cli_args_add:nn {-g} {\the\l_@@_cli_gensvg_bool}
+                  \@@_cli_args_add:nn {-e} {\the\l_@@_cli_extsvg_bool}
+                  \@@_cli_args_add:nn {-c} {\the\l_@@_cli_gentkz_bool}
+                  \@@_cli_default_args:
                 }
             }
           { fonttools }
@@ -1333,30 +1333,30 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
               \@@_shell_escape:ne { \c_false_bool }
                 {
                   -m~fonttools \space
-                  -s~\l__@@_cli_string_tl \space
-                  \__@@_cli_default_args:
+                  -s~\l_@@_cli_string_tl \space
+                  \@@_cli_default_args:
                 }
             }
-        }{ \__@@_msg_error:nn { font2path-method }{ ... } }
+        }{ \@@_msg_error:nn { font2path-method }{ ... } }
     \group_end:
   }
-\cs_new:Npn \__@@_cli_args_add:nn #1#2
+\cs_new:Npn \@@_cli_args_add:nn #1#2
   {
-    \tl_if_empty:eF { #2 }
-      { #1~#2\space }
+    \tl_if_empty:eF { #2 } { #1~#2 \space }
   }
-\cs_new:Npn \__@@_cli_default_args:
+\cs_new:Npn \@@_cli_default_args:
   {
-    \__@@_cli_args_add:nn {-q}{true}
-    \__@@_cli_args_add:nn {-p}{\l__@@_cli_fontdir_tl}
-    \__@@_cli_args_add:nn {-d}{\l__@@_cli_datadir_tl}
-    \__@@_cli_args_add:nn {-f}{\l__@@_cli_font_tl}
-    \__@@_cli_args_add:nn {-a}{\l__@@_cli_alias_tl}
+    \@@_cli_args_add:nn { -q } { true }
+    \@@_cli_args_add:nn { -p } { \l_@@_cli_fontdir_tl }
+    \@@_cli_args_add:nn { -d } { \l_@@_cli_datadir_tl }
+    \@@_cli_args_add:nn { -f } { \l_@@_cli_font_tl }
+    \@@_cli_args_add:nn { -a } { \l_@@_cli_alias_tl }
   }
-\NewDocumentCommand{\ctpgendata}{m}
+\NewDocumentCommand \ctpgendata { m }
   {% ^^A TODO: change syntax to '% #1(O):other keys; #2(m):method; #3(m):font/string '
-    \__@@_cli:n {#1}
+    \@@_cli:n {#1}
   }
+%    \end{macrocode}
 %    \begin{macrocode}
 \file_input_stop:
 %    \end{macrocode}
