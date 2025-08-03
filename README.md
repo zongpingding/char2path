@@ -15,7 +15,7 @@ Overview
 The package provides the `\chartopath` and `\chartoclip` macro
 
     \chartopath [<keys>] {<font>} {<string>}
-    \chartoclip [<keys>] {<font>} {<character>}
+    \chartoclip [<keys>] {<font>} {<string>}
 
 to print Ti*k*Z paths for characters in a string.
 
@@ -23,80 +23,20 @@ See `char2path.pdf` for more. Happy TeXing!
 
 Generate Ti*k*Z paths from font
 -------------------------------
-First, install the dependencies. For Windows users:
+First, install the dependencies:
 ```shell
-cd resources/scripts
+cd resources/SVG/font2svg
 pip install -r requirements.txt
 ```
 
-for Linux users:
+Next, define the following constants:
 ```python
-cd resources/scripts
-pip3 install -r requirements.txt
+FONT_FOLDER = "../../Fonts/"
+FONT_NAME = "lmmono10-regular.otf"
+FONT_ALIAS = 'lmm'
 ```
 
-on macOS, run the following command:
-```shell
-cd resources/scripts
-brew install cairo pkg-config
-python3 -m pip install -r requirements.txt --break-system-packages
-```
-
-Next, custom your own `config.toml`, An example configuration is:
-```toml
-[flow]
-method = "font2svg"
-gensvg = true
-extsvg = true
-gentkz = true
-
-[font_spec]
-folder = "../Fonts/"
-name   = "texgyreadventor-regular.otf"
-alias  = 'texgyre'
-
-[svg_dir]
-folder = "SVGs"
-sub_1  = "."
-sub_2  = "_moreSVGs_"
-caps   = "caps"
-small  = "small"
-nums   = "nums"
-others = "others"
-
-[tkz_data]
-folder = "../data"
-caps   = "ctp-%ALIAS%-alpha-caps.data.tex"
-small  = "ctp-%ALIAS%-alpha-small.data.tex"
-nums   = "ctp-%ALIAS%-arabic.data.tex"
-others = "ctp-%ALIAS%-others.data.tex"
-digits = 3
-# coor_x = "+\\ctpXshift"
-# coor_y = "+\\ctpYshift"
-```
-
-Command-line arguments take precedence over the TOML file.
-``` txt
-usage: font2path [options]
-
-font2path: a tool that converts font into TikZ paths.
-
-options:
-  -h, --help           show this help message and exit
-  -m, --method         tikz path generating method.
-  -s, --string         the string for conversion('fonttools' only).
-  -p, --folder         font folder.
-  -d, --data           tikz path data folder.
-  -a, --alias          font name alias.
-  -g, --gensvg (Bool)  'True' to generate SVGs from font.
-  -e, --extsvg (Bool)  'True' to extract SVGs from previous run.
-  -c, --gentkz (Bool)  'True' to generate tikz path from previous run.
-  -q, --quiet (Bool)   'True' to suppress message.
-  -f, --font           font name('*.ttf' or '*.otf').
-```
-
-
-Finally, run the command below:
+Finally, run the Python script below:
 ``` shell
 python font2path.py
 ```
