@@ -1,0 +1,29 @@
+[flow]
+method = "font2svg"
+gensvg = true
+extsvg = false
+gentkz = false
+
+[font_spec]
+folder = "."
+name   = "lmroman10-regular.otf"
+alias  = 'test'
+
+[svg_dir]
+folder = "SVGs"
+sub_1  = "."
+sub_2  = "_moreSVGs_"
+caps   = "caps"
+small  = "small"
+nums   = "nums"
+others = "others"
+
+[tkz_data]
+folder = "data"
+caps   = "TEST-%ALIAS%-alpha-caps.data.tex"
+small  = "TEST-%ALIAS%-alpha-small.data.tex"
+nums   = "TEST-%ALIAS%-arabic.data.tex"
+others = "TEST-%ALIAS%-others.data.tex"
+digits = 3
+# coor_x = "+\\ctpXshift"
+# coor_y = "+\\ctpYshift"

@@ -42,7 +42,7 @@ brew install cairo pkg-config
 python3 -m pip install -r requirements.txt --break-system-packages
 ```
 
-Next, custom your own `config.toml`, The default configuration is:
+Next, custom your own `config.toml`, An example configuration is:
 ```toml
 [flow]
 method = "font2svg"
@@ -91,6 +91,7 @@ options:
   -g, --gensvg (Bool)  'True' to generate SVGs from font.
   -e, --extsvg (Bool)  'True' to extract SVGs from previous run.
   -c, --gentkz (Bool)  'True' to generate tikz path from previous run.
+  -q, --quiet (Bool)   'True' to suppress message.
   -f, --font           font name('*.ttf' or '*.otf').
 ```
 

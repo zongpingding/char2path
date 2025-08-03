@@ -13,4 +13,4 @@ pyinstaller -F font2path.py
 
 ## NOTE
 * Make sure that `fonts2svg` and `svg2tikz` is executable.
-* `config.toml` must be in the working directory.
+* ...

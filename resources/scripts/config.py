@@ -11,7 +11,7 @@ def path_to_str(path1, *extra_path):
     return str(os.path.join(path1, *extra_path))
 # convert string to bool
 def str2bool(v):
-    if v == None:
+    if v == None or v == '':
         return False
     if isinstance(v, bool):
         return v
@@ -23,11 +23,16 @@ def str2bool(v):
         raise Exception("Boolean value expected.")
 
 
-#####  read cfg from toml  #####s
-with open("config.toml", "rb") as f:
-    config = tomllib.load(f)
+#####  read cfg from toml  #####
+if Path("config.toml").exists():
+    with open("config.toml", "rb") as f:
+        config = tomllib.load(f)
+else:
+    config = {}
+
 def get_config(level_1:str, level_2:str) -> str:
-    # print(, type(config.get(level_1).get(level_2)))
+    if config == {}:
+        return ''
     tmp = config.get(level_1).get(level_2)
     if tmp == None:
         return ''
@@ -43,7 +48,7 @@ FONT_FOLDER:str = get_config('font_spec', 'folder')
 FONT_NAME:str   = get_config('font_spec', 'name')
 FONT_ALIAS:str  = get_config('font_spec', 'alias')
 
-SVG_DIR_MAIN:str  = config.get('svg_dir')['folder']
+SVG_DIR_MAIN:str  = get_config('svg_dir', 'folder')
 SVG_NUMS:str      = path_join(SVG_DIR_MAIN, get_config('svg_dir', 'nums'))
 SVG_CAPS:str      = path_join(SVG_DIR_MAIN, get_config('svg_dir', 'caps'))
 SVG_SMALL:str     = path_join(SVG_DIR_MAIN, get_config('svg_dir', 'small'))
@@ -63,12 +68,6 @@ RAW_SVG_DIR:list[str] = [
     path_join(SVG_DIR_MAIN, get_config('svg_dir', 'sub_1')), 
     path_join(SVG_DIR_MAIN, get_config('svg_dir', 'sub_2'))
 ]
-
-# print(config["flow"]["gensvg"])
-# print(config["font_spec"]["folder"])
-# print(SVG_SMALL, TKZ_NAME_OTHERS, TKZ_DIR, FONT_NAME)
-# print(config['font_spec']['xxx'])     # raise error
-# print(config['font_spec'].get('xxx')) # --> None
 
 # reload config by argparser(cli args come first)
 def reload_config(level:list[str], parser_val:str) -> str:

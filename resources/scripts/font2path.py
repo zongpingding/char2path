@@ -23,6 +23,7 @@ parser.add_argument('-a', '--alias',  type=str,      default=None, metavar="",  
 parser.add_argument('-g', '--gensvg', type=str2bool, default=None, metavar="(Bool)", help="'True' to generate SVGs from font.")
 parser.add_argument('-e', '--extsvg', type=str2bool, default=None, metavar="(Bool)", help="'True' to extract SVGs from previous run.")
 parser.add_argument('-c', '--gentkz', type=str2bool, default=None, metavar="(Bool)", help="'True' to generate tikz path from previous run.")
+parser.add_argument('-q', '--quiet',  type=str2bool, default=None, metavar="(Bool)", help="'True' to suppress message.")
 parser.add_argument('-f', '--font',   type=str,      default=None, metavar="",       help="font name('*.ttf' or '*.otf').")
 args = parser.parse_args()
 
@@ -44,12 +45,16 @@ TKZ_NAME_OTHERS = TKZ_NAME_OTHERS.replace('%ALIAS%', FONT_ALIAS)
 
 
 #####  class 'Font2path'  #####
+def font2path_print(*contents):
+    if not args.quiet:
+        print(*contents)
+
 def run_if_enabled(val:bool):
     def decorator(func:Callable[[], None]):
         if val:
             return func
         else:
-            print('nothing happens ...')
+            font2path_print('nothing happens ...')
             return lambda obj: None
     return decorator
 
@@ -96,7 +101,7 @@ class Font2tikz_svg:
                         case _:
                             continue
                     subprocess.run(["cp", f, target_dir], check=True)
-                    print(f.name, "->", target_dir)
+                    font2path_print(f.name, "->", target_dir)
 
     # generate tikz path from svg
     @staticmethod
@@ -136,8 +141,8 @@ class Font2tikz_svg:
                         str(f),
                         "--output", target_file
                     ], check=True)
-                    print('---------> new symbol <---------')
-                    print("SVG to PGF : " + f.name, "->", target_file)
+                    font2path_print('---------> new symbol <---------')
+                    font2path_print("SVG to PGF : " + f.name, "->", target_file)
                     # extract pgf path coordinates
                     path_name = self.glyph_classify(dir, f_no_ext)[0]
                     file_name = self.glyph_classify(dir, f_no_ext)[1]
@@ -146,7 +151,7 @@ class Font2tikz_svg:
                         target_file,
                         path_to_str(TKZ_DIR, file_name)
                     )
-                    print("PGF to TikZ: " + target_file, "->", target_file+f' -> {{{path_name}}}')
+                    font2path_print("PGF to TikZ: " + target_file, "->", target_file+f' -> {{{path_name}}}')
 
 # method II: font -> tikz
 class Font2tikz:

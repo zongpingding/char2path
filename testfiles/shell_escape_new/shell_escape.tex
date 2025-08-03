@@ -1,0 +1,37 @@
+\input{../test.cfg}
+\documentclass{article}
+\usepackage{char2path}
+\parindent0pt
+\ExplSyntaxOn\makeatletter
+\def\ctpshelldraw#1#2
+  {
+    \exp_args:Nee \__tikz_draw:nn {#1}{#2}
+  }
+\cs_new:Npn \__tikz_draw:nn #1#2
+  {
+    \tikz\draw[#1] #2
+  }
+\def\ctptmpdata{\g__@@_cli_result_tl}
+\makeatother\ExplSyntaxOff
+
+
+\begin{document}
+\section{original data}
+\chartopath{lmr}{ABC}
+
+
+\section{shell escape}
+\subsection{fonttools}
+% \ctpgendata{method=fonttools, string=A, font=arial.ttf}
+% \tikz\draw[fill=red, draw=none] (-0.000,0.000) -- (0.084,0.220) -- (0.115,0.220) --
+% (0.205,0.000) -- (0.172,0.000) -- (0.147,0.067) -- (0.055,0.067) --
+% (0.030,0.000) -- cycle (0.063,0.090) -- (0.138,0.090) -- (0.115,0.151) ..
+% controls (0.104,0.179) .. (0.099,0.197) .. controls (0.095,0.176) ..
+% (0.087,0.155) -- cycle;
+
+% \ctpshelldraw{fill=blue, draw=none}{\ctptmpdata ;} % ---> works
+
+
+\subsection{font2svg}
+\ctpgendata{method=font2svg, gensvg=false, extsvg=false, gentkz=true} % ---> works
+\end{document}

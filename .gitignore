@@ -3,6 +3,8 @@ __pycache__/
 SVGs/
 tikz_coors/
 Fonts/
+*.ttf
+*.otf
 *.spec
 
 ## Core latex/pdflatex auxiliary files:
