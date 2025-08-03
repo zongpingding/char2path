@@ -186,13 +186,14 @@ class Font2tikz:
 
 # function '__main__':
 if __name__ == "__main__":
+    FONT = path_to_str(FONT_FOLDER, FONT_NAME)
     if METHOD == 'font2svg':
-        font = Font2tikz_svg(FONT_FOLDER + FONT_NAME)
+        font = Font2tikz_svg(FONT)
         font.gensvg()
         font.extractsvg()
         font.gentikz()
     elif METHOD == 'fonttools':
-        font = Font2tikz(FONT_FOLDER + FONT_NAME)
+        font = Font2tikz(FONT)
         if args.string != '':
             font.gentikz(args.string)
         else:
