@@ -66,29 +66,88 @@ Overview
 The package provides the `\chartopath` and `\chartoclip` macro
 
     \chartopath [<keys>] {<font>} {<string>}
-    \chartoclip [<keys>] {<font>} {<string>}
+    \chartoclip [<keys>] {<font>} {<character>}
 
 to print Ti*k*Z paths for characters in a string.
 
 See `char2path.pdf` for more. Happy TeXing!
 
-
 Generate Ti*k*Z paths from font
 -------------------------------
-First, install the dependencies:
+First, install the dependencies. For Windows users:
 ```shell
-cd resources/SVG/font2svg
+cd resources/scripts
 pip install -r requirements.txt
 ```
 
-Next, define the following constants:
+for Linux users:
 ```python
-FONT_FOLDER = "../../Fonts/"
-FONT_NAME = "lmmono10-regular.otf"
-FONT_ALIAS = 'lmm'
+cd resources/scripts
+pip3 install -r requirements.txt
 ```
 
-Finally, run the Python script below:
+on macOS, run the following command:
+```shell
+cd resources/scripts
+brew install cairo pkg-config
+python3 -m pip install -r requirements.txt --break-system-packages
+```
+
+Next, custom your own `config.toml`, An example configuration is:
+```toml
+[flow]
+method = "font2svg"
+gensvg = true
+extsvg = true
+gentkz = true
+
+[font_spec]
+folder = "../Fonts/"
+name   = "texgyreadventor-regular.otf"
+alias  = 'texgyre'
+
+[svg_dir]
+folder = "SVGs"
+sub_1  = "."
+sub_2  = "_moreSVGs_"
+caps   = "caps"
+small  = "small"
+nums   = "nums"
+others = "others"
+
+[tkz_data]
+folder = "../data"
+caps   = "ctp-%ALIAS%-alpha-caps.data.tex"
+small  = "ctp-%ALIAS%-alpha-small.data.tex"
+nums   = "ctp-%ALIAS%-arabic.data.tex"
+others = "ctp-%ALIAS%-others.data.tex"
+digits = 3
+# coor_x = "+\\ctpXshift"
+# coor_y = "+\\ctpYshift"
+```
+
+Command-line arguments take precedence over the TOML file.
+``` txt
+usage: font2path [options]
+
+font2path: a tool that converts font into TikZ paths.
+
+options:
+  -h, --help           show this help message and exit
+  -m, --method         tikz path generating method.
+  -s, --string         the string for conversion('fonttools' only).
+  -p, --folder         font folder.
+  -d, --data           tikz path data folder.
+  -a, --alias          font name alias.
+  -g, --gensvg (Bool)  'True' to generate SVGs from font.
+  -e, --extsvg (Bool)  'True' to extract SVGs from previous run.
+  -c, --gentkz (Bool)  'True' to generate tikz path from previous run.
+  -q, --quiet (Bool)   'True' to suppress message.
+  -f, --font           font name('*.ttf' or '*.otf').
+```
+
+
+Finally, run the command below:
 ``` shell
 python font2path.py
 ```
@@ -1286,9 +1345,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
     % ^^A python~font2path.py~
   }
 \@@_msg_new:nn { shell-escape }
-  { '-shell-escape'~is~required~to~use~\token_to_str:N\ctpgendata }
+  { '-shell-escape' ~ is ~ required ~ to ~ use ~ \token_to_str:N \ctpgendata }
 \@@_msg_new:nn { font2path-method }
-  { 'font2path'~only~supports~methods:~'font2svg'~and~'fonttools' }
+  { 'font2path' ~ only ~ supports ~ methods: ~ 'font2svg' ~ and ~ 'fonttools' }
 
 \tl_new:N \g__@@_cli_result_tl
 \cs_new:Npn \@@_shell_escape:nn #1#2 
@@ -1297,9 +1356,8 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
       {
         % ^^A TODO: add cache mechanism here !
         \bool_if:nTF { #1 }
+          { \sys_shell_now:e { \@@_cmd_name: #2 } }
           {
-            \sys_shell_now:e { \@@_cmd_name: #2 }
-          }{
             \exp_args:Ne \sys_get_shell:nnN 
               { \@@_cmd_name: #2 }
               { \cctab_select:N \c_initex_cctab }
@@ -1307,7 +1365,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
             \tl_gset:Ne \g__@@_cli_result_tl { \l_tmpa_tl }
           }
       }{
-        \@@_msg_error:nn { shell-escape }{ ... }
+        \@@_msg_error:nn { shell-escape } { ... }
       }
   }
 \cs_generate_variant:Nn \@@_shell_escape:nn { ne, no }
@@ -1322,9 +1380,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
               \@@_shell_escape:ne { \c_true_bool }
                 {
                   -m~font2svg \space
-                  \@@_cli_args_add:nn {-g} {\the\l_@@_cli_gensvg_bool}
-                  \@@_cli_args_add:nn {-e} {\the\l_@@_cli_extsvg_bool}
-                  \@@_cli_args_add:nn {-c} {\the\l_@@_cli_gentkz_bool}
+                  \@@_cli_args_add:nn { -g } { \the\l_@@_cli_gensvg_bool }
+                  \@@_cli_args_add:nn { -e } { \the\l_@@_cli_extsvg_bool }
+                  \@@_cli_args_add:nn { -c } { \the\l_@@_cli_gentkz_bool }
                   \@@_cli_default_args:
                 }
             }
@@ -1337,13 +1395,11 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
                   \@@_cli_default_args:
                 }
             }
-        }{ \@@_msg_error:nn { font2path-method }{ ... } }
+        } { \@@_msg_error:nn { font2path-method } { ... } }
     \group_end:
   }
 \cs_new:Npn \@@_cli_args_add:nn #1#2
-  {
-    \tl_if_empty:eF { #2 } { #1~#2 \space }
-  }
+  { \tl_if_empty:eF { #2 } { #1~#2 \space } }
 \cs_new:Npn \@@_cli_default_args:
   {
     \@@_cli_args_add:nn { -q } { true }
