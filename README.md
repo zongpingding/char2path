@@ -25,19 +25,19 @@ Generate Ti*k*Z paths from font
 -------------------------------
 First, install the dependencies. For Windows users:
 ```shell
-cd resources/scripts/font2svg
+cd resources/scripts
 pip install -r requirements.txt
 ```
 
 for Linux users:
 ```python
-cd resources/scripts/font2svg
+cd resources/scripts
 pip3 install -r requirements.txt
 ```
 
 on macOS, run the following command:
 ```shell
-cd resources/scripts/font2svg
+cd resources/scripts
 brew install cairo pkg-config
 python3 -m pip install -r requirements.txt --break-system-packages
 ```
@@ -83,13 +83,14 @@ font2path: a tool that converts font into TikZ paths.
 
 options:
   -h, --help           show this help message and exit
-  -m, --method         set tikz path generating method.
-  -p, --folder         set font folder.
-  -d, --data           set tikz path data folder.
-  -a, --alias          set font name alias.
-  -g, --gensvg (Bool)  set 'True' to generate SVGs from font.
-  -e, --extsvg (Bool)  set 'True' to extract SVGs from previous run.
-  -c, --gentkz (Bool)  set 'True' to generate tikz path from previous run.
+  -m, --method         tikz path generating method.
+  -s, --string         the string for conversion('fonttools' only).
+  -p, --folder         font folder.
+  -d, --data           tikz path data folder.
+  -a, --alias          font name alias.
+  -g, --gensvg (Bool)  'True' to generate SVGs from font.
+  -e, --extsvg (Bool)  'True' to extract SVGs from previous run.
+  -c, --gentkz (Bool)  'True' to generate tikz path from previous run.
   -f, --font           font name('*.ttf' or '*.otf').
 ```
 

@@ -1,18 +1,11 @@
 import re
 from typing import Callable
-from config import path_to_str, TKZ_DIR, TKZ_COOR_X, TKZ_COOR_Y, TKZ_DIGITS
+from config import path_to_str, TKZ_DIR, TKZ_COOR_X, TKZ_COOR_Y, TKZ_DIGITS, TKZ_NAME_NUMS, TKZ_NAME_CAPS, TKZ_NAME_SMALL, TKZ_NAME_OTHERS
 
 
 # regex pattern
 COORS_PATTERN = re.compile(r'^\s*\\path\[fill=black\]\s*(.*);\s*$')
 SINGLE_COOR_PATTERN = re.compile(r"\(([-+]?[0-9]*\.?[0-9]+),\s*([-+]?[0-9]*\.?[0-9]+)\)")
-
-# clear previous data
-def tkz_data_clear(font_alias:str) -> None:
-    open(path_to_str(TKZ_DIR, f'ctp-{font_alias}-arabic.data.tex'), 'w')
-    open(path_to_str(TKZ_DIR, f'ctp-{font_alias}-alpha-caps.data.tex'), 'w')
-    open(path_to_str(TKZ_DIR, f'ctp-{font_alias}-alpha-small.data.tex'),'w')
-    open(path_to_str(TKZ_DIR, f'ctp-{font_alias}-others.data.tex'), 'w')
 
 # modify coordinates format
 # add '\ctpXshift' and '\ctpYshift' to x/y in '(x, y)'

@@ -20,10 +20,10 @@ others = "others"
 
 [tkz_data]
 folder = "../data"
-caps   = "cpas"
-small  = "small"
-nums   = "nums"
-others = "others"
+caps   = "ctp-%ALIAS%-alpha-caps.data.tex"
+small  = "ctp-%ALIAS%-alpha-small.data.tex"
+nums   = "ctp-%ALIAS%-arabic.data.tex"
+others = "ctp-%ALIAS%-others.data.tex"
 digits = 3
 # coor_x = "+\\ctpXshift"
 # coor_y = "+\\ctpYshift"

@@ -15,13 +15,14 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter
 )
 # cli arguments spec
-parser.add_argument('-m', '--method', type=str,      default=None, metavar="",       help="set tikz path generating method.")
-parser.add_argument('-p', '--folder', type=str,      default=None, metavar="",       help="set font folder.")
-parser.add_argument('-d', '--data',   type=str,      default=None, metavar="",       help="set tikz path data folder.")
-parser.add_argument('-a', '--alias',  type=str,      default=None, metavar="",       help="set font name alias.")
-parser.add_argument('-g', '--gensvg', type=str2bool, default=None, metavar="(Bool)", help="set 'True' to generate SVGs from font.")
-parser.add_argument('-e', '--extsvg', type=str2bool, default=None, metavar="(Bool)", help="set 'True' to extract SVGs from previous run.")
-parser.add_argument('-c', '--gentkz', type=str2bool, default=None, metavar="(Bool)", help="set 'True' to generate tikz path from previous run.")
+parser.add_argument('-m', '--method', type=str,      default=None, metavar="",       help="tikz path generating method.")
+parser.add_argument('-s', '--string', type=str,      default=None, metavar="",       help="the string for conversion('fonttools' only).")
+parser.add_argument('-p', '--folder', type=str,      default=None, metavar="",       help="font folder.")
+parser.add_argument('-d', '--data',   type=str,      default=None, metavar="",       help="tikz path data folder.")
+parser.add_argument('-a', '--alias',  type=str,      default=None, metavar="",       help="font name alias.")
+parser.add_argument('-g', '--gensvg', type=str2bool, default=None, metavar="(Bool)", help="'True' to generate SVGs from font.")
+parser.add_argument('-e', '--extsvg', type=str2bool, default=None, metavar="(Bool)", help="'True' to extract SVGs from previous run.")
+parser.add_argument('-c', '--gentkz', type=str2bool, default=None, metavar="(Bool)", help="'True' to generate tikz path from previous run.")
 parser.add_argument('-f', '--font',   type=str,      default=None, metavar="",       help="font name('*.ttf' or '*.otf').")
 args = parser.parse_args()
 
@@ -36,6 +37,10 @@ TKZ_DIR     = reload_config(['tkz_data' , 'folder'], args.data)
 FONT_NAME   = reload_config(['font_spec', 'name'  ], args.font)
 FONT_ALIAS  = reload_config(['font_spec', 'alias' ], args.alias)
 FONT_FOLDER = reload_config(['font_spec', 'folder'], args.folder)
+TKZ_NAME_NUMS   = TKZ_NAME_NUMS.replace('%ALIAS%', FONT_ALIAS)
+TKZ_NAME_CAPS   = TKZ_NAME_CAPS.replace('%ALIAS%', FONT_ALIAS)
+TKZ_NAME_SMALL  = TKZ_NAME_SMALL.replace('%ALIAS%', FONT_ALIAS)
+TKZ_NAME_OTHERS = TKZ_NAME_OTHERS.replace('%ALIAS%', FONT_ALIAS)
 
 
 #####  class 'Font2path'  #####
@@ -99,23 +104,26 @@ class Font2tikz_svg:
         match True:
             case _ if dir == SVG_CAPS:
                 path_name = MAP_ALPHA_CAPS[ f'u{ord(ALPHA_CAPS_REVERSE[f_no_ext]):04x}']
-                file_name = f'ctp-{FONT_ALIAS}-alpha-caps.data.tex'
+                file_name = TKZ_NAME_CAPS 
             case _ if dir == SVG_SMALL:
                 path_name = MAP_ALPHA_SMALL[ f'u{ord(ALPHA_SMALL_REVERSE[f_no_ext]):04x}']
-                file_name = f'ctp-{FONT_ALIAS}-alpha-small.data.tex'
+                file_name = TKZ_NAME_SMALL
             case _ if dir == SVG_NUMS:
                 path_name = MAP_NUMS[ f'u{ord(NUM_LIST_REVERSE[f_no_ext]):04x}']
-                file_name = f'ctp-{FONT_ALIAS}-arabic.data.tex'
+                file_name = TKZ_NAME_NUMS
             case _ if dir == SVG_OTHERS:
                 path_name = MAP_OTHER_SYMBOLS[ f'u{ord(OTHER_SYMBOLS_REVERSE[f_no_ext]):04x}']
-                file_name = f'ctp-{FONT_ALIAS}-others.data.tex'
+                file_name = TKZ_NAME_OTHERS
             case _:
                 raise Exception("Wrong extracting glyph type.")
         return (path_name, file_name)
     @run_if_enabled(GEN_TKZ)
     def gentikz(self):
         os.makedirs(TKZ_DIR, exist_ok=True)
-        tkz_data_clear(FONT_ALIAS)
+        open(path_to_str(TKZ_DIR, TKZ_NAME_NUMS), 'w')
+        open(path_to_str(TKZ_DIR, TKZ_NAME_CAPS), 'w')
+        open(path_to_str(TKZ_DIR, TKZ_NAME_SMALL),'w')
+        open(path_to_str(TKZ_DIR, TKZ_NAME_OTHERS), 'w')
         for dir in SVG_DIR:
             for f in dir.iterdir():
                 if f.suffix == '.svg':
@@ -183,6 +191,11 @@ if __name__ == "__main__":
         font.gensvg()
         font.extractsvg()
         font.gentikz()
-    if METHOD == 'fonttools':
+    elif METHOD == 'fonttools':
         font = Font2tikz(FONT_FOLDER + FONT_NAME)
-        font.gentikz('ABC')
+        if args.string != '':
+            font.gentikz(args.string)
+        else:
+            raise ValueError('string can NOT be empty.')
+    else:
+        raise Exception(f"unsupport method {METHOD}")

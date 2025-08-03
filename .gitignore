@@ -1,8 +1,9 @@
-## ignore SVG by fonts2svg, pycache, tikz_coors
+## ignore SVG by fonts2svg, pycache, pyinstaller, tikz_coors
 __pycache__/
 SVGs/
 tikz_coors/
 Fonts/
+*.spec
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

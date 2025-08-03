@@ -6,7 +6,6 @@ lxml==5.4.0
 numpy==1.26.4
 opentypesvg==1.1.5
 packaging==25.0
-pathlib==1.0.1
 pillow==11.3.0
 pycairo==1.28.0
 PyGObject==3.52.3
