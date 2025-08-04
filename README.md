@@ -95,7 +95,6 @@ options:
   -f, --font           font name('*.ttf' or '*.otf').
 ```
 
-
 Finally, run the command below:
 ``` shell
 python font2path.py
