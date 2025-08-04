@@ -222,9 +222,10 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %</internal>
 %
 %<*driver>
-\documentclass[show-notes, lm-default = false]{l3doc}
+\documentclass[show-notes]{l3doc}
 \usepackage[scale = 10pt]{char2path}
-\usepackage{listings,pdfpages}
+\usepackage{listings, pdfpages, microtype}
+\DisableLigatures[-]{encoding = T1,family = tt*}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 \AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
 \ExplSyntaxOn \makeatletter
