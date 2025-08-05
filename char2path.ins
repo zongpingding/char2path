@@ -20,7 +20,7 @@ File: char2path.ins
   The Current Maintainer of this work is Zongping Ding and Mingyu Xia.*
                                                                       *
   This work consists of the files char2path.dtx,                      *
-                                  ctp-lmdata.dtx,                     *
+                                  ctp-data.dtx,                       *
                                   char2path.ins,                      *
                 the derived files char2path.sty,                      *
                                   ctp-lmr-arabic.data.tex,            *
@@ -35,6 +35,38 @@ File: char2path.ins
                                   ctp-lmm-alpha-small.data.tex,       *
                                   ctp-lmm-alpha-caps.data.tex,        *
                                   ctp-lmm-others.data.tex,            *
+                                  ctp-adventor-arabic.data.tex,       *
+                                  ctp-adventor-alpha-small.data.tex,  *
+                                  ctp-adventor-alpha-caps.data.tex,   *
+                                  ctp-adventor-others.data.tex,       *
+                                  ctp-bonum-arabic.data.tex,          *
+                                  ctp-bonum-alpha-small.data.tex,     *
+                                  ctp-bonum-alpha-caps.data.tex,      *
+                                  ctp-bonum-others.data.tex,          *
+                                  ctp-chorus-arabic.data.tex,         *
+                                  ctp-chorus-alpha-small.data.tex,    *
+                                  ctp-chorus-alpha-caps.data.tex,     *
+                                  ctp-chorus-others.data.tex,         *
+                                  ctp-cursor-arabic.data.tex,         *
+                                  ctp-cursor-alpha-small.data.tex,    *
+                                  ctp-cursor-alpha-caps.data.tex,     *
+                                  ctp-cursor-others.data.tex,         *
+                                  ctp-heros-arabic.data.tex,          *
+                                  ctp-heros-alpha-small.data.tex,     *
+                                  ctp-heros-alpha-caps.data.tex,      *
+                                  ctp-heros-others.data.tex,          *
+                                  ctp-pagella-arabic.data.tex,        *
+                                  ctp-pagella-alpha-small.data.tex,   *
+                                  ctp-pagella-alpha-caps.data.tex,    *
+                                  ctp-pagella-others.data.tex,        *
+                                  ctp-schola-arabic.data.tex,         *
+                                  ctp-schola-alpha-small.data.tex,    *
+                                  ctp-schola-alpha-caps.data.tex,     *
+                                  ctp-schola-others.data.tex,         *
+                                  ctp-termes-arabic.data.tex,         *
+                                  ctp-termes-alpha-small.data.tex,    *
+                                  ctp-termes-alpha-caps.data.tex,     *
+                                  ctp-termes-others.data.tex,         *
           the documentation files char2path.pdf,                      *
                               and README.md.                          *
 -----------------------------------------------------------------------
@@ -73,7 +105,7 @@ File: char2path.ins
 \postamble
 -----------------------------------------------------------------------
   This work consists of the files char2path.dtx,                      *
-                                  ctp-lmdata.dtx,                     *
+                                  ctp-data.dtx,                       *
                                   char2path.ins,                      *
                 the derived files char2path.sty,                      *
                                   ctp-lmr-arabic.data.tex,            *
@@ -88,16 +120,55 @@ File: char2path.ins
                                   ctp-lmm-alpha-small.data.tex,       *
                                   ctp-lmm-alpha-caps.data.tex,        *
                                   ctp-lmm-others.data.tex,            *
+                                  ctp-adventor-arabic.data.tex,       *
+                                  ctp-adventor-alpha-small.data.tex,  *
+                                  ctp-adventor-alpha-caps.data.tex,   *
+                                  ctp-adventor-others.data.tex,       *
+                                  ctp-bonum-arabic.data.tex,          *
+                                  ctp-bonum-alpha-small.data.tex,     *
+                                  ctp-bonum-alpha-caps.data.tex,      *
+                                  ctp-bonum-others.data.tex,          *
+                                  ctp-chorus-arabic.data.tex,         *
+                                  ctp-chorus-alpha-small.data.tex,    *
+                                  ctp-chorus-alpha-caps.data.tex,     *
+                                  ctp-chorus-others.data.tex,         *
+                                  ctp-cursor-arabic.data.tex,         *
+                                  ctp-cursor-alpha-small.data.tex,    *
+                                  ctp-cursor-alpha-caps.data.tex,     *
+                                  ctp-cursor-others.data.tex,         *
+                                  ctp-heros-arabic.data.tex,          *
+                                  ctp-heros-alpha-small.data.tex,     *
+                                  ctp-heros-alpha-caps.data.tex,      *
+                                  ctp-heros-others.data.tex,          *
+                                  ctp-pagella-arabic.data.tex,        *
+                                  ctp-pagella-alpha-small.data.tex,   *
+                                  ctp-pagella-alpha-caps.data.tex,    *
+                                  ctp-pagella-others.data.tex,        *
+                                  ctp-schola-arabic.data.tex,         *
+                                  ctp-schola-alpha-small.data.tex,    *
+                                  ctp-schola-alpha-caps.data.tex,     *
+                                  ctp-schola-others.data.tex,         *
+                                  ctp-termes-arabic.data.tex,         *
+                                  ctp-termes-alpha-small.data.tex,    *
+                                  ctp-termes-alpha-caps.data.tex,     *
+                                  ctp-termes-others.data.tex,         *
           the documentation files char2path.pdf,                      *
                               and README.md.                          *
 -----------------------------------------------------------------------
 \endpostamble
 
-\declarepreamble\copyright
+\declarepreamble\lmcopyright
 -----------------------------------------------------------------------
-This package's data is converted from Latin Modern family, which is   *
-based on the Computer Modern fonts released into public domain by     *
-AMS (1997). It's under the license of The GUS Font License (GFL).     *
+This package's `lm' data is converted from the Latin Modern family    *
+based on the Computer Modern fonts, which are released into public    *
+domain by AMS (1997). It's licensed under The GUS Font License (GFL). *
+-----------------------------------------------------------------------
+\endpreamble
+
+\declarepreamble\tgcopyright
+-----------------------------------------------------------------------
+This package's `tg' data is converted from the TeX Gyre fonts, which  *
+are being released under the GUST Font License (GFL)                  *
 -----------------------------------------------------------------------
 \endpreamble
 
@@ -105,24 +176,57 @@ AMS (1997). It's under the license of The GUS Font License (GFL).     *
 
 \generate{
   \usedir{tex/latex/char2path}
-    \file{\jobname.sty}                 {\from{\jobname.dtx}{package}}
-  \nopreamble\usepreamble\copyright\nopostamble
-    \file{ctp-lmr-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lmr-arabic}}
-    \file{ctp-lmr-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lmr-alpha-small}}
-    \file{ctp-lmr-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lmr-alpha-caps}}
-    \file{ctp-lmr-others.data.tex}      {\from{ctp-lmdata.dtx}{lmr-others}}
-    \file{ctp-lms-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lms-arabic}}
-    \file{ctp-lms-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lms-alpha-small}}
-    \file{ctp-lms-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lms-alpha-caps}}
-    \file{ctp-lms-others.data.tex}      {\from{ctp-lmdata.dtx}{lms-others}}
-    \file{ctp-lmm-arabic.data.tex}      {\from{ctp-lmdata.dtx}{lmm-arabic}}
-    \file{ctp-lmm-alpha-small.data.tex} {\from{ctp-lmdata.dtx}{lmm-alpha-small}}
-    \file{ctp-lmm-alpha-caps.data.tex}  {\from{ctp-lmdata.dtx}{lmm-alpha-caps}}
-    \file{ctp-lmm-others.data.tex}      {\from{ctp-lmdata.dtx}{lmm-others}}
+    \file{\jobname.sty}                       {\from{\jobname.dtx}{package}}
+  \nopreamble\usepreamble\lmcopyright\nopostamble
+    \file{ctp-lmr-arabic.data.tex}            {\from{ctp-data.dtx}{lmr-arabic}}
+    \file{ctp-lmr-alpha-small.data.tex}       {\from{ctp-data.dtx}{lmr-alpha-small}}
+    \file{ctp-lmr-alpha-caps.data.tex}        {\from{ctp-data.dtx}{lmr-alpha-caps}}
+    \file{ctp-lmr-others.data.tex}            {\from{ctp-data.dtx}{lmr-others}}
+    \file{ctp-lms-arabic.data.tex}            {\from{ctp-data.dtx}{lms-arabic}}
+    \file{ctp-lms-alpha-small.data.tex}       {\from{ctp-data.dtx}{lms-alpha-small}}
+    \file{ctp-lms-alpha-caps.data.tex}        {\from{ctp-data.dtx}{lms-alpha-caps}}
+    \file{ctp-lms-others.data.tex}            {\from{ctp-data.dtx}{lms-others}}
+    \file{ctp-lmm-arabic.data.tex}            {\from{ctp-data.dtx}{lmm-arabic}}
+    \file{ctp-lmm-alpha-small.data.tex}       {\from{ctp-data.dtx}{lmm-alpha-small}}
+    \file{ctp-lmm-alpha-caps.data.tex}        {\from{ctp-data.dtx}{lmm-alpha-caps}}
+    \file{ctp-lmm-others.data.tex}            {\from{ctp-data.dtx}{lmm-others}}
+  \nopreamble\usepreamble\tgcopyright\nopostamble
+    \file{ctp-adventor-arabic.data.tex}       {\from{ctp-data.dtx}{adventor-arabic}}
+    \file{ctp-adventor-alpha-small.data.tex}  {\from{ctp-data.dtx}{adventor-alpha-small}}
+    \file{ctp-adventor-alpha-caps.data.tex}   {\from{ctp-data.dtx}{adventor-alpha-caps}}
+    \file{ctp-adventor-others.data.tex}       {\from{ctp-data.dtx}{adventor-others}}
+    \file{ctp-bonum-arabic.data.tex}          {\from{ctp-data.dtx}{bonum-arabic}}
+    \file{ctp-bonum-alpha-small.data.tex}     {\from{ctp-data.dtx}{bonum-alpha-small}}
+    \file{ctp-bonum-alpha-caps.data.tex}      {\from{ctp-data.dtx}{bonum-alpha-caps}}
+    \file{ctp-bonum-others.data.tex}          {\from{ctp-data.dtx}{bonum-others}}
+    \file{ctp-chorus-arabic.data.tex}         {\from{ctp-data.dtx}{chorus-arabic}}
+    \file{ctp-chorus-alpha-small.data.tex}    {\from{ctp-data.dtx}{chorus-alpha-small}}
+    \file{ctp-chorus-alpha-caps.data.tex}     {\from{ctp-data.dtx}{chorus-alpha-caps}}
+    \file{ctp-chorus-others.data.tex}         {\from{ctp-data.dtx}{chorus-others}}
+    \file{ctp-cursor-arabic.data.tex}         {\from{ctp-data.dtx}{cursor-arabic}}
+    \file{ctp-cursor-alpha-small.data.tex}    {\from{ctp-data.dtx}{cursor-alpha-small}}
+    \file{ctp-cursor-alpha-caps.data.tex}     {\from{ctp-data.dtx}{cursor-alpha-caps}}
+    \file{ctp-cursor-others.data.tex}         {\from{ctp-data.dtx}{cursor-others}}
+    \file{ctp-heros-arabic.data.tex}          {\from{ctp-data.dtx}{heros-arabic}}
+    \file{ctp-heros-alpha-small.data.tex}     {\from{ctp-data.dtx}{heros-alpha-small}}
+    \file{ctp-heros-alpha-caps.data.tex}      {\from{ctp-data.dtx}{heros-alpha-caps}}
+    \file{ctp-heros-others.data.tex}          {\from{ctp-data.dtx}{heros-others}}
+    \file{ctp-pagella-arabic.data.tex}        {\from{ctp-data.dtx}{pagella-arabic}}
+    \file{ctp-pagella-alpha-small.data.tex}   {\from{ctp-data.dtx}{pagella-alpha-small}}
+    \file{ctp-pagella-alpha-caps.data.tex}    {\from{ctp-data.dtx}{pagella-alpha-caps}}
+    \file{ctp-pagella-others.data.tex}        {\from{ctp-data.dtx}{pagella-others}}
+    \file{ctp-schola-arabic.data.tex}         {\from{ctp-data.dtx}{schola-arabic}}
+    \file{ctp-schola-alpha-small.data.tex}    {\from{ctp-data.dtx}{schola-alpha-small}}
+    \file{ctp-schola-alpha-caps.data.tex}     {\from{ctp-data.dtx}{schola-alpha-caps}}
+    \file{ctp-schola-others.data.tex}         {\from{ctp-data.dtx}{schola-others}}
+    \file{ctp-termes-arabic.data.tex}         {\from{ctp-data.dtx}{termes-arabic}}
+    \file{ctp-termes-alpha-small.data.tex}    {\from{ctp-data.dtx}{termes-alpha-small}}
+    \file{ctp-termes-alpha-caps.data.tex}     {\from{ctp-data.dtx}{termes-alpha-caps}}
+    \file{ctp-termes-others.data.tex}         {\from{ctp-data.dtx}{termes-others}}
   \usedir{doc/latex/char2path}
   \nopreamble\nopostamble
-    \file{char2path-demo.tex}           {\from{\jobname.dtx}{example,eg-preamble}}
-    \file{README.md}                    {\from{\jobname.dtx}{readme}}
+    \file{char2path-demo.tex}                 {\from{\jobname.dtx}{example,eg-preamble}}
+    \file{README.md}                          {\from{\jobname.dtx}{readme}}
   }
 
 \endbatchfile
