@@ -7,7 +7,7 @@ gentkz = false
 [font_spec]
 folder = "."
 name   = "lmroman10-regular.otf"
-alias  = 'test'
+alias  = 'lmr'
 
 [svg_dir]
 folder = "SVGs"
@@ -20,10 +20,10 @@ others = "others"
 
 [tkz_data]
 folder = "data"
-caps   = "TEST-%ALIAS%-alpha-caps.data.tex"
-small  = "TEST-%ALIAS%-alpha-small.data.tex"
-nums   = "TEST-%ALIAS%-arabic.data.tex"
-others = "TEST-%ALIAS%-others.data.tex"
+caps   = "ctp-%ALIAS%-alpha-caps.data.tex"
+small  = "ctp-%ALIAS%-alpha-small.data.tex"
+nums   = "ctp-%ALIAS%-arabic.data.tex"
+others = "ctp-%ALIAS%-others.data.tex"
 digits = 3
 # coor_x = "+\\ctpXshift"
 # coor_y = "+\\ctpYshift"

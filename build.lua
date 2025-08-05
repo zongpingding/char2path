@@ -11,7 +11,7 @@
 
 module              = "char2path"
 version             = "v1.0.1"
-date                = "2025-08-01"
+date                = "2025-08-09"
 maintainer          = "Zongping Ding, Mingyu Xia"
 uploader            = "Mingyu Xia"
 maintainid          = "Zongping Ding"
