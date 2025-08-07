@@ -1,0 +1,209 @@
+%% \iffalse
+\documentclass{article}
+\def\MakePercentIgnore{\catcode`\%9\relax}
+\def\MakePercentComment{\catcode`\%14\relax}
+\def\DocInput#1{\MakePercentIgnore\input{#1}\MakePercentComment}
+\catcode`\^^A 14\relax
+\usepackage[scale = 10pt]{char2path}
+\usepackage[T1]{fontenc}
+\setCTPfamilyfont {sans}  {adventor}
+\setCTPfamilyfont {serif} {bonum}
+\setCTPfamilyfont {serif} {chorus}
+\setCTPfamilyfont {mono}  {cursor}
+\setCTPfamilyfont {sans}  {heros}
+\setCTPfamilyfont {serif} {pagella}
+\setCTPfamilyfont {serif} {schola}
+\setCTPfamilyfont {serif} {termes}
+\usepackage{geometry, verbatim, listings}
+\geometry{margin = .5in}
+\lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
+\newenvironment{example}{\vskip1ex\hrule\vskip1ex}{\vskip1ex\hrule\vskip1ex\par}
+\begin{document}
+  \pagestyle{empty}
+  \DocInput{\jobname.tex}
+\end{document}
+%% \fi
+\begin{center}
+\raggedright\vbox{^^A
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{lmr}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{lmr}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{lmr}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textrm{LMR}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{lms}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{lms}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{lms}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\textsf{LMS}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\texttt{LMM}}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{adventor}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{adventor}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{adventor}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qag}\selectfont Adventor}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{bonum}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{bonum}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{bonum}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qbk}\selectfont Bonum}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{chorus}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{chorus}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{chorus}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qzc}\selectfont Chorus}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{cursor}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{cursor}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{cursor}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qcr}\selectfont Cursor}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{heros}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{heros}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{heros}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qhv}\selectfont Heros}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{pagella}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{pagella}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{pagella}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qpl}\selectfont Pagella}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{schola}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{schola}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{schola}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qcs}\selectfont Schola}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{termes}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{termes}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{termes}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qtm}\selectfont Termes}
+  \end{minipage}
+}
+\end{center}
+^^A \def\0{char2path}
+^^A \begin{example}
+^^A   \def\0{0123456789/ctp} \chartopath{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[draw = none, fill = blue]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[pattern = north west lines, draw  = teal,
+^^A               pattern color = violet, scale = 1.2]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[fill = green, xslant = .15]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[hfading = {red, green}]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[hfading = {blue, -}]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[hfading = {-, violet}]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[vfading = {teal, purple}]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[vfading = {-, orange}]{lmm}\0
+^^A \end{example}
+^^A \begin{example}
+^^A   \chartopath[vfading = {violet, -}]{lmm}\0
+^^A \end{example}
+^^A \let\orithelstnumber\thelstnumber
+^^A   \def\thelstnumber{^^A
+^^A     \chartopath[rescan = false, hfading = {violet, blue}]{lmm}{\orithelstnumber}^^A ^^A
+^^A   }
+^^A \begin{example}
+^^A \begin{lstlisting}[language = {[LaTeX]TeX}]
+^^A \documentclass{article}
+^^A \begin{document}
+^^A   Hello, \LaTeX!
+^^A \end{document}
+^^A \end{lstlisting}
+^^A \end{example}
+^^A \begin{example}
+^^A \ExplSyntaxOn
+^^A \NewDocumentCommand \strpathclip { O{} m }
+^^A   { \int_step_inline:nn { \exp_args:Ne \tl_count:n {#2} }
+^^A       { \chartoclip [ #1, offset = {(##1*1, 0pt)} ]
+^^A         {lmr} { \tl_item:nn {#2}{##1}} \kern2pt } }
+^^A \ExplSyntaxOff
+^^A \strpathclip[scale = 2, image = example-grid-100x100bp]{Hello, c2p}
+^^A \end{example}
+^^A \begin{example}
+^^A \def\ctp#1{\chartoclip[image = example-grid-100x100bp]{lmr}{#1}}
+^^A \protected\def\ctpTeX{\ctp T\kern-.125em \lower.54ex\hbox{\ctp E}\kern-.1em ^^A \ctp X}
+^^A \protected\def\ctpLaTeX{\ctp L\kern -.36em{\lower-.54ex
+^^A   \hbox{\scalebox{.72}{\ctp A}}}\kern -.08em\ctpTeX}
+^^A \scalebox{1.5}{\ctpTeX} \scalebox{1.5}{\ctpLaTeX}
+^^A \end{example}

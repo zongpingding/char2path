@@ -1,8 +1,8 @@
 [flow]
 method = "font2svg"
 gensvg = true
-extsvg = false
-gentkz = false
+extsvg = true
+gentkz = true
 
 [font_spec]
 folder = "."
