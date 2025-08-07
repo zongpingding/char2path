@@ -240,6 +240,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \def\DocInput#1{\MakePercentIgnore\input{#1}\MakePercentComment}
 \catcode`\^^A 14\relax
 \usepackage[scale = 10pt]{char2path}
+\setCTPfamilyfont {sans}  {adventor}
+\setCTPfamilyfont {serif} {bonum}
+\setCTPfamilyfont {serif} {chorus}
+\setCTPfamilyfont {mono}  {cursor}
+\setCTPfamilyfont {sans}  {heros}
+\setCTPfamilyfont {serif} {pagella}
+\setCTPfamilyfont {serif} {schola}
+\setCTPfamilyfont {serif} {termes}
 \usepackage{verbatim, listings}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 \newenvironment{example}{\vskip1ex\hrule\vskip1ex}{\vskip1ex\hrule\vskip1ex\par}
@@ -836,7 +844,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   User's interface for loading custom font.
 %    \begin{macrocode}
 \DeclareDocumentCommand \setCTPfamilyfont
-  { m m O{} }
+  { m m O{arabic, alpha-small, alpha-caps, others} }
   { \@@_load_font_data:nnn {#1} {#2} {#3} }
 %    \end{macrocode}
 % \end{macro}
