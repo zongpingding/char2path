@@ -5,6 +5,7 @@
 \def\DocInput#1{\MakePercentIgnore\input{#1}\MakePercentComment}
 \catcode`\^^A 14\relax
 \usepackage[scale = 10pt]{char2path}
+\usepackage[T1]{fontenc}
 \setCTPfamilyfont {sans}  {adventor}
 \setCTPfamilyfont {serif} {bonum}
 \setCTPfamilyfont {serif} {chorus}
@@ -13,19 +14,21 @@
 \setCTPfamilyfont {serif} {pagella}
 \setCTPfamilyfont {serif} {schola}
 \setCTPfamilyfont {serif} {termes}
-\usepackage{verbatim, listings}
+\usepackage{geometry, verbatim, listings}
+\geometry{margin = .5in}
 \lstset{basicstyle = \footnotesize\ttfamily, numbers = left}
 \newenvironment{example}{\vskip1ex\hrule\vskip1ex}{\vskip1ex\hrule\vskip1ex\par}
 \begin{document}
+  \pagestyle{empty}
   \DocInput{\jobname.tex}
 \end{document}
 %% \fi
 \begin{center}
-\fbox{\raggedright\vbox{^^A
+\raggedright\vbox{^^A
   \begin{minipage}{.96\linewidth}
-    \chartopath[mono = .03125\linewidth, draw]{lmr}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-    \chartopath[mono = .03125\linewidth, draw]{lmr}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-    \chartopath[mono = .03125\linewidth, draw]{lmr}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+    \chartopath[mono = .032\linewidth, draw]{lmr}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{lmr}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{lmr}{abcdefghijklmnopqrstuvwxyz\{|\}~}
   \end{minipage}
   \hspace*\fill
   \begin{minipage}{.02\linewidth}
@@ -34,9 +37,9 @@
   \end{minipage}
   \vskip1ex\hrule \vskip1ex
   \begin{minipage}{.96\linewidth}
-    \chartopath[mono = .03125\linewidth, draw]{lms}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-    \chartopath[mono = .03125\linewidth, draw]{lms}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-    \chartopath[mono = .03125\linewidth, draw]{lms}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+    \chartopath[mono = .032\linewidth, draw]{lms}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{lms}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{lms}{abcdefghijklmnopqrstuvwxyz\{|\}~}
   \end{minipage}
   \hspace*\fill
   \begin{minipage}{.02\linewidth}
@@ -45,20 +48,108 @@
   \end{minipage}
   \vskip1ex\hrule \vskip1ex
   \begin{minipage}{.96\linewidth}
-    \chartopath[mono = .03125\linewidth, draw]{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
-    \chartopath[mono = .03125\linewidth, draw]{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
-    \chartopath[mono = .03125\linewidth, draw]{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+    \chartopath[mono = .032\linewidth, draw]{lmm}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{lmm}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{lmm}{abcdefghijklmnopqrstuvwxyz\{|\}~}
   \end{minipage}
   \hspace*\fill
   \begin{minipage}{.02\linewidth}
     \centering
     \rotatebox{90}{\texttt{LMM}}
   \end{minipage}
-}}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{adventor}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{adventor}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{adventor}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qag}\selectfont Adventor}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{bonum}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{bonum}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{bonum}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qbk}\selectfont Bonum}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{chorus}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{chorus}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{chorus}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qzc}\selectfont Chorus}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{cursor}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{cursor}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{cursor}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qcr}\selectfont Cursor}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{heros}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{heros}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{heros}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qhv}\selectfont Heros}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{pagella}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{pagella}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{pagella}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qpl}\selectfont Pagella}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{schola}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{schola}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{schola}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qcs}\selectfont Schola}
+  \end{minipage}
+  \vskip1ex\hrule \vskip1ex
+  \begin{minipage}{.96\linewidth}
+    \chartopath[mono = .032\linewidth, draw]{termes}{!\#$"\%&'()*+,-./0123456789:;<=>?@}
+    \chartopath[mono = .032\linewidth, draw]{termes}{ABCDEFGHIJKLMNOPQRSTUVWXYZ[\ctpbackslash]^_`}
+    \chartopath[mono = .032\linewidth, draw]{termes}{abcdefghijklmnopqrstuvwxyz\{|\}~}
+  \end{minipage}
+  \hspace*\fill
+  \begin{minipage}{.02\linewidth}
+    \centering
+    \rotatebox{90}{\footnotesize\fontfamily{qtm}\selectfont Termes}
+  \end{minipage}
+}
 \end{center}
 \def\0{char2path}
 \begin{example}
-  \def\0{0123456789/ctp} \chartopath{lmm}\0
+  \def\0{char2path} \chartopath{lmm}\0
 \end{example}
 \begin{example}
   \chartopath[draw = none, fill = blue]{lmm}\0
