@@ -90,7 +90,7 @@
 The `char2path` Package
 =======================
 
-The `char2path` package provides a LaTeX package for converting characters into TikZ paths.
+The `char2path` package provides a LaTeX package for converting characters into Ti*k*Z paths.
 
 Overview
 --------
@@ -211,11 +211,20 @@ Copyright and License
 Copyright (C) 2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
-This package's data is converted from
+---
+
+This package's `lm' data is converted from the
 [Latin Modern family](https://www.gust.org.pl/projects/e-foundry/latin-modern),
-which is based on the Computer Modern fonts released into public domain by
-AMS (1997). It's under the license of
+based on the Computer Modern fonts, which are released into public
+domain by AMS (1997). It's licensed under
 **[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
+
+This package's `tg' data is converted from the
+[TeX Gyre fonts](https://ctan.org/pkg/tex-gyre),
+which are being released under
+**[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
+
+---
 
 This work may be distributed and/or modified under the conditions
 of the LaTeX Project Public License (LPPL), either version 1.3c of
@@ -366,10 +375,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 % \def\Copyright{^^A
 % \begin{center}
 % \fbox{\fbox{\begin{tabular}{@{}>{\small}{l}@{}}^^A
-% This package's data is converted from
-% \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family}, which is\\^^A
-% based on the Computer Modern fonts released into public domain by\\^^A
-% AMS (1997). It's under
+% This package's `lm' data is converted from the
+% \href{https://www.gust.org.pl/projects/e-foundry/latin-modern}{Latin Modern family}, based\\^^A
+% on the Computer Modern fonts, which are released into public domain by\\^^A
+% AMS (1997). It's licensed under
+% \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.\\^^A
+% This package's `tg' data is converted from the
+% \href{https://ctan.org/pkg/tex-gyre}{TeX Gyre fonts}, which are\\^^A
+% being released under
 % \href{https://ctan.org/license/gfl}{The GUS Font License (GFL)}.
 % \end{tabular}}}\end{center}}
 % \makeatletter \def\@thanks{\Copyright} \makeatother
@@ -558,8 +571,9 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   \begin{syntax}
 %     \cs{setCTPfamilyfont} \marg{font style} \marg{font family} \oarg{database}
 %   \end{syntax}
-%   This function enables users to load custom font \textcolor{gray!25}{by generating path data
-%   files\NB{Note}{Compiling option |--shell -escape| is required.}}
+%   This function enables users to load custom font by generating path data
+%   files^^A
+%   \NB{Note}{Compiling option |-shell -escape| is required.}
 %   \file{ctp-}\meta{font family}\file{-}\meta{database}\file{.code.tex}.
 %   The \meta{font style} will determine if the font needs to be monospace.
 %   This package has already loaded the following fonts:
@@ -911,6 +925,10 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
   { \msg_error:nne { char2path } {#1} {#2} }
 \@@_msg_new:nn { fading } { Unsupport ~ multiple ~ fading ~ directions }
 \@@_msg_new:nn { kernel } { file ~ not ~ found }
+\@@_msg_new:nn { shell-escape }
+  { '-shell-escape' ~ is ~ required ~ to ~ use ~ \token_to_str:N \ctpgendata }
+\@@_msg_new:nn { font2path-method }
+  { 'font2path' ~ only ~ supports ~ methods: ~ 'font2svg' ~ and ~ 'fonttools' }
 %    \end{macrocode}
 % \begin{variable}
 %   {\c_@@_tikz_folder_tl, \c_@@_global_scale_fp, \c_@@_scale_prop}
@@ -1442,11 +1460,21 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\ctpdata}
-% Command for using \pkg{char2path}'s data.
+% Command for printing \pkg{char2path}'s data.
 %    \begin{macrocode}
-\newcommand \ctpdata [2] { \@@_data:nn {#1}{#2} }
+\newcommand \ctpdata [2] { \@@_data:nn {#1} {#2} }
 %    \end{macrocode}
 % \end{macro}
+% \begin{variable}
+%   {
+%     \l_@@_cli_method_tl,    \l_@@_cli_string_tl,
+%     \l_@@_cli_fontdir_tl,   \l_@@_cli_datadir_tl,
+%     \l_@@_cli_font_tl,      \l_@@_cli_alias_tl,
+%     \l_@@_cli_gensvg_bool,  \l_@@_cli_extsvg_bool,
+%     \l_@@_cli_gentkz_bool,  \l_@@_cli_toml_tl
+%   }
+%   Key--value definitions for the \cs{ctpgendata} command^^A
+%   \NB{TODO}{Support toml spec in cli.}.
 %    \begin{macrocode}
 \keys_define:nn { chartopath / cli }
   {
@@ -1470,71 +1498,99 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
     gentkz  .bool_set:N = \l_@@_cli_gentkz_bool,
     gentkz  .initial:n  = { true },
     gentkz  .default:n  = { true },
-    % ^^A TODO: support toml spec in cli.
     toml    .tl_set:N   = \l_@@_cli_toml_tl,
     toml    .initial:n  = { ctpcfg.toml }
   }
-\cs_new:Npn \@@_cmd_name: 
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\ctpgendata}
+%   Command for generating path data from font file\NB{TODO}^^A
+%   {Change syntax to '#1(O): other keys; #2(m): method; #3(m): font/string'}.
+%    \begin{macrocode}
+\NewDocumentCommand \ctpgendata { m } { \@@_cli:n {#1} }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_cli:n}
+%   Auxiliary command for generating font path data.
+%    \begin{macrocode}
+\cs_new:Npn \@@_cli:n #1
   {
-    ./font2path~
-    % ^^A python~font2path.py~
+    \group_begin:
+    \keys_set:nn { chartopath / cli } { #1 }
+    \str_case:enF { \l_@@_cli_method_tl }
+      {
+        { font2svg }
+          {
+            \@@_shell_escape:ne { \c_true_bool }
+              {
+                -m~font2svg \space
+                \@@_cli_args_add:nn { -g } { \the\l_@@_cli_gensvg_bool }
+                \@@_cli_args_add:nn { -e } { \the\l_@@_cli_extsvg_bool }
+                \@@_cli_args_add:nn { -c } { \the\l_@@_cli_gentkz_bool }
+                \@@_cli_default_args:
+              }
+          }
+        { fonttools }
+          {
+            \@@_shell_escape:ne { \c_false_bool }
+              {
+                -m~fonttools \space
+                -s~\l_@@_cli_string_tl \space
+                \@@_cli_default_args:
+              }
+          }
+      } { \@@_msg_error:nn { font2path-method } { ... } }
+    \group_end:
   }
-\@@_msg_new:nn { shell-escape }
-  { '-shell-escape' ~ is ~ required ~ to ~ use ~ \token_to_str:N \ctpgendata }
-\@@_msg_new:nn { font2path-method }
-  { 'font2path' ~ only ~ supports ~ methods: ~ 'font2svg' ~ and ~ 'fonttools' }
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_cmd_name:}
+%   Executable program name (Equals to "python font2path.py").
+%    \begin{macrocode}
+\cs_new:Nn \@@_cmd_name: { ./font2path~ }
+%    \end{macrocode}
+% \end{macro}
+% \begin{variable}{\g_@@_cli_result_tl}
+%   For testing: Print the result of "-shell -escape".
+%    \begin{macrocode}
 \tl_new:N \g_@@_cli_result_tl
+%    \end{macrocode}
+% \end{variable}
+% \begin{macro}{\@@_shell_escape:nn}
+%   Command line needs to be executed via "-shell -escape".
+%   \begin{arguments}
+%     \item bool (true: "shell_now", false: "shell_get").
+%     \item font2path args.
+%   \end{arguments}
+%    \begin{macrocode}
 \cs_new:Npn \@@_shell_escape:nn #1#2 
-  {% ^^A #1: bool(true -> shell_now, false: shell_get); #2:font2path args; 
+  {
     \sys_if_shell_unrestricted:TF
       {
-        % ^^A TODO: add cache mechanism here !
+%    \end{macrocode}
+%  \NB{TODO}{Add cache mechanism here.}
+%    \begin{macrocode}
         \bool_if:nTF { #1 }
           { \sys_shell_now:e { \@@_cmd_name: #2 } }
           {
             \exp_args:Ne \sys_get_shell:nnN 
-              { \@@_cmd_name: #2 }
-              { \cctab_select:N \c_initex_cctab }
-              \l_tmpa_tl % ^^A test via '\q_no_value'
+              { \@@_cmd_name: #2 } { \cctab_select:N \c_initex_cctab }
+              \l_tmpa_tl
+%    \end{macrocode}
+%  Testing via \cmd{\q_no_value}.
+%    \begin{macrocode}
             \tl_gset:Ne \g_@@_cli_result_tl { \l_tmpa_tl }
           }
-      }{
-        \@@_msg_error:nn { shell-escape } { ... }
-      }
+      } { \@@_msg_error:nn { shell-escape } { ... } }
   }
 \cs_generate_variant:Nn \@@_shell_escape:nn { ne, no }
-\cs_new:Npn \@@_cli:n #1
-  {
-    \group_begin:
-      \keys_set:nn { chartopath / cli } { #1 }
-      \str_case:enF { \l_@@_cli_method_tl }
-        {
-          { font2svg }
-            {
-              \@@_shell_escape:ne { \c_true_bool }
-                {
-                  -m~font2svg \space
-                  \@@_cli_args_add:nn { -g } { \the\l_@@_cli_gensvg_bool }
-                  \@@_cli_args_add:nn { -e } { \the\l_@@_cli_extsvg_bool }
-                  \@@_cli_args_add:nn { -c } { \the\l_@@_cli_gentkz_bool }
-                  \@@_cli_default_args:
-                }
-            }
-          { fonttools }
-            {
-              \@@_shell_escape:ne { \c_false_bool }
-                {
-                  -m~fonttools \space
-                  -s~\l_@@_cli_string_tl \space
-                  \@@_cli_default_args:
-                }
-            }
-        } { \@@_msg_error:nn { font2path-method } { ... } }
-    \group_end:
-  }
-\cs_new:Npn \@@_cli_args_add:nn #1#2
-  { \tl_if_empty:eF { #2 } { #1~#2 \space } }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_cli_args_add:nn}
+% \begin{macro}{\@@_cli_default_args:}
+%   Arguments configuration for the "font2path" executable program.
+%    \begin{macrocode}
+\cs_new:Npn \@@_cli_args_add:nn #1#2 { \tl_if_empty:eF { #2 } { #1~#2 \space } }
 \cs_new:Npn \@@_cli_default_args:
   {
     \@@_cli_args_add:nn { -q } { true }
@@ -1543,18 +1599,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
     \@@_cli_args_add:nn { -f } { \l_@@_cli_font_tl }
     \@@_cli_args_add:nn { -a } { \l_@@_cli_alias_tl }
   }
-\NewDocumentCommand \ctpgendata { m }
-  {% ^^A TODO: change syntax to '% #1(O):other keys; #2(m):method; #3(m):font/string '
-    \@@_cli:n {#1}
-  }
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
 %    \begin{macrocode}
 \file_input_stop:
 %    \end{macrocode}
-%
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}
-%
 % \end{implementation}
 % \PrintIndex

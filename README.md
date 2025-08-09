@@ -7,7 +7,7 @@
 The `char2path` Package
 =======================
 
-The `char2path` package provides a LaTeX package for converting characters into TikZ paths.
+The `char2path` package provides a LaTeX package for converting characters into Ti*k*Z paths.
 
 Overview
 --------
@@ -128,11 +128,20 @@ Copyright and License
 Copyright (C) 2025 by Zongping Ding <[zongpingding5@outlook.com](mailto:zongpingding5@outlook.com)> and
 Mingyu Xia <[myhsia@outlook.com](mailto:myhsia@outlook.com)>
 
-This package's data is converted from
+---
+
+This package's `lm' data is converted from the
 [Latin Modern family](https://www.gust.org.pl/projects/e-foundry/latin-modern),
-which is based on the Computer Modern fonts released into public domain by
-AMS (1997). It's under the license of
+based on the Computer Modern fonts, which are released into public
+domain by AMS (1997). It's licensed under
 **[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
+
+This package's `tg' data is converted from the
+[TeX Gyre fonts](https://ctan.org/pkg/tex-gyre),
+which are being released under
+**[The GUS Font License (GFL)](https://ctan.org/license/gfl)**.
+
+---
 
 This work may be distributed and/or modified under the conditions
 of the LaTeX Project Public License (LPPL), either version 1.3c of
