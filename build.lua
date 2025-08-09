@@ -73,7 +73,6 @@ end
 function docinit_hook()
   cp(ctanreadme, unpackdir, currentdir)
   for _, demo in ipairs(typesetdemofiles) do
-    -- cp(demo, unpackdir, )
     cp(demo, unpackdir, currentdir)
   end
   return 0
