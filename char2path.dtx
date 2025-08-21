@@ -291,7 +291,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 \ExplSyntaxOn \makeatletter
 \DeclareDocumentCommand \key { s m }
   {
-    \IfBooleanTF {#1} { \textcolor{red}{\bfseries #2} }
+    \IfBooleanTF {#1} { \textcolor{red}{\ttfamily \bfseries #2} }
       {
         \ttfamily
         \seq_set_from_clist:Nn \l_tmpa_seq {#2}
@@ -585,7 +585,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %   This package also contains the path data files of \TeX~Gyre font family,
 %   but they have not been loaded.
 % \end{function}
-% 
+%
 % \section{Basic Usage}
 %
 % \begin{function}[updated = 2025-08-01]{\chartopath}
@@ -1496,7 +1496,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
     font    .tl_set:N  = \l_@@_cli_font_tl,
     % ^^A font    .value_required:n = true,
     alias   .tl_set:N  = \l_@@_cli_alias_tl,
-    % ^^A alias   .value_required:n = true, 
+    % ^^A alias   .value_required:n = true,
     gensvg  .bool_set:N = \l_@@_cli_gensvg_bool,
     gensvg  .initial:n  = { true },
     gensvg  .default:n  = { true },
@@ -1571,7 +1571,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %     \item font2path args.
 %   \end{arguments}
 %    \begin{macrocode}
-\cs_new:Npn \@@_shell_escape:nn #1#2 
+\cs_new:Npn \@@_shell_escape:nn #1#2
   {
     \sys_if_shell_unrestricted:TF
       {
@@ -1581,7 +1581,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
         \bool_if:nTF { #1 }
           { \sys_shell_now:e { \@@_cmd_name: #2 } }
           {
-            \exp_args:Ne \sys_get_shell:nnN 
+            \exp_args:Ne \sys_get_shell:nnN
               { \@@_cmd_name: #2 } { \cctab_select:N \c_initex_cctab }
               \l_tmpa_tl
 %    \end{macrocode}
@@ -1610,11 +1610,14 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
+%
 %    \begin{macrocode}
 \file_input_stop:
 %    \end{macrocode}
+%
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}
+%
 % \end{implementation}
 % \PrintIndex
