@@ -33,8 +33,8 @@ installfiles        = {"*.sty", "*.data.tex", "*-demo.tex"}
 localdir            = "./testfiles/unpacked"
 textfiles           = {"*.md", "LICENSE", "*.lua"}
 typesetdemofiles    = {module .. "-demo.tex"}
-typesetfiles        = {module .. ".dtx"}
 typesetexe          = "latexmk -lualatex"
+typesetfiles        = {module .. ".dtx"}
 typesetruns         = 1
 uploadconfig  = {
   pkg          = module,
@@ -71,10 +71,10 @@ end
 --[== "Hacks" to `l3build` | Do not Modify ==]--
 
 function docinit_hook()
-  cp(ctanreadme, unpackdir, currentdir)
   for _, demo in ipairs(typesetdemofiles) do
     cp(demo, unpackdir, currentdir)
   end
+  cp(ctanreadme, unpackdir, currentdir)
   return 0
 end
 function tex(file,dir,cmd)
