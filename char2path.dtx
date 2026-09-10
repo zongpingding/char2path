@@ -910,6 +910,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
 %    \end{macrocode}
 % \end{variable}
 %    \begin{macrocode}
+\ExplSyntaxOff
 \RequirePackage{tikz, etoolbox}
 \patchcmd{\pgfutil@InputIfFileExists}
   { \input #1 }
@@ -920,6 +921,7 @@ The Current Maintainer of this work is **Zongping Ding** and **Mingyu Xia**.
     \@popfilename
   }{}{}
 \usetikzlibrary{patterns, fadings, calc}
+\ExplSyntaxOn
 %    \end{macrocode}
 % Warning Broadcast
 %    \begin{macrocode}
